@@ -23,10 +23,6 @@ export const contactFormSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
 
-// ─── Business Type ──────────────────────────────────────────
-
-export const businessTypeSchema = z.enum(['salon', 'reset']);
-
 // ─── CRM Dashboard Schemas ───────────────────────────────────
 
 // Reusable enums matching intake form options
@@ -39,46 +35,27 @@ const noShowsImpact = z.enum(['not_really', 'sometimes', 'frequently']).nullable
 const aiUsage = z.enum(['never', 'occasionally', 'weekly', 'daily']).nullable().optional();
 const timeForMarketing = z.enum(['none', 'under_30min', '30_60min', '1_2hrs', '2plus_hrs']).nullable().optional();
 const newClientsMonth = z.enum(['0_2', '3_5', '6_10', '11_20', '20plus']).nullable().optional();
-// Reset pipeline stages
-const resetPipelineStatus = z.enum([
-  'inquiry', 'intake_submitted', 'fit_assessment', 'payment',
-  'analysis_prep', 'session_scheduled', 'session_complete',
-  'deliverables_sent', 'followup_scheduled', 'followup_complete',
-]);
 
 // Salon pipeline stages
-const salonPipelineStatus = z.enum([
-  'intake_submitted', 'ai_review', 'active_client', 'followup', 'declined',
-]);
-
-// Combined — accepts any valid stage from either pipeline
-// Includes legacy salon stages for backward compatibility with existing data
 const pipelineStatus = z.enum([
-  'inquiry', 'intake_submitted', 'fit_assessment', 'payment',
-  'analysis_prep', 'session_scheduled', 'session_complete',
-  'deliverables_sent', 'followup_scheduled', 'followup_complete',
-  'consultation_scheduled', 'consultation_complete',
-  'active_client', 'followup', 'ai_review', 'declined',
+  'intake_submitted', 'ai_review', 'active_client', 'followup', 'declined',
 ]);
 const fitRating = z.enum(['green', 'yellow', 'red']).nullable().optional();
 const archetype = z.enum(['overwhelmed_poster', 'avoider']).nullable().optional();
 
 // Quick-add schema (minimal client creation)
 export const quickAddClientSchema = z.object({
-  business_type: businessTypeSchema.optional().default('salon'),
   q02_client_name: z.string().min(1, 'Client name is required').max(200),
   q01_business_name: z.string().max(200).nullable().optional(),
   q03_email: z.string().email('Invalid email').max(200).nullable().optional(),
   q05_service_type: z.string().max(200).nullable().optional(),
   phone: z.string().max(20).nullable().optional(),
-  status: pipelineStatus.optional().default('inquiry'),
+  status: pipelineStatus.optional().default('intake_submitted'),
   inquiry_date: z.string().nullable().optional(),
 });
 
 // Full intake form schema (all 48 questions)
 export const fullIntakeSchema = z.object({
-  // Business type
-  business_type: businessTypeSchema.optional().default('reset'),
   // Status fields
   status: pipelineStatus.optional(),
   fit_rating: fitRating,
@@ -279,7 +256,6 @@ export const bulkStageSchema = z.object({
 
 export type BulkDelete = z.infer<typeof bulkDeleteSchema>;
 export type BulkStage = z.infer<typeof bulkStageSchema>;
-export type BusinessType = z.infer<typeof businessTypeSchema>;
 
 // ─── Color Lab Schemas ──────────────────────────────────────
 

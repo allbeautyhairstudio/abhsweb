@@ -7,11 +7,10 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q');
-    const businessType = searchParams.get('business_type') || undefined;
 
     const clients = query
-      ? searchClients(query, businessType)
-      : getAllClients(businessType);
+      ? searchClients(query)
+      : getAllClients();
     return NextResponse.json(clients);
   } catch (error) {
     console.error('GET /api/clients error:', error);

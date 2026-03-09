@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -8,15 +8,11 @@ import {
   Users,
   Kanban,
   BarChart3,
-  BookOpen,
-  UserPlus,
   CalendarDays,
   Menu,
   X,
   ArrowLeft,
   LogOut,
-  Scissors,
-  Sparkles,
   Palette,
   TrendingUp,
   Megaphone,
@@ -29,7 +25,7 @@ interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
-  badgeKey?: string; // Key for dynamic badge count
+  badgeKey?: string;
 }
 
 interface NavSection {
@@ -37,7 +33,7 @@ interface NavSection {
   items: NavItem[];
 }
 
-const salonNav: NavSection[] = [
+const navSections: NavSection[] = [
   {
     label: 'Core',
     items: [
@@ -65,44 +61,14 @@ const salonNav: NavSection[] = [
   },
 ];
 
-const resetNav: NavSection[] = [
-  {
-    label: 'Core',
-    items: [
-      { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-      { href: '/admin/clients', label: 'Clients', icon: Users },
-      { href: '/admin/clients/new', label: 'New Client', icon: UserPlus },
-      { href: '/admin/pipeline', label: 'Pipeline', icon: Kanban },
-    ],
-  },
-  {
-    label: 'Reset Tools',
-    items: [
-      { href: '/admin/prompts', label: 'Prompt Library', icon: BookOpen },
-      { href: '/admin/metrics', label: 'Metrics', icon: BarChart3 },
-    ],
-  },
-];
-
-const BUSINESS_KEY = 'admin_business_type';
-
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [businessType, setBusinessType] = useState<'salon' | 'reset'>('salon');
   const [badgeCounts, setBadgeCounts] = useState<Record<string, number>>({});
 
-  // Initialize from localStorage on mount
+  // Poll intake count for badge
   useEffect(() => {
-    const stored = localStorage.getItem(BUSINESS_KEY) as 'salon' | 'reset' | null;
-    if (stored) setBusinessType(stored);
-  }, []);
-
-  // Poll intake count for badge (salon only)
-  useEffect(() => {
-    if (businessType !== 'salon') return;
-
     async function fetchIntakeCount() {
       try {
         const res = await fetch('/api/admin/salon/intake-count');
@@ -118,28 +84,13 @@ export function AdminSidebar() {
     fetchIntakeCount();
     const interval = setInterval(fetchIntakeCount, 60000);
     return () => clearInterval(interval);
-  }, [businessType]);
-
-  const switchBusiness = useCallback((type: 'salon' | 'reset') => {
-    setBusinessType(type);
-    localStorage.setItem(BUSINESS_KEY, type);
-    // Navigate to current page with biz param so server components can read it
-    const params = new URLSearchParams(window.location.search);
-    params.set('biz', type);
-    router.push(`${pathname}?${params.toString()}`);
-  }, [router, pathname]);
+  }, []);
 
   async function handleLogout() {
     await fetch('/api/admin/logout', { method: 'POST' });
     router.push('/admin/login');
     router.refresh();
   }
-
-  const brandName = businessType === 'salon'
-    ? 'All Beauty Hair Studio'
-    : 'AI Marketing Reset';
-
-  const navSections = businessType === 'salon' ? salonNav : resetNav;
 
   useEffect(() => {
     setIsOpen(false);
@@ -167,45 +118,14 @@ export function AdminSidebar() {
       {/* Brand */}
       <div className="px-5 py-6 border-b border-sidebar-border">
         <h1 className="text-lg font-bold text-sidebar-primary">
-          {brandName}
+          All Beauty Hair Studio
         </h1>
         <p className="text-xs text-sidebar-accent-foreground/70 mt-1">
           Command Center
         </p>
       </div>
 
-      {/* Business Type Switcher */}
-      <div className="px-4 py-3 border-b border-sidebar-border">
-        <p className="text-[10px] uppercase tracking-wider text-sidebar-foreground/50 mb-2 px-1">
-          Business
-        </p>
-        <div className="flex flex-col gap-1">
-          <button
-            onClick={() => switchBusiness('salon')}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors w-full text-left ${
-              businessType === 'salon'
-                ? 'bg-sidebar-accent text-sidebar-primary'
-                : 'text-sidebar-foreground/60 hover:bg-sidebar-accent/30 hover:text-sidebar-foreground'
-            }`}
-          >
-            <Scissors size={14} />
-            Hair Studio
-          </button>
-          <button
-            onClick={() => switchBusiness('reset')}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors w-full text-left ${
-              businessType === 'reset'
-                ? 'bg-sidebar-accent text-sidebar-primary'
-                : 'text-sidebar-foreground/60 hover:bg-sidebar-accent/30 hover:text-sidebar-foreground'
-            }`}
-          >
-            <Sparkles size={14} />
-            Marketing Reset
-          </button>
-        </div>
-      </div>
-
-      {/* Zone-Aware Navigation */}
+      {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-4 overflow-y-auto" aria-label="Admin navigation">
         {navSections.map((section) => (
           <div key={section.label}>
@@ -282,7 +202,7 @@ export function AdminSidebar() {
           <Menu size={22} />
         </button>
         <span className="ml-3 text-sm font-bold text-sidebar-primary">
-          {brandName}
+          All Beauty Hair Studio
         </span>
       </div>
 

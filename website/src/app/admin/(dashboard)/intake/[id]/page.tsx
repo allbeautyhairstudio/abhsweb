@@ -41,7 +41,7 @@ export default async function IntakeDetailPage({
   if (isNaN(numId) || numId < 1) notFound();
 
   const client = getClientById(numId);
-  if (!client || client.business_type !== 'salon') notFound();
+  if (!client) notFound();
 
   const noteContent = getIntakeNote(numId);
   if (!noteContent) notFound();

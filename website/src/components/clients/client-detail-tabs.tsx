@@ -4,10 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { ClientRow } from '@/lib/queries/clients';
-import { PromptsTabContent } from '@/components/prompts/prompts-tab-content';
-import { DeliverablesTabContent } from '@/components/deliverables/deliverables-tab-content';
 import { NotesTabContent } from '@/components/notes/notes-tab-content';
-import { FitAssessmentTabContent } from '@/components/fit-assessment/fit-assessment-tab-content';
 import { PhotoGallery } from '@/components/clients/photo-gallery';
 import { ClientBookingsTab } from '@/components/admin/client-bookings-tab';
 import { FormulaTimeline } from '@/components/color/formula-timeline';
@@ -268,9 +265,7 @@ function OverviewTab({ client }: { client: ClientRow }) {
         </CardContent>
       </Card>
 
-      {client.business_type === 'salon' && (
-        <PhotoGallery clientId={client.id} />
-      )}
+      <PhotoGallery clientId={client.id} />
     </div>
   );
 }
@@ -288,22 +283,16 @@ function ComingSoonTab({ title, description }: { title: string; description: str
 }
 
 export function ClientDetailTabs({ client }: { client: ClientRow }) {
-  const isSalon = client.business_type === 'salon';
-
   return (
     <Tabs defaultValue="overview">
       <TabsList className="w-full justify-start flex-wrap">
         <TabsTrigger value="overview">Overview</TabsTrigger>
         <TabsTrigger value="intake">Intake Data</TabsTrigger>
-        {isSalon && <TabsTrigger value="salon-summary">AI Summary</TabsTrigger>}
-        {isSalon && <TabsTrigger value="bookings">Bookings</TabsTrigger>}
-        {isSalon && <TabsTrigger value="color-history">Color History</TabsTrigger>}
-        {isSalon && <TabsTrigger value="engagement">Engagement</TabsTrigger>}
-        {!isSalon && <TabsTrigger value="fit-assessment">AI Summary</TabsTrigger>}
-        {!isSalon && <TabsTrigger value="prompts">Prompts</TabsTrigger>}
-        {!isSalon && <TabsTrigger value="deliverables">Deliverables</TabsTrigger>}
+        <TabsTrigger value="salon-summary">AI Summary</TabsTrigger>
+        <TabsTrigger value="bookings">Bookings</TabsTrigger>
+        <TabsTrigger value="color-history">Color History</TabsTrigger>
+        <TabsTrigger value="engagement">Engagement</TabsTrigger>
         <TabsTrigger value="notes">Notes & History</TabsTrigger>
-        {!isSalon && <TabsTrigger value="bookings">Bookings</TabsTrigger>}
       </TabsList>
 
       <TabsContent value="overview">
@@ -318,46 +307,20 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
         <ClientBookingsTab clientId={client.id} />
       </TabsContent>
 
-      {/* Salon-only tabs */}
-      {isSalon && (
-        <TabsContent value="salon-summary">
-          <SalonSummaryTab clientId={client.id} />
-        </TabsContent>
-      )}
+      <TabsContent value="salon-summary">
+        <SalonSummaryTab clientId={client.id} />
+      </TabsContent>
 
-      {isSalon && (
-        <TabsContent value="color-history">
-          <FormulaTimeline clientId={client.id} />
-        </TabsContent>
-      )}
+      <TabsContent value="color-history">
+        <FormulaTimeline clientId={client.id} />
+      </TabsContent>
 
-      {isSalon && (
-        <TabsContent value="engagement">
-          <ComingSoonTab
-            title="Engagement Metrics"
-            description="Visit frequency, spending patterns, favorite services — powered by Square data. Coming in Phase C."
-          />
-        </TabsContent>
-      )}
-
-      {/* Reset-only tabs */}
-      {!isSalon && (
-        <TabsContent value="fit-assessment">
-          <FitAssessmentTabContent clientId={client.id} client={client} />
-        </TabsContent>
-      )}
-
-      {!isSalon && (
-        <TabsContent value="prompts">
-          <PromptsTabContent clientId={client.id} />
-        </TabsContent>
-      )}
-
-      {!isSalon && (
-        <TabsContent value="deliverables">
-          <DeliverablesTabContent clientId={client.id} />
-        </TabsContent>
-      )}
+      <TabsContent value="engagement">
+        <ComingSoonTab
+          title="Engagement Metrics"
+          description="Visit frequency, spending patterns, favorite services — powered by Square data. Coming in Phase C."
+        />
+      </TabsContent>
 
       <TabsContent value="notes">
         <NotesTabContent clientId={client.id} />

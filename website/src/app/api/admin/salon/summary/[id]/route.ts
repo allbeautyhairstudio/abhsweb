@@ -33,9 +33,6 @@ export async function GET(
       return NextResponse.json({ error: 'Client not found' }, { status: 404 });
     }
 
-    if (client.business_type !== 'salon') {
-      return NextResponse.json({ error: 'Not a salon client' }, { status: 400 });
-    }
 
     // Get the intake note
     const noteContent = getIntakeNote(numId);
@@ -82,9 +79,6 @@ export async function PUT(
       return NextResponse.json({ error: 'Client not found' }, { status: 404 });
     }
 
-    if (client.business_type !== 'salon') {
-      return NextResponse.json({ error: 'Not a salon client' }, { status: 400 });
-    }
 
     const raw = await request.json();
     const parsed = salonSummaryActionSchema.safeParse(raw);

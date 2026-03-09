@@ -10,7 +10,7 @@ import {
   getClientCount,
 } from '@/lib/queries/clients';
 import { getLowStockAlerts } from '@/lib/queries/color';
-import { getStagesForBusinessType, type BusinessType } from '@/lib/constants/stages';
+import { PIPELINE_STAGES } from '@/lib/constants/stages';
 import { getPendingIntakeCount } from '@/lib/queries/intake-queue';
 import { formatRelativeDate } from '@/lib/date-utils';
 import { Users, DollarSign, MessageSquareQuote, UserPlus, CalendarClock, AlertTriangle, Palette, TrendingUp, Package, Inbox } from 'lucide-react';
@@ -19,27 +19,19 @@ import { ClientContactActions } from '@/components/clients/client-contact-action
 
 export const dynamic = 'force-dynamic';
 
-export default async function DashboardHome({
-  searchParams,
-}: {
-  searchParams: Promise<{ biz?: string }>;
-}) {
-  const { biz } = await searchParams;
-  const businessType = (biz === 'reset' ? 'reset' : 'salon') as BusinessType;
-  const stages = getStagesForBusinessType(businessType);
-
-  const statusCounts = getClientCountByStatus(businessType);
-  const upcomingSessions = getUpcomingSessions(7, businessType);
-  const overdueFollowups = getOverdueFollowups(businessType);
-  const monthlyRevenue = getMonthlyRevenue(businessType);
-  const testimonialCount = getTestimonialCount(businessType);
-  const totalClients = getClientCount(businessType);
-  const pendingIntakes = businessType === 'salon' ? getPendingIntakeCount() : 0;
+export default async function DashboardHome() {
+  const statusCounts = getClientCountByStatus();
+  const upcomingSessions = getUpcomingSessions(7);
+  const overdueFollowups = getOverdueFollowups();
+  const monthlyRevenue = getMonthlyRevenue();
+  const testimonialCount = getTestimonialCount();
+  const totalClients = getClientCount();
+  const pendingIntakes = getPendingIntakeCount();
 
   return (
     <div className="space-y-8">
-      {/* Intake Alert (salon only) */}
-      {businessType === 'salon' && pendingIntakes > 0 && (
+      {/* Intake Alert */}
+      {pendingIntakes > 0 && (
         <Link href="/admin/intake">
           <Card className="border-amber-300 bg-amber-50 hover:bg-amber-100/80 transition-colors cursor-pointer">
             <CardContent className="py-4 flex items-center gap-3">
@@ -139,7 +131,7 @@ export default async function DashboardHome({
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            {stages.map((stage) => (
+            {PIPELINE_STAGES.map((stage) => (
               <Link
                 key={stage.id}
                 href={`/admin/pipeline?stage=${stage.id}`}
@@ -155,48 +147,46 @@ export default async function DashboardHome({
         </CardContent>
       </Card>
 
-      {/* Today's Appointments — salon only */}
-      {businessType === 'salon' && <TodaysAppointments />}
+      {/* Today's Appointments */}
+      <TodaysAppointments />
 
-      {/* Salon-specific: Command Center quick access */}
-      {businessType === 'salon' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link href="/admin/color-lab" className="group">
-            <Card className="hover:border-copper-400 transition-colors">
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-copper-500/10 rounded-lg">
-                    <Palette size={20} className="text-copper-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-brand-700 group-hover:text-copper-500 transition-colors">Color Lab</p>
-                    <p className="text-xs text-muted-foreground">Formula tracking & inventory</p>
-                  </div>
+      {/* Command Center quick access */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Link href="/admin/color-lab" className="group">
+          <Card className="hover:border-copper-400 transition-colors">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-copper-500/10 rounded-lg">
+                  <Palette size={20} className="text-copper-500" />
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/admin/engagement" className="group">
-            <Card className="hover:border-copper-400 transition-colors">
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-sage-100 rounded-lg">
-                    <TrendingUp size={20} className="text-sage-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-brand-700 group-hover:text-copper-500 transition-colors">Customer Insights</p>
-                    <p className="text-xs text-muted-foreground">Visit history & engagement</p>
-                  </div>
+                <div>
+                  <p className="font-medium text-brand-700 group-hover:text-copper-500 transition-colors">Color Lab</p>
+                  <p className="text-xs text-muted-foreground">Formula tracking & inventory</p>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-      )}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
 
-      {/* Salon-specific: Low Stock Alerts */}
-      {businessType === 'salon' && (() => {
+        <Link href="/admin/engagement" className="group">
+          <Card className="hover:border-copper-400 transition-colors">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-sage-100 rounded-lg">
+                  <TrendingUp size={20} className="text-sage-500" />
+                </div>
+                <div>
+                  <p className="font-medium text-brand-700 group-hover:text-copper-500 transition-colors">Customer Insights</p>
+                  <p className="text-xs text-muted-foreground">Visit history & engagement</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+      </div>
+
+      {/* Low Stock Alerts */}
+      {(() => {
         const lowStock = getLowStockAlerts();
         if (lowStock.length === 0) return null;
         return (

@@ -1,22 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getClientById, updateClient } from '@/lib/queries/clients';
-import { initializeDeliverables } from '@/lib/queries/deliverables';
 import { stageTransitionSchema } from '@/lib/validation';
-import { isValidStageForBusiness, type BusinessType } from '@/lib/constants/stages';
 
 /** Maps pipeline stages to their corresponding date columns. */
 const STAGE_DATE_MAP: Partial<Record<string, string>> = {
-  // Reset stages
-  inquiry: 'inquiry_date',
   intake_submitted: 'intake_date',
-  payment: 'payment_date',
-  session_scheduled: 'session_date',
-  deliverables_sent: 'deliverables_sent_date',
-  followup_scheduled: 'followup_date',
-  followup_complete: 'followup_complete_date',
-  // Salon stages
-  consultation_scheduled: 'session_date', // legacy
-  active_client: 'intake_date', // stamp when accepted
+  active_client: 'intake_date',
 };
 
 /** PUT: Advance a client to a new pipeline stage. */
@@ -46,16 +35,6 @@ export async function PUT(
     }
 
     const { stage } = parsed.data;
-    const businessType = (client.business_type || 'salon') as BusinessType;
-
-    // Validate stage is appropriate for this client's business type
-    if (!isValidStageForBusiness(stage, businessType)) {
-      return NextResponse.json(
-        { error: `Stage '${stage}' is not valid for ${businessType} clients` },
-        { status: 400 }
-      );
-    }
-
     const updates: Record<string, unknown> = { status: stage };
 
     // Auto-stamp the date for this stage
@@ -65,11 +44,6 @@ export async function PUT(
     }
 
     updateClient(numId, updates);
-
-    // Initialize deliverables when entering analysis_prep (reset only)
-    if (stage === 'analysis_prep' && businessType === 'reset') {
-      initializeDeliverables(numId);
-    }
 
     const updated = getClientById(numId);
     return NextResponse.json(updated);

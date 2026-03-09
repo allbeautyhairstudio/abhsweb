@@ -10,11 +10,10 @@ export const dynamic = 'force-dynamic';
 export default async function ClientListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; biz?: string }>;
+  searchParams: Promise<{ q?: string }>;
 }) {
-  const { q, biz } = await searchParams;
-  const businessType = biz === 'reset' ? 'reset' : 'salon';
-  const clients = q ? searchClients(q, businessType) : getAllClients(businessType);
+  const { q } = await searchParams;
+  const clients = q ? searchClients(q) : getAllClients();
 
   return (
     <div className="space-y-6">

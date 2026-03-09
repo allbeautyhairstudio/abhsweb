@@ -30,20 +30,13 @@ import { DollarSign, Users, UserCheck, MessageSquareQuote, Share2, Clock } from 
 
 export const dynamic = 'force-dynamic';
 
-export default async function MetricsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ biz?: string }>;
-}) {
-  const { biz } = await searchParams;
-  const businessType = biz === 'reset' ? 'reset' : 'salon';
-
+export default async function MetricsPage() {
   const totalRevenue = getTotalRevenue();
   const revenueByMonth = getRevenueByMonth();
-  const revenueThisMonth = getMonthlyRevenue(businessType);
-  const totalClients = getClientCount(businessType);
+  const revenueThisMonth = getMonthlyRevenue();
+  const totalClients = getClientCount();
   const completedClients = getCompletedClientCount();
-  const testimonialCount = getTestimonialCount(businessType);
+  const testimonialCount = getTestimonialCount();
   const referralSummary = getReferralSummary();
   const tierBreakdown = getClientsByPricingTier();
   const serviceTypeBreakdown = getClientsByServiceType();
