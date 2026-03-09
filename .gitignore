@@ -17,12 +17,15 @@ node_modules/
 .env
 .env.local
 
-# Large media files
-*.mp4
-*.mov
-*.avi
-*.jpg
-*.jpeg
-*.png
-*.webp
-*.gif
+# Large media files (root-level loose files)
+/*.mp4
+/*.mov
+/*.avi
+/*.jpg
+/*.jpeg
+/*.png
+/*.webp
+/*.gif
+
+# Allow website public images
+!website/public/**
