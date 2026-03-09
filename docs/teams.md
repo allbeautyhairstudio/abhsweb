@@ -236,13 +236,13 @@ Weekly system must work within all 4 time tiers. Under-30-minute tier must still
 
 ### Build Order (per handoff.md Section 20)
 
-| Phase | Files | Agents |
-|-------|-------|--------|
-| 1 — Foundation | `teams.md` + `intakeform.md` | Intake Architect |
-| 2 — Analysis Engine | `ifprompts.md` + `ncroadmap.md` | Diagnostic Analyst + Roadmap Planner |
-| 3 — Client Deliverables | `ncworkflow.md` + `ncworkflowprompts.md` + `prompts.md` | Workflow Engineer + Content Strategist |
-| 4 — Systems | `wsprompts.md` | Systems Designer |
-| 5 — Integration | `masterplan.md` | All agents review |
+| Phase                   | Files                                                    | Agents                                 |
+|-------------------------|----------------------------------------------------------|----------------------------------------|
+| 1 — Foundation          | `teams.md` + `intakeform.md`                             | Intake Architect                       |
+| 2 — Analysis Engine     | `ifprompts.md` + `ncroadmap.md`                          | Diagnostic Analyst + Roadmap Planner   |
+| 3 — Client Deliverables | `ncworkflow.md` + `ncworkflowprompts.md` + `prompts.md`  | Workflow Engineer + Content Strategist |
+| 4 — Systems             | `wsprompts.md`                                           | Systems Designer                       |
+| 5 — Integration         | `masterplan.md`                                          | All agents review                      |
 
 ### Cross-References Between Files
 

@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Karli Rosario Brand Palette — soft, muted, airy
+     Dominant: white/cream with barely-there blush
+     Accents only: rose gold, dusty pink, sage */
+
+  --color-blush-50:  #FAF6F4;
+  --color-blush-100: #F4ECE8;
+  --color-blush-200: #ECE1DC;
+  --color-blush-300: #E2D2CB;
+  --color-blush-400: #D6C0B7;
+
+  --color-rose-50:  #F3E6E1;
+  --color-rose-100: #E5CFC7;
+  --color-rose-200: #D2AFA4;
+  --color-rose-300: #BF9588;
+  --color-rose-400: #AD7E6F;
+  --color-rose-500: #976A5B;
+
+  --color-sage-50:  #EDF1E9;
+  --color-sage-100: #DEE5D8;
+  --color-sage-200: #C5D1BA;
+  --color-sage-300: #A8B89B;
+  --color-sage-400: #8DA17F;
+  --color-sage-500: #6B8260;
+
+  --color-copper-400: #B38259;
+  --color-copper-500: #A0714E;
+  --color-copper-600: #875E3F;
+
+  --color-forest-400: #4D6C46;
+  --color-forest-500: #3F5A37;
+  --color-forest-600: #32492B;
+
+  --color-warm-50:  #FAF6F2;
+  --color-warm-100: #F0EAE3;
+  --color-warm-200: #E3D9D0;
+  --color-warm-300: #CCBFB3;
+  --color-warm-400: #9F8E80;
+  --color-warm-500: #756458;
+  --color-warm-600: #5A4C40;
+  --color-warm-700: #3D3229;
+  --color-warm-800: #2E1F17;
+
+  /* CRM admin brand colors */
+  --color-brand-50: #FFF8F0;
+  --color-brand-100: #FFECD4;
+  --color-brand-200: #FFD4A8;
+  --color-brand-300: #F5B67A;
+  --color-brand-400: #E8945A;
+  --color-brand-500: #D4764A;
+  --color-brand-600: #B85C3A;
+  --color-brand-700: #8B4432;
+  --color-brand-800: #5E2E22;
+  --color-brand-900: #3B1C15;
+
+  --color-status-ontrack: #7A9470;
+  --color-status-upcoming: #F5B67A;
+  --color-status-overdue: #D45A5A;
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+  --font-mono: var(--font-geist-mono);
+
+  /* shadcn/ui color mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Sidebar colors (CRM admin) */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #FAF6F2;
+  --foreground: #3D3229;
+
+  --card: #FEFCFA;
+  --card-foreground: #3D3229;
+
+  --popover: #FEFCFA;
+  --popover-foreground: #3D3229;
+
+  --primary: #A0714E;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #ECE1DC;
+  --secondary-foreground: #5A4C40;
+
+  --muted: #F0EAE3;
+  --muted-foreground: #756458;
+
+  --accent: #DEE5D8;
+  --accent-foreground: #3D3229;
+
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #E3D9D0;
+  --input: #E3D9D0;
+  --ring: #A0714E;
+
+  /* CRM admin sidebar */
+  --sidebar: #5E2E22;
+  --sidebar-foreground: #FFECD4;
+  --sidebar-primary: #F5B67A;
+  --sidebar-primary-foreground: #3B1C15;
+  --sidebar-accent: #8B4432;
+  --sidebar-accent-foreground: #FFECD4;
+  --sidebar-border: #8B4432;
+  --sidebar-ring: #D4764A;
+
+  /* Chart */
+  --chart-1: #D4764A;
+  --chart-2: #7A9470;
+  --chart-3: #F5B67A;
+  --chart-4: #B5C4AE;
+  --chart-5: #E8945A;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif), Georgia, serif;
+  }
+
+  /* Admin section uses sans-serif headings */
+  .admin-section h1,
+  .admin-section h2,
+  .admin-section h3,
+  .admin-section h4,
+  .admin-section h5,
+  .admin-section h6 {
+    font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus indicators — never hidden */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}

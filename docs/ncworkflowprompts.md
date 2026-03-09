@@ -478,23 +478,23 @@ Mix up the content types. Include anything seasonal or timely for [MONTH]. Keep 
 
 **Prompt Index:**
 
-| Code | Name | Workflow | Purpose |
-|------|------|----------|---------|
-| CE-1 | Content Idea Brainstorm | Content Engine | Generate 10 content ideas |
-| CE-2 | Post Drafter | Content Engine | Turn an idea into a post |
-| CE-3 | Post Revision | Content Engine | Revise a post that doesn't feel right |
-| CE-4 | Hashtag & Caption Enhancer | Content Engine | Add hashtags and optimize caption |
-| CE-5 | Content Repurposer | Content Engine | Adapt content for another platform |
-| CM-1 | Engagement Response | Client Magnet | Respond to interested potential clients |
-| CM-2 | Follow-Up Message | Client Magnet | Follow up with warm leads |
-| CM-3 | New Client Welcome | Client Magnet | Welcome message for new bookings |
-| CM-4 | Pricing Response | Client Magnet | Handle "how much?" questions |
-| CM-5 | Handling Hesitation | Client Magnet | Respond to objections gracefully |
-| RL-1 | Client Check-In | Retention Loop | Weekly check-in with recent clients |
-| RL-2 | Review Request | Retention Loop | Ask for Google/Yelp reviews |
-| RL-3 | Referral Ask | Retention Loop | Activate word-of-mouth referrals |
-| RL-4 | Post-Appointment Follow-Up | Retention Loop | Follow up after great appointments |
-| RL-5 | Lapsed Client Re-Engagement | Retention Loop | Reconnect with inactive clients |
-| BP-1 | Bio/About Me Writer | Bonus | Write or update your bio |
-| BP-2 | Service Description Writer | Bonus | Write service descriptions |
-| BP-3 | Monthly Content Calendar | Bonus | Plan a month of content |
+| Code | Name                        | Workflow       | Purpose                                 |
+|------|-----------------------------|----------------|-----------------------------------------|
+| CE-1 | Content Idea Brainstorm     | Content Engine | Generate 10 content ideas               |
+| CE-2 | Post Drafter                | Content Engine | Turn an idea into a post                |
+| CE-3 | Post Revision               | Content Engine | Revise a post that doesn't feel right   |
+| CE-4 | Hashtag & Caption Enhancer  | Content Engine | Add hashtags and optimize caption       |
+| CE-5 | Content Repurposer          | Content Engine | Adapt content for another platform      |
+| CM-1 | Engagement Response         | Client Magnet  | Respond to interested potential clients |
+| CM-2 | Follow-Up Message           | Client Magnet  | Follow up with warm leads               |
+| CM-3 | New Client Welcome          | Client Magnet  | Welcome message for new bookings        |
+| CM-4 | Pricing Response            | Client Magnet  | Handle "how much?" questions            |
+| CM-5 | Handling Hesitation         | Client Magnet  | Respond to objections gracefully        |
+| RL-1 | Client Check-In             | Retention Loop | Weekly check-in with recent clients     |
+| RL-2 | Review Request              | Retention Loop | Ask for Google/Yelp reviews             |
+| RL-3 | Referral Ask                | Retention Loop | Activate word-of-mouth referrals        |
+| RL-4 | Post-Appointment Follow-Up  | Retention Loop | Follow up after great appointments      |
+| RL-5 | Lapsed Client Re-Engagement | Retention Loop | Reconnect with inactive clients         |
+| BP-1 | Bio/About Me Writer         | Bonus          | Write or update your bio                |
+| BP-2 | Service Description Writer  | Bonus          | Write service descriptions              |
+| BP-3 | Monthly Content Calendar    | Bonus          | Plan a month of content                 |

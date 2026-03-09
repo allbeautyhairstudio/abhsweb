@@ -24,12 +24,12 @@ The client receives their customized weekly system plus the ongoing planning/rev
 
 ### Overview
 
-| Tier | Time Available | What They Get | Philosophy |
-|------|---------------|---------------|------------|
-| Tier 1: Minimum Viable | Under 30 min/week | 1 action per week | "Something is better than nothing" |
-| Tier 2: Foundation | 30-60 min/week | 2 actions per week | "Build the base" |
-| Tier 3: Full System | 1-2 hrs/week | 4 actions per week | "The complete loop" |
-| Tier 4: Growth Mode | 2+ hrs/week | Full system + extras | "Optimize and expand" |
+| Tier                     | Time Available      | What They Get        | Philosophy                          |
+|--------------------------|---------------------|----------------------|-------------------------------------|
+| Tier 1: Minimum Viable   | Under 30 min/week   | 1 action per week    | "Something is better than nothing"  |
+| Tier 2: Foundation        | 30-60 min/week      | 2 actions per week   | "Build the base"                    |
+| Tier 3: Full System       | 1-2 hrs/week        | 4 actions per week   | "The complete loop"                 |
+| Tier 4: Growth Mode       | 2+ hrs/week         | Full system + extras | "Optimize and expand"               |
 
 **Design principle:** Build the system 20% smaller than their stated capacity. Leave breathing room. People overestimate their available time.
 
@@ -42,9 +42,9 @@ The client receives their customized weekly system plus the ongoing planning/rev
 
 ### The System
 
-| When | Action | Time | What to Do |
-|------|--------|------|-----------|
-| Pick ONE day | 1 Visibility Action | 15-20 min | Choose ONE of the following each week |
+| When           | Action                | Time       | What to Do                              |
+|----------------|-----------------------|------------|-----------------------------------------|
+| Pick ONE day   | 1 Visibility Action   | 15-20 min  | Choose ONE of the following each week   |
 
 **Visibility Action Options (pick the one that fits best):**
 
@@ -68,10 +68,10 @@ The client receives their customized weekly system plus the ongoing planning/rev
 
 ### The System
 
-| When | Action | Time | What to Do |
-|------|--------|------|-----------|
-| Day 1 (e.g., Tuesday) | Visibility | 20-25 min | Create and post 1 piece of content (CE-1 + CE-2) |
-| Day 2 (e.g., Friday) | Retention | 15-20 min | Send 3-5 client check-ins or ask for 1 review (RL-1 or RL-2) |
+| When                    | Action       | Time       | What to Do                                                      |
+|-------------------------|--------------|------------|-----------------------------------------------------------------|
+| Day 1 (e.g., Tuesday)  | Visibility   | 20-25 min  | Create and post 1 piece of content (CE-1 + CE-2)               |
+| Day 2 (e.g., Friday)   | Retention    | 15-20 min  | Send 3-5 client check-ins or ask for 1 review (RL-1 or RL-2)   |
 
 **Total:** 35-45 minutes/week
 
@@ -94,12 +94,12 @@ The client receives their customized weekly system plus the ongoing planning/rev
 
 ### The System
 
-| When | Action | Time | What to Do |
-|------|--------|------|-----------|
-| Day 1 (e.g., Monday) | Visibility | 30-40 min | Batch 2-3 posts for the week (CE-1 + CE-2 + CE-4) |
-| Day 2 (e.g., Wednesday) | Trust | 15-20 min | Post 1 social proof or educational piece (use prompts.md Ideas 1, 2, or 3) |
-| Day 3 (e.g., Friday) | Retention | 15-20 min | Send 3-5 client check-ins (RL-1) |
-| Day 4 (e.g., Saturday) | Referral | 10-15 min | Ask 1-2 clients for reviews or referrals (RL-2 or RL-3) |
+| When                       | Action       | Time       | What to Do                                                                       |
+|----------------------------|--------------|------------|----------------------------------------------------------------------------------|
+| Day 1 (e.g., Monday)      | Visibility   | 30-40 min  | Batch 2-3 posts for the week (CE-1 + CE-2 + CE-4)                               |
+| Day 2 (e.g., Wednesday)   | Trust        | 15-20 min  | Post 1 social proof or educational piece (use prompts.md Ideas 1, 2, or 3)      |
+| Day 3 (e.g., Friday)      | Retention    | 15-20 min  | Send 3-5 client check-ins (RL-1)                                                |
+| Day 4 (e.g., Saturday)    | Referral     | 10-15 min  | Ask 1-2 clients for reviews or referrals (RL-2 or RL-3)                         |
 
 **Total:** 70-95 minutes/week
 
@@ -122,13 +122,13 @@ The client receives their customized weekly system plus the ongoing planning/rev
 
 ### The System
 
-| When | Action | Time | What to Do |
-|------|--------|------|-----------|
-| Day 1 (e.g., Monday) | Content Batch | 45-60 min | Run full Content Engine workflow (ncworkflow.md Workflow 1) — produce 5-7 posts for the week/biweek |
-| Day 2 (e.g., Wednesday) | Trust + Engagement | 20-25 min | Post 1 trust piece + respond to all comments/DMs from the week (CM-1) |
-| Day 3 (e.g., Friday) | Retention | 15-20 min | 3-5 client check-ins (RL-1) + 1-2 post-appointment follow-ups (RL-4) |
-| Day 4 (e.g., Saturday) | Referral + Review | 15-20 min | Monthly: referral asks (RL-3) + review requests (RL-2). Weekly: respond to engagement |
-| End of week | Weekly Review | 10-15 min | Use the Weekly Review Prompt (below) to assess what worked |
+| When                       | Action              | Time       | What to Do                                                                                          |
+|----------------------------|---------------------|------------|-----------------------------------------------------------------------------------------------------|
+| Day 1 (e.g., Monday)      | Content Batch       | 45-60 min  | Run full Content Engine workflow (ncworkflow.md Workflow 1) — produce 5-7 posts for the week/biweek |
+| Day 2 (e.g., Wednesday)   | Trust + Engagement  | 20-25 min  | Post 1 trust piece + respond to all comments/DMs from the week (CM-1)                              |
+| Day 3 (e.g., Friday)      | Retention           | 15-20 min  | 3-5 client check-ins (RL-1) + 1-2 post-appointment follow-ups (RL-4)                               |
+| Day 4 (e.g., Saturday)    | Referral + Review   | 15-20 min  | Monthly: referral asks (RL-3) + review requests (RL-2). Weekly: respond to engagement               |
+| End of week                | Weekly Review       | 10-15 min  | Use the Weekly Review Prompt (below) to assess what worked                                          |
 
 **Total:** 105-140 minutes/week
 

@@ -16,3 +16,13 @@ desktop.ini
 node_modules/
 .env
 .env.local
+
+# Large media files
+*.mp4
+*.mov
+*.avi
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.gif

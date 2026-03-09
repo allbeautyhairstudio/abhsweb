@@ -83,17 +83,17 @@ CLIENT RECEIVES DELIVERABLE PACKAGE:
 
 ### All Files at a Glance
 
-| File | Purpose | Internal/Client | When Used |
-|------|---------|----------------|-----------|
-| `teams.md` | Agent personas (build reference) | Internal | During build only |
-| `intakeform.md` | Production-ready intake form | Transfer to JotForm | Setup + ongoing |
-| `ifprompts.md` | 5 backend analysis prompts | Internal (Karli) | Every client, pre-session |
-| `ncroadmap.md` | Roadmap generator | Internal → generates client doc | Every client, pre-session |
-| `ncworkflow.md` | 3 content workflows | Client-facing | Given to client |
-| `ncworkflowprompts.md` | 18 copy-paste AI prompts | Client-facing | Client uses forever |
-| `prompts.md` | 10 content ideas + generation prompts | Both | Pre-session + given to client |
-| `wsprompts.md` | Weekly system + ongoing prompts | Both | Pre-session + given to client |
-| `masterplan.md` | This file — operational bible | Internal (Karli) | Reference for everything |
+| File                     | Purpose                            | Internal/Client                | When Used                      |
+|--------------------------|------------------------------------|--------------------------------|--------------------------------|
+| `teams.md`               | Agent personas (build reference)   | Internal                       | During build only              |
+| `intakeform.md`          | Production-ready intake form       | Transfer to JotForm            | Setup + ongoing                |
+| `ifprompts.md`           | 5 backend analysis prompts         | Internal (Karli)               | Every client, pre-session      |
+| `ncroadmap.md`           | Roadmap generator                  | Internal → generates client doc | Every client, pre-session      |
+| `ncworkflow.md`          | 3 content workflows                | Client-facing                  | Given to client                |
+| `ncworkflowprompts.md`   | 18 copy-paste AI prompts           | Client-facing                  | Client uses forever            |
+| `prompts.md`             | 10 content ideas + generation      | Both                           | Pre-session + given to client  |
+| `wsprompts.md`           | Weekly system + ongoing prompts    | Both                           | Pre-session + given to client  |
+| `masterplan.md`          | This file — operational bible      | Internal (Karli)               | Reference for everything       |
 
 ---
 
@@ -196,14 +196,14 @@ See detailed structure below.
 
 ### Minute-by-Minute Map
 
-| Time | Block | What Happens | Notes |
-|------|-------|-------------|-------|
-| 0:00-0:10 | Welcome & Connection | Welcome them. Set expectations. Ask 1-2 clarifying questions from their intake. | Build rapport first. Don't dive into "findings." Make them feel comfortable. |
-| 0:10-0:30 | Diagnosis & Attention Leaks | Walk through their business snapshot. Share what's already working (start positive). Present attention leaks as opportunities. | Frame as "here's where you can recapture attention" — never "here's what's wrong." Use the roadmap as your guide. |
-| 0:30-0:50 | Weekly System & Client Attraction Plan | Present their customized weekly system. Walk through each action. Show how it fits their time capacity. | This is the "relief" moment. Keep it simple. If they look overwhelmed, simplify further. |
-| 0:50-1:10 | AI Workflows & Live Demo | Introduce the 1-2 most relevant workflows. Do a LIVE DEMO: open ChatGPT, paste a prompt with their business details, show the output. | This is the "wow" moment. Live demo builds confidence. Let them see it's not scary. |
-| 1:10-1:25 | 90-Day Plan & Week 1 Action Card | Walk through Month 1, 2, 3 briefly. Zoom in on Week 1 Action Card. Make sure they know exactly what to do first. | The Week 1 Card is the most important deliverable. If they leave knowing these 3 actions, the session worked. |
-| 1:25-1:30 | Q&A, Next Steps & Close | Answer questions. Confirm deliverable delivery. Mention 30-day check-in. Ask for initial reaction/feedback. | End strong. "You're not starting from zero anymore. You have a system." |
+| Time      | Block                              | What Happens                                                                                                                          | Notes                                                                                                          |
+|-----------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| 0:00-0:10 | Welcome & Connection               | Welcome them. Set expectations. Ask 1-2 clarifying questions from their intake.                                                       | Build rapport first. Don't dive into "findings." Make them feel comfortable.                                   |
+| 0:10-0:30 | Diagnosis & Attention Leaks        | Walk through their business snapshot. Share what's already working (start positive). Present attention leaks as opportunities.         | Frame as "here's where you can recapture attention" — never "here's what's wrong." Use the roadmap as guide.   |
+| 0:30-0:50 | Weekly System & Attraction Plan    | Present their customized weekly system. Walk through each action. Show how it fits their time capacity.                               | This is the "relief" moment. Keep it simple. If they look overwhelmed, simplify further.                       |
+| 0:50-1:10 | AI Workflows & Live Demo           | Introduce the 1-2 most relevant workflows. Do a LIVE DEMO: open ChatGPT, paste a prompt with their details, show the output.         | This is the "wow" moment. Live demo builds confidence. Let them see it's not scary.                            |
+| 1:10-1:25 | 90-Day Plan & Week 1 Action Card   | Walk through Month 1, 2, 3 briefly. Zoom in on Week 1 Action Card. Make sure they know exactly what to do first.                     | The Week 1 Card is the most important deliverable. If they leave knowing these 3 actions, the session worked.  |
+| 1:25-1:30 | Q&A, Next Steps & Close            | Answer questions. Confirm deliverable delivery. Mention 30-day check-in. Ask for initial reaction/feedback.                           | End strong. "You're not starting from zero anymore. You have a system."                                        |
 
 ### Session Delivery Tips
 
@@ -251,14 +251,14 @@ See detailed structure below.
 
 ### Deliverable Package Contents
 
-| Item | Source File | Personalized? |
-|------|-----------|--------------|
-| Marketing Reset Roadmap | ncroadmap.md output | Yes — fully customized |
-| Workflow Instructions | ncworkflow.md | Partially — highlighted which 1-2 are priority |
-| Copy-Paste Prompt Sheet | ncworkflowprompts.md | No — universal (includes all 18 prompts) |
-| 10 Content Ideas | prompts.md output | Yes — generated with their business details |
-| Weekly System | wsprompts.md output | Yes — matched to their time tier |
-| Ongoing Planning Prompts | wsprompts.md (WS-1 through WS-4) | No — universal |
+| Item                      | Source File                       | Personalized?                                  |
+|---------------------------|-----------------------------------|-------------------------------------------------|
+| Marketing Reset Roadmap   | ncroadmap.md output               | Yes — fully customized                          |
+| Workflow Instructions     | ncworkflow.md                     | Partially — highlighted which 1-2 are priority  |
+| Copy-Paste Prompt Sheet   | ncworkflowprompts.md              | No — universal (includes all 18 prompts)        |
+| 10 Content Ideas          | prompts.md output                 | Yes — generated with their business details     |
+| Weekly System             | wsprompts.md output               | Yes — matched to their time tier                |
+| Ongoing Planning Prompts  | wsprompts.md (WS-1 through WS-4) | No — universal                                  |
 
 ### Time Budget for Post-Session Work
 - Review notes + finalize: 20-30 minutes
@@ -284,12 +284,12 @@ See detailed structure below.
 
 **Based on Their Answers:**
 
-| If They Say... | Your Response |
-|---------------|---------------|
-| "I did everything!" | Celebrate. Identify what's working. Suggest what to optimize next. Ask for testimonial. |
-| "I did some of it" | Celebrate what they did. Identify the barrier. Simplify if needed. Encourage. |
-| "I haven't done much" | No judgment. Ask what got in the way. Simplify to just 1 action. Restart their Week 1 Card. |
-| "I have questions about the prompts" | Walk them through it. Offer to do one quick live demo. |
+| If They Say...                        | Your Response                                                                              |
+|---------------------------------------|--------------------------------------------------------------------------------------------|
+| "I did everything!"                   | Celebrate. Identify what's working. Suggest what to optimize next. Ask for testimonial.    |
+| "I did some of it"                    | Celebrate what they did. Identify the barrier. Simplify if needed. Encourage.              |
+| "I haven't done much"                 | No judgment. Ask what got in the way. Simplify to just 1 action. Restart Week 1 Card.     |
+| "I have questions about the prompts"  | Walk them through it. Offer to do one quick live demo.                                     |
 
 **After the Check-In:**
 
@@ -421,20 +421,20 @@ Test WS-1 through WS-4:
 
 ### What to Track During Testing
 
-| Prompt/Output | Works on First Try? | Needs Adjustment? | Notes |
-|--------------|--------------------|--------------------|-------|
-| Quick Scan | | | |
-| Master Analysis | | | |
-| Attention Leak Deep-Dive | | | |
-| Client Profile Summary | | | |
-| Special Notes Integration | | | |
-| Roadmap Generator | | | |
-| CE-1 through CE-5 | | | |
-| CM-1 through CM-5 | | | |
-| RL-1 through RL-5 | | | |
-| BP-1 through BP-3 | | | |
-| WS-1 through WS-4 | | | |
-| Weekly System (all 4 tiers) | | | |
+| Prompt/Output               | Works on First Try? | Needs Adjustment? | Notes                      |
+|-----------------------------|---------------------|-------------------|----------------------------|
+| Quick Scan                  | [ ]                 | [ ]               | —                          |
+| Master Analysis             | [ ]                 | [ ]               | —                          |
+| Attention Leak Deep-Dive    | [ ]                 | [ ]               | —                          |
+| Client Profile Summary      | [ ]                 | [ ]               | —                          |
+| Special Notes Integration   | [ ]                 | [ ]               | —                          |
+| Roadmap Generator           | [ ]                 | [ ]               | —                          |
+| CE-1 through CE-5           | [ ]                 | [ ]               | —                          |
+| CM-1 through CM-5           | [ ]                 | [ ]               | —                          |
+| RL-1 through RL-5           | [ ]                 | [ ]               | —                          |
+| BP-1 through BP-3           | [ ]                 | [ ]               | —                          |
+| WS-1 through WS-4           | [ ]                 | [ ]               | —                          |
+| Weekly System (all 4 tiers) | [ ]                 | [ ]               | —                          |
 
 ---
 
@@ -481,39 +481,39 @@ Test WS-1 through WS-4:
 
 ### Per-Client Time Budget
 
-| Phase | Activity | Time |
-|-------|----------|------|
-| Pre-session | Quick Scan (fit check) | 5 min |
-| Pre-session | Master Analysis + review | 35-40 min |
-| Pre-session | Client Profile Summary | 5 min |
-| Pre-session | Special Notes (if needed) | 7 min |
-| Pre-session | Roadmap generation + review | 20 min |
-| Pre-session | Content ideas + weekly system generation | 15 min |
-| Pre-session | Session prep (review, talking points) | 10 min |
-| **Pre-session total** | | **~75-90 min** |
-| Session | 90-minute session | 90 min |
-| Post-session | Review notes + finalize deliverables | 25-30 min |
-| Post-session | Send deliverables | 5 min |
-| **Post-session total** | | **~30-35 min** |
-| Follow-up | 30-day check-in | 15 min |
-| **GRAND TOTAL** | | **~3-3.5 hrs** |
+| Phase                  | Activity                                  | Time             |
+|------------------------|-------------------------------------------|------------------|
+| Pre-session            | Quick Scan (fit check)                    | 5 min            |
+| Pre-session            | Master Analysis + review                  | 35-40 min        |
+| Pre-session            | Client Profile Summary                    | 5 min            |
+| Pre-session            | Special Notes (if needed)                 | 7 min            |
+| Pre-session            | Roadmap generation + review               | 20 min           |
+| Pre-session            | Content ideas + weekly system generation  | 15 min           |
+| Pre-session            | Session prep (review, talking points)     | 10 min           |
+| **Pre-session total**  |                                           | **~75-90 min**   |
+| Session                | 90-minute session                         | 90 min           |
+| Post-session           | Review notes + finalize deliverables      | 25-30 min        |
+| Post-session           | Send deliverables                         | 5 min            |
+| **Post-session total** |                                           | **~30-35 min**   |
+| Follow-up              | 30-day check-in                           | 15 min           |
+| **GRAND TOTAL**        |                                           | **~3-3.5 hrs**   |
 
 ### File Quick-Find
 
-| I need to... | Open this file |
-|-------------|---------------|
-| Check if a client is a good fit | ifprompts.md → Prompt 1 (Quick Scan) |
-| Analyze a client's intake | ifprompts.md → Prompt 2 (Master Analysis) |
-| Go deeper on attention leaks | ifprompts.md → Prompt 3 (Deep-Dive) |
-| Get a quick session prep card | ifprompts.md → Prompt 4 (Client Profile Summary) |
-| Analyze their "anything else" answer | ifprompts.md → Prompt 5 (Special Notes) |
-| Generate the client roadmap | ncroadmap.md |
-| Explain workflows to the client | ncworkflow.md |
-| Find a specific copy-paste prompt | ncworkflowprompts.md |
-| Generate their 10 content ideas | prompts.md |
-| Build their weekly system | wsprompts.md |
-| Plan the session flow | masterplan.md → Section 5 |
-| Handle an edge case | masterplan.md → Section 11 |
+| I need to...                           | Open this file                                   |
+|----------------------------------------|--------------------------------------------------|
+| Check if a client is a good fit        | ifprompts.md → Prompt 1 (Quick Scan)             |
+| Analyze a client's intake              | ifprompts.md → Prompt 2 (Master Analysis)        |
+| Go deeper on attention leaks           | ifprompts.md → Prompt 3 (Deep-Dive)              |
+| Get a quick session prep card          | ifprompts.md → Prompt 4 (Client Profile Summary) |
+| Analyze their "anything else" answer   | ifprompts.md → Prompt 5 (Special Notes)          |
+| Generate the client roadmap            | ncroadmap.md                                     |
+| Explain workflows to the client        | ncworkflow.md                                    |
+| Find a specific copy-paste prompt      | ncworkflowprompts.md                             |
+| Generate their 10 content ideas        | prompts.md                                       |
+| Build their weekly system              | wsprompts.md                                     |
+| Plan the session flow                  | masterplan.md → Section 5                        |
+| Handle an edge case                    | masterplan.md → Section 11                       |
 
 ---
 

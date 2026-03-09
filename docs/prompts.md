@@ -370,18 +370,18 @@ Keep it under 100 words. Reflective and genuine tone.
 
 ## QUICK REFERENCE
 
-| # | Type | Best For | Time | Social Media Required? |
-|---|------|----------|------|----------------------|
-| 1 | Educational | Building authority | 5-10 min | Optional — can share via text/email |
-| 2 | Trust-Building | Showing your value | 5-10 min | Optional — can share verbally |
-| 3 | Social Proof | Converting browsers to bookers | 5 min | Optional — save reviews for DMs |
-| 4 | Behind-the-Scenes | Building connection | 5 min | Optional — works as Stories |
-| 5 | Community | Local positioning | 5 min | Optional — can do in person |
-| 6 | Retention | Rebooking past clients | 5 min | No — best as text/email |
-| 7 | Promotion | Driving bookings | 5-10 min | Optional — best as direct outreach |
-| 8 | FAQ | Removing objections | 5 min | Optional — use in booking confirmations |
-| 9 | Engagement | Algorithm + conversation | 3-5 min | Yes — most effective on-platform |
-| 10 | Credibility | Trust + authority | 10 min | Optional — good for personal reflection |
+| #  | Type              | Best For                       | Time     | Social Media Required?                    |
+|----|-------------------|--------------------------------|----------|-------------------------------------------|
+| 1  | Educational       | Building authority             | 5-10 min | Optional — can share via text/email       |
+| 2  | Trust-Building    | Showing your value             | 5-10 min | Optional — can share verbally             |
+| 3  | Social Proof      | Converting browsers to bookers | 5 min    | Optional — save reviews for DMs           |
+| 4  | Behind-the-Scenes | Building connection            | 5 min    | Optional — works as Stories               |
+| 5  | Community         | Local positioning              | 5 min    | Optional — can do in person               |
+| 6  | Retention         | Rebooking past clients         | 5 min    | No — best as text/email                   |
+| 7  | Promotion         | Driving bookings               | 5-10 min | Optional — best as direct outreach        |
+| 8  | FAQ               | Removing objections            | 5 min    | Optional — use in booking confirmations   |
+| 9  | Engagement        | Algorithm + conversation       | 3-5 min  | Yes — most effective on-platform          |
+| 10 | Credibility       | Trust + authority              | 10 min   | Optional — good for personal reflection   |
 
 **For Avoiders:** 7 out of 10 ideas work without social media. Focus on those.
 **For Overwhelmed Posters:** Batch 5 ideas in one sitting using the Content Engine workflow. Post throughout the week.
