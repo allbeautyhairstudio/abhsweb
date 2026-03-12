@@ -1,7 +1,7 @@
 # All Beauty Hair Studio — Project Handoff Document
 
-**Last Updated:** March 11, 2026
-**Status:** Public site COMPLETE. Admin CRM COMPLETE (Phases A, B, F + Communication Hub + Legal + Visual Polish). Codebase cleaned (marketing reset removed). Next: VPS deployment + Phases C-E.
+**Last Updated:** March 12, 2026
+**Status:** Public site COMPLETE. Admin CRM COMPLETE (Phases A, B, F + Communication Hub + Legal + Visual Polish). **VPS DEPLOYED** — live at http://72.62.200.30. Next: DNS + SSL + Phases C-E.
 
 ---
 
@@ -364,6 +364,7 @@ SMTP_PASS=your-app-password       # Gmail app password
 | Launch Visual Polish               | Mar 8      | 225         |
 | Marketing Reset removal            | Mar 9      | 225         |
 | Cleanup, audit, API auth, SEO      | Mar 11     | 225         |
+| VPS deploy (PM2 + Nginx, port 3005)| Mar 12     | 225         |
 
 ---
 
@@ -377,10 +378,12 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ### Infrastructure
 
-- [ ] VPS deployment — Nginx reverse proxy alongside OrcaChild
-- [ ] Admin password change (currently `changeme` in `.env.local`)
-- [ ] Instagram token auto-refresh (expires every 60 days)
-- [ ] SMS env vars — configure with real credentials
+- [x] VPS deployment — PM2 + Nginx on port 3005 (deployed March 12, 2026)
+- [x] Admin password changed for production
+- [ ] DNS — A records for allbeautyhairstudio.com → 72.62.200.30
+- [ ] SSL — certbot after DNS propagation
+- [ ] Instagram token refresh (currently returning 400)
+- [ ] SMS env vars — verify SMTP_USER (may have typo), configure real Gmail app password
 
 ### Content
 
