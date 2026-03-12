@@ -1,35 +1,28 @@
 # ABHS VPS Deployment Guide
 
-Ubuntu 24.04 LTS — Nginx reverse proxy alongside existing sites.
+Ubuntu 24.04 LTS — PM2 + Nginx reverse proxy alongside existing sites.
 
 ---
 
-## 1. Install Node.js 22 LTS (if not already installed)
-
-```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-node -v   # should be v22.x
-```
-
-## 2. Install build tools (needed for better-sqlite3)
+## 1. Install build tools (needed for better-sqlite3)
 
 ```bash
 sudo apt-get install -y build-essential python3
 ```
 
-## 3. Clone the repo
+> Skip if already installed. Node.js + PM2 + Nginx are already on the VPS.
+
+## 2. Clone the repo
 
 ```bash
-sudo mkdir -p /var/www/abhsweb
-sudo chown $USER:$USER /var/www/abhsweb
-git clone git@github.com-allbeautyhairstudio:allbeautyhairstudio/abhsweb.git /var/www/abhsweb
+cd /var/www
+git clone git@github.com-allbeautyhairstudio:allbeautyhairstudio/abhsweb.git
 ```
 
-> **Note:** Make sure the SSH key for `github.com-allbeautyhairstudio` is on the VPS,
-> or use HTTPS: `https://github.com/allbeautyhairstudio/abhsweb.git`
+> If the SSH key isn't on the VPS yet, use HTTPS:
+> `git clone https://github.com/allbeautyhairstudio/abhsweb.git`
 
-## 4. Create .env.local
+## 3. Create .env.local
 
 ```bash
 cd /var/www/abhsweb/abhs
@@ -51,7 +44,7 @@ nano .env.local
 | `SMTP_USER` | Gmail address |
 | `SMTP_PASS` | Gmail app password |
 
-## 5. Install dependencies and build
+## 4. Install dependencies and build
 
 ```bash
 cd /var/www/abhsweb/abhs
@@ -59,25 +52,32 @@ npm ci
 npx next build
 ```
 
-## 6. Create data directories
+## 5. Create data directories
 
 ```bash
 mkdir -p /var/www/abhsweb/abhs/data/uploads
-sudo chown -R www-data:www-data /var/www/abhsweb/abhs/data
 ```
 
-## 7. Install the systemd service
+## 6. Start with PM2
 
 ```bash
-sudo cp /var/www/abhsweb/abhs/deploy/abhs.service /etc/systemd/system/abhs.service
-sudo systemctl daemon-reload
-sudo systemctl enable abhs
-sudo systemctl start abhs
+cd /var/www/abhsweb/abhs
+pm2 start deploy/ecosystem.config.js
+pm2 save
 
 # Verify it's running:
-sudo systemctl status abhs
-# Check logs if needed:
-journalctl -u abhs -n 50
+pm2 status
+pm2 logs abhs --lines 20
+```
+
+## 7. Check the port
+
+Pick a port that doesn't conflict with your other PM2 apps. Default is 3005.
+If 3005 is taken, edit `deploy/ecosystem.config.js` and update the port.
+
+```bash
+# Check what ports are in use:
+ss -tlnp | grep -E '300[0-9]'
 ```
 
 ## 8. Add the Nginx site
@@ -86,10 +86,10 @@ journalctl -u abhs -n 50
 sudo cp /var/www/abhsweb/abhs/deploy/abhs.nginx.conf /etc/nginx/sites-available/abhs
 sudo ln -s /etc/nginx/sites-available/abhs /etc/nginx/sites-enabled/abhs
 
-# Test config
+# Test config (won't affect other sites)
 sudo nginx -t
 
-# Reload (not restart — keeps other sites up)
+# Reload
 sudo nginx -s reload
 ```
 
@@ -99,16 +99,16 @@ sudo nginx -s reload
 sudo certbot --nginx -d allbeautyhairstudio.com -d www.allbeautyhairstudio.com
 ```
 
-Certbot will automatically modify the Nginx config to add SSL. Auto-renewal is set up by default.
+Certbot will auto-modify the Nginx config for SSL. Auto-renewal is set up by default.
 
 ## 10. DNS
 
 Point these records to your VPS IP:
 
-| Type | Name | Value |
-|------|------|-------|
-| A | `allbeautyhairstudio.com` | `YOUR_VPS_IP` |
-| A | `www.allbeautyhairstudio.com` | `YOUR_VPS_IP` |
+| Type | Name                            | Value         |
+|------|---------------------------------|---------------|
+| A    | `allbeautyhairstudio.com`       | `YOUR_VPS_IP` |
+| A    | `www.allbeautyhairstudio.com`   | `YOUR_VPS_IP` |
 
 ---
 
@@ -120,31 +120,33 @@ git pull origin main
 cd abhs
 npm ci
 npx next build
-sudo systemctl restart abhs
+pm2 restart abhs
 ```
 
 Or use the deploy script:
 
 ```bash
-sudo bash /var/www/abhsweb/abhs/deploy/deploy.sh
+bash /var/www/abhsweb/abhs/deploy/deploy.sh
 ```
 
 ## Useful commands
 
 ```bash
-sudo systemctl status abhs        # Check if running
-sudo systemctl restart abhs       # Restart app
-sudo systemctl stop abhs          # Stop app
-journalctl -u abhs -f             # Live logs
-journalctl -u abhs -n 100         # Last 100 log lines
-sudo nginx -t                     # Test Nginx config
-sudo nginx -s reload              # Reload Nginx
+pm2 status                     # All apps
+pm2 logs abhs                  # Live logs
+pm2 logs abhs --lines 100     # Last 100 lines
+pm2 restart abhs               # Restart
+pm2 stop abhs                  # Stop
+pm2 delete abhs                # Remove from PM2
+sudo nginx -t                  # Test Nginx config
+sudo nginx -s reload           # Reload Nginx
 ```
 
 ## Monitoring
 
-- App runs on `http://127.0.0.1:3000` (internal only)
-- Nginx proxies port 80/443 → 3000
+- App runs on `http://127.0.0.1:3005` (internal only)
+- Nginx proxies port 80/443 → 3005
 - SQLite DB at `data/abhs.db` (auto-created on first run)
 - Client photo uploads at `data/uploads/`
-- Systemd auto-restarts on crash (5s delay)
+- PM2 auto-restarts on crash (5s delay, max 10 retries)
+- `pm2 monit` for real-time CPU/memory dashboard

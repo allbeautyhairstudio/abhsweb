@@ -1,6 +1,6 @@
 #!/bin/bash
 # ─── ABHS Deploy Script ─────────────────────────────────
-# Run from VPS: sudo bash /var/www/abhsweb/abhs/deploy/deploy.sh
+# Run from VPS: bash /var/www/abhsweb/abhs/deploy/deploy.sh
 set -e
 
 REPO_DIR="/var/www/abhsweb"
@@ -27,12 +27,13 @@ npx next build
 
 # Create data directories if they don't exist
 mkdir -p "$APP_DIR/data/uploads"
-chown -R www-data:www-data "$APP_DIR/data"
 
-# Restart service
-echo "→ Restarting abhs service..."
-systemctl restart abhs
+# Restart PM2 process
+echo "→ Restarting abhs..."
+pm2 restart abhs --update-env 2>/dev/null || pm2 start "$APP_DIR/deploy/ecosystem.config.js"
+pm2 save
 
 echo "→ Checking status..."
 sleep 2
-systemctl is-active abhs && echo "=== ABHS is running ===" || echo "!!! ABHS failed to start — check: journalctl -u abhs -n 50"
+pm2 status abhs
+echo "=== Deploy complete ==="
