@@ -1,7 +1,7 @@
 # All Beauty Hair Studio — Project Handoff Document
 
-**Last Updated:** March 9, 2026
-**Status:** Public site COMPLETE. Admin CRM COMPLETE (Phases A, B, F + Communication Hub + Legal + Visual Polish). Next: Phases C-E + VPS deployment.
+**Last Updated:** March 11, 2026
+**Status:** Public site COMPLETE. Admin CRM COMPLETE (Phases A, B, F + Communication Hub + Legal + Visual Polish). Codebase cleaned (marketing reset removed). Next: VPS deployment + Phases C-E.
 
 ---
 
@@ -27,7 +27,7 @@
 
 **What:** Public-facing website for All Beauty Hair Studio + integrated admin CRM dashboard. One unified app: public site for clients + admin backend for managing them.
 
-**Source:** `c:\kar\website\`
+**Source:** `c:\kar\abhs\`
 **GitHub:** https://github.com/allbeautyhairstudio/abhsweb
 **Git identity:** "Bas & Kar" / kar.rosario@gmail.com (local config)
 **SSH:** `github.com-allbeautyhairstudio` host alias
@@ -69,7 +69,7 @@
 ## 4. ARCHITECTURE <a name="architecture"></a>
 
 ```
-c:\kar\website\
+c:\kar\abhs\
 ├── src/app/
 │   ├── (public)/          ← Public salon website (route group)
 │   │   ├── page.tsx       ← Homepage (hero + Meet Karli + CTA)
@@ -121,8 +121,6 @@ SQLite with WAL mode. Tables:
 |--------------------|-------------------------------------------------------------|
 | `clients`          | Wide table: 48 intake columns (q01-q48) + status/dates     |
 | `client_notes`     | Per-client notes with type filter                           |
-| `deliverables`     | Deliverable tracking per client                             |
-| `generated_prompts`| Auto-populated prompt text per client                       |
 | `revenue_entries`  | Payment tracking                                            |
 | `color_lines`      | Color brand product lines                                   |
 | `color_shades`     | Individual color shades per line                            |
@@ -365,6 +363,7 @@ SMTP_PASS=your-app-password       # Gmail app password
 | Communication Hub + Legal Pages    | Mar 5      | 225         |
 | Launch Visual Polish               | Mar 8      | 225         |
 | Marketing Reset removal            | Mar 9      | 225         |
+| Cleanup, audit, API auth, SEO      | Mar 11     | 225         |
 
 ---
 
@@ -390,17 +389,15 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ### Optional Cleanup
 
-- [ ] Dead reset-era components still on disk (unused, not imported): `fit-assessment/`, `prompts/`, `deliverables/`, `scoring.ts`, `auto-populate.ts`
-- [ ] Remove `business_type` column from DB schema (requires migration)
-- [ ] Remove `businessType?` optional params from `queries/clients.ts` (harmless but dead code)
+- [ ] Remove `business_type` column from DB schema (requires SQLite migration — harmless for now, all code ignores it)
 
 ---
 
 ## 13. FOR THE NEXT SESSION <a name="next-session"></a>
 
 1. Read this handoff for project context
-2. Run `cd c:\kar\website && npx vitest run` to verify 225 tests pass
-3. Run `npx next dev` for dev server
+2. Run `cd c:\kar\abhs && npx vitest run` to verify 225 tests pass
+3. Run `npx next dev --turbopack` for dev server
 4. Continue from Phases C-E or infrastructure work
 
 ---
