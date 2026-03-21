@@ -549,32 +549,48 @@ export default function NewClientFormPage() {
           <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
             <div className="bg-blush-50/60 rounded-2xl p-6 sm:p-10 border border-warm-100">
               <p className="text-warm-600 leading-relaxed mb-4">
-                Hey there &mdash; I&apos;m so glad you&apos;re here! This form helps me get to know you and your hair
-                before we ever sit down together. The more I know going in, the better I can prepare for you.
+                Hey there -- I&apos;m so glad you&apos;re here.
               </p>
               <p className="text-warm-600 leading-relaxed mb-4">
-                <strong className="text-warm-700">Quick note:</strong> Consultations are required before any color service.
-                If you&apos;re just coming in for a haircut, a consultation isn&apos;t necessary &mdash; but
-                this form still helps me show up ready for you.
+                This form helps me understand you, your hair, and how it fits into your real life.
+                My approach is rooted in intentional design, low-maintenance results, and hair that
+                grows out beautifully -- not hair that constantly asks more of you.
+              </p>
+              <p className="text-warm-600 leading-relaxed mb-4">
+                Please fill this out as thoughtfully and honestly as possible. This allows me to
+                recommend services that feel aligned, sustainable, and realistic for your lifestyle
+                and maintenance preferences.
+              </p>
+              <p className="text-warm-600 leading-relaxed mb-4">
+                <strong className="text-warm-700">Consultations are required</strong> for most color
+                services and transformations.{' '}
+                <strong className="text-warm-700">Haircut appointments</strong> do not require a
+                separate consultation.
               </p>
               <p className="text-warm-600 leading-relaxed mb-6">
                 I can&apos;t wait to learn more about you.
               </p>
-              <p className="text-sm text-warm-500 italic mb-8">&mdash; Karli</p>
+              <p className="text-sm text-warm-500 italic mb-8">-- Karli</p>
 
               <div className="bg-white/70 rounded-xl p-4 sm:p-6 border border-warm-100">
-                <p className="text-xs text-warm-500 leading-relaxed mb-1">
+                <p className="text-xs text-warm-500 leading-relaxed mb-3">
                   <Sparkles size={12} className="inline mr-1 text-copper-400" />
-                  <strong>A little note:</strong> I review every form personally within <strong>72 hours</strong>.
-                  Life gets busy and brains get scattered &mdash; if you don&apos;t hear from me,
-                  a gentle follow-up is always appreciated. No judgment here.
+                  Your form will be reviewed within <strong>72 hours</strong>. As a neurodivergent
+                  business owner, I truly appreciate a gentle follow-up if you haven&apos;t heard
+                  back after a few days.
                 </p>
-                <p className="text-xs text-warm-400">
-                  You can also reach me directly at{' '}
-                  <a href="tel:9515416620" className="text-copper-500 hover:text-copper-600 font-medium">
+                <div className="flex items-center gap-4">
+                  <a href="tel:9515416620" className="text-copper-500 hover:text-copper-600 font-medium text-xs">
                     (951) 541-6620
                   </a>
-                </p>
+                  <img
+                    src="/images/karli-qr.svg"
+                    alt="Scan to save Karli's contact info"
+                    width={80}
+                    height={80}
+                    className="rounded border border-warm-100"
+                  />
+                </div>
               </div>
 
               <div className="mt-8 text-center">
@@ -792,7 +808,7 @@ export default function NewClientFormPage() {
 
                 <div>
                   <label htmlFor="hair_love_hate" className="block text-sm font-medium text-warm-600 mb-1">
-                    What do you love (or hate) about your hair right now?
+                    Please tell me what you love and hate about your hair currently?
                   </label>
                   <textarea
                     id="hair_love_hate" name="hair_love_hate" rows={3}
@@ -904,9 +920,9 @@ export default function NewClientFormPage() {
 
                 <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
                   <p className="text-xs text-amber-700 leading-relaxed">
-                    <strong>Important:</strong> If you&apos;ve had <em>anything</em> in your hair &mdash; box dye,
-                    henna, bleach, keratin, anything &mdash; please mention it even if it was a while ago.
-                    This helps me protect your hair and avoid surprises.
+                    If you&apos;ve had <strong>ANYTHING</strong> in your hair -- box dye, henna, bleach,
+                    keratin, anything -- please note that this will be brought up in the consultation.
+                    Ya girls gotta know what she&apos;s working with!
                   </p>
                 </div>
 
@@ -948,8 +964,13 @@ export default function NewClientFormPage() {
                     What are you hoping to get from your cut or color? <span className="text-copper-400">*</span>
                   </label>
                   <p className="text-xs text-warm-400 mb-2">
-                    A vibe, a specific look, a feeling, a problem you want solved &mdash; anything goes.
-                    Think: &ldquo;I want to feel put together without trying hard&rdquo; or &ldquo;I want to go blonde but I&apos;m scared.&rdquo;
+                    Examples: feeling put together, ease in the mornings, confidence, simplicity, a fresh
+                    start, something that fits this season of your life. Something that feels a little more
+                    like <em>me</em>.
+                  </p>
+                  <p className="text-xs text-warm-400 mb-2">
+                    There is no right or wrong answer to this question. This just helps me to better
+                    customize your look based on your expectations.
                   </p>
                   <textarea
                     id="what_you_want" name="what_you_want" rows={5}
@@ -1124,17 +1145,22 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Almost Done!</h2>
-                  <p className="text-sm text-warm-400 mb-6">Just a couple more things and you&apos;re all set.</p>
+                  <p className="text-sm text-warm-400 mb-6">We&apos;re one step closer to creating the hair of your dreams!</p>
                 </div>
 
                 <div>
                   <label htmlFor="medical_info" className="block text-sm font-medium text-warm-600 mb-1">
-                    Anything medical or allergy-related I should know?{' '}
+                    Things I might need to know{' '}
                     <span className="text-warm-400 text-xs">(optional)</span>
                   </label>
                   <p className="text-xs text-warm-400 mb-2">
-                    Postpartum changes, medications that affect hair, alopecia, scalp sensitivities,
-                    latex allergies &mdash; anything that helps me take better care of you.
+                    Please tell me any additional information you feel might be important for me to know
+                    before your appointment. Be as detailed as possible.
+                  </p>
+                  <p className="text-xs text-warm-400 mb-2">
+                    All these things play a big role in creating your hair goals (example: additional hair
+                    history, postpartum and covid hair loss, cancer, thyroid and depression medications, as
+                    well as allergies, alopecia, eczema and psoriasis)
                   </p>
                   <textarea
                     id="medical_info" name="medical_info" rows={3}
@@ -1158,13 +1184,18 @@ export default function NewClientFormPage() {
 
                 {/* Before-booking info */}
                 <div className="bg-blush-50 rounded-xl p-5 border border-warm-100 space-y-3">
-                  <h3 className="text-sm font-medium text-warm-700">Before We Book</h3>
+                  <h3 className="text-sm font-medium text-warm-700">Before booking, please note:</h3>
                   <ul className="text-xs text-warm-500 space-y-2 leading-relaxed">
-                    <li>&bull; My hourly rate starts at <strong className="text-warm-600">$75/hr</strong> &mdash; pricing depends on time and complexity, not a flat menu</li>
-                    <li>&bull; I work <strong className="text-warm-600">Tuesday through Thursday, 10am&ndash;7pm</strong></li>
-                    <li>&bull; I take my time. Every appointment is designed for <strong className="text-warm-600">intentional results</strong>, not speed</li>
+                    <li>&bull; All services are charged at an hourly rate</li>
+                    <li>&bull; Appointments are available <strong className="text-warm-600">Tuesday--Thursday, 10am--7pm</strong></li>
+                    <li>&bull; My work focuses on intentional, low-maintenance results designed to grow out well</li>
+                    <li>&bull; I photograph and film most clients, but your privacy is always respected</li>
                     <li>&bull; By submitting this form, you consent to me using photos from our session for portfolio/social media purposes (I&apos;ll always ask before posting)</li>
+                    <li>&bull; By submitting this form, you agree to receive text message notifications. You can stop these at any time.</li>
                   </ul>
+                  <p className="text-xs text-warm-500 leading-relaxed pt-2 border-t border-warm-100">
+                    Upon submitting the form, you will be redirected to Karli&apos;s calendar to book your appointment!
+                  </p>
                 </div>
 
                 {/* Consent checkbox */}
@@ -1251,6 +1282,9 @@ export default function NewClientFormPage() {
           {/* Reassurance */}
           <div className="mt-10 pt-8 border-t border-warm-100 text-center">
             <FloralBloom className="w-5 h-5 text-warm-300 mx-auto mb-3" />
+            <p className="text-sm text-warm-600 leading-relaxed max-w-sm mx-auto mb-2">
+              Thank you for trusting me with your hair -- I don&apos;t take that lightly.
+            </p>
             <p className="text-xs text-warm-400 leading-relaxed max-w-sm mx-auto">
               Your information stays between us. I use this to prepare for our
               consultation so we can make the most of our time together.
