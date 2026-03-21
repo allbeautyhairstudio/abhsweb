@@ -1,7 +1,7 @@
 # All Beauty Hair Studio — Project Handoff Document
 
-**Last Updated:** March 21, 2026
-**Status:** **LIVE at https://allbeautyhairstudio.com** — Public site + Admin CRM + Square booking widget + email notifications. Next: Phases C-E + Twilio SMS (pending verification).
+**Last Updated:** March 21, 2026 (Session 2)
+**Status:** **LIVE at https://allbeautyhairstudio.com** — Public site + Admin CRM + Square booking widget + email notifications. Intake form aligned to Wix, admin polished. Next: AI chat for intakes, email lifecycle, Twilio SMS.
 
 ---
 
@@ -60,9 +60,10 @@
 | Validation  | Zod                                           |
 | Icons       | Lucide React                                  |
 | Dates       | date-fns                                      |
-| Testing     | Vitest (225 tests passing)                    |
+| Testing     | Vitest (268 tests passing)                    |
 | Bookings    | Square SDK v44                                |
-| SMS         | nodemailer (email-to-SMS via carrier gateway) |
+| Images      | sharp (WebP conversion on upload)             |
+| SMS         | Twilio SDK (pending toll-free verification)   |
 
 ---
 
@@ -368,6 +369,11 @@ SMTP_PASS=your-app-password       # Gmail app password
 | Square widget swap + Twilio + email| Mar 21     | 225         |
 | DNS + SSL + production launch      | Mar 21     | 225         |
 | Intake form voice + QR code        | Mar 21     | 225         |
+| Intake options alignment (Wix)     | Mar 21     | 268         |
+| WebP photo conversion (sharp)      | Mar 21     | 268         |
+| Photo gallery + zoom on intake     | Mar 21     | 268         |
+| Mobile-responsive admin panel      | Mar 21     | 268         |
+| Admin intake polish + sticky bar   | Mar 21     | 268         |
 
 ---
 
@@ -389,11 +395,16 @@ SMTP_PASS=your-app-password       # Gmail app password
 - [x] Email notifications — Gmail SMTP with app password, detailed intake emails with admin links
 - [x] Square booking widget — iframe embed on `/book` (temporary, custom wizard preserved for swap-back)
 - [x] Intake form voice update — Karli's Wix form intro, neurodivergent disclosure, QR code, copy updates, photo/SMS consent, closing message (March 21, 2026)
-- [ ] **Intake form options alignment** — match Karli's Wix form answer options (service types, hair history, color reaction checkboxes, products breakdown into 6 fields, styling/routine options, maintenance frequency). Spec: `docs/superpowers/specs/2026-03-21-intake-form-voice-update-design.md`. Touches Zod schema, form interface, API, client notes, AI scoring.
+- [x] Intake form options alignment — all 12 fields matched to Karli's Wix form, products → 6 inputs, color reaction → multi-select checkboxes (March 21, 2026 Session 2)
+- [x] Photo uploads auto-convert to WebP via sharp (quality 80) — saves server space (March 21, 2026 Session 2)
+- [x] Photo gallery on intake detail page with pinch-to-zoom lightbox (March 21, 2026 Session 2)
+- [x] Mobile-responsive admin — intake queue cards, pipeline vertical stack, calendar day-view default (March 21, 2026 Session 2)
+- [x] Admin intake polish — warm ABHS styling, single status badge, sticky accept/decline bar with iPhone safe area (March 21, 2026 Session 2)
+- [x] `&mdash;` cleanup — all 9 instances fixed (A-001 resolved) (March 21, 2026 Session 2)
+- [ ] **AI chat for intake review** — Claude API integration for Karli to ask questions about intakes, draft client messages. Spec needed.
 - [ ] **Email lifecycle system** — 5 timed emails (booking confirm, 7-day, 48h, 24h, post-visit thank you)
-- [ ] Twilio SMS — toll-free verification submitted March 21, pending approval (1-7 days)
+- [ ] Twilio SMS — toll-free verification submitted March 21, check status next session
 - [ ] My Journey page — hidden from nav, needs Karli collaboration to make it special
-- [ ] Remaining `&mdash;` cleanup — 9 instances in intake form should be `--` per project rules
 
 ### Content
 
@@ -408,13 +419,14 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ## 13. FOR THE NEXT SESSION <a name="next-session"></a>
 
-### Priority 1: Intake Form Options Alignment
+### Priority 1: AI Chat for Intake Review
 
-- Match Karli's Wix form answer options across all questions (service types, hair texture/type, condition, history, color reaction, products, styling, routine, maintenance frequency, contact method)
-- Key structural changes: products → 6 labeled text inputs, color reaction → multi-select checkboxes
-- Karli's Wix form screenshots reviewed in session — all differences catalogued
-- Approach: merge both option sets (superset), then Karli curates what stays/goes
-- This touches: Zod schema, FormData interface, API route, client notes formatting, AI scoring engine
+- Integrate Claude API into admin intake detail page
+- Conversational chat panel where Karli can ask questions about each intake
+- Primary use case: help Karli draft messages to clients about missing/unclear info
+- Needs: Anthropic API key, API route, chat UI component, intake context injection
+- Karli's voice and warmth should come through in AI-drafted messages
+- Spec needed -- brainstorm at session start
 
 ### Priority 2: Email Lifecycle System
 
@@ -422,13 +434,14 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ### Priority 3: Check Twilio SMS Verification Status
 
+- Submitted March 21, 2026 -- should be approved by now (1-7 day window)
+
 ### Session Start
 
 1. Read this handoff for project context
-2. Run `cd c:\kar\abhs && npx vitest run` to verify 225 tests pass
+2. Run `cd c:\kar\abhs && npx vitest run` to verify 268 tests pass
 3. Run `npx next dev -p 3005` for dev server
-4. Push 3 unpushed commits from voice update session (QR code + copy changes)
-5. Deploy after visual verification: `ssh -i ~/.ssh/orcachild_vps -p 2222 orcachild@72.62.200.30` then `sudo -u abhs env PATH=/usr/local/bin:/usr/bin:/bin HOME=/var/www/abhsweb bash -c 'bash /var/www/abhsweb/abhs/deploy/deploy.sh'`
+4. All commits pushed, production deployed -- clean slate
 
 ---
 

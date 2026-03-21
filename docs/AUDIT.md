@@ -1,6 +1,6 @@
 # All Beauty Hair Studio -- Audit Log
 
-**Last Updated:** March 21, 2026
+**Last Updated:** March 21, 2026 (Session 2)
 
 ---
 
@@ -8,7 +8,6 @@
 
 | ID | Severity | Area | Description | Found | Status |
 |----|----------|------|-------------|-------|--------|
-| A-001 | Minor | Intake Form | 9 remaining `&mdash;` HTML entities should be `--` per project em dash rule | Mar 21 | Open |
 | A-002 | Info | Database | `business_type` column in `clients` table is unused (all salon). Removing requires SQLite migration -- harmless for now. | Mar 9 | Open |
 
 ---
@@ -19,6 +18,11 @@
 |----|----------|------|-------------|-------|----------|------------|
 | R-001 | Important | Intake Form | Form copy didn't match Karli's original Wix form voice | Mar 21 | Mar 21 | Updated intro, step copy, pre-booking notes, closing message, QR code |
 | R-002 | Minor | Intake Form | QR code used raw `<img>` instead of Next.js `Image` component | Mar 21 | Mar 21 | Swapped to `Image` for pattern consistency |
+| R-003 | Important | Intake Form | Answer options didn't match Karli's Wix form | Mar 21 | Mar 21 S2 | All 12 fields aligned, products → 6 inputs, color reaction → multi-select |
+| R-004 | Minor | Intake Form | 9 `&mdash;` HTML entities should be `--` | Mar 21 | Mar 21 S2 | All 9 replaced |
+| R-005 | Important | Admin | No photo gallery on intake detail page | Mar 21 S2 | Mar 21 S2 | Photo gallery with pinch-to-zoom lightbox added |
+| R-006 | Important | Admin | Mobile admin forced horizontal scrolling | Mar 21 S2 | Mar 21 S2 | Intake queue cards, pipeline vertical stack, calendar responsive |
+| R-007 | Important | Admin | Intake detail page too developer-facing | Mar 21 S2 | Mar 21 S2 | Polished with warm styling, single status badge, sticky decision bar |
 
 ---
 
@@ -26,8 +30,7 @@
 
 | Area | Description | Priority | Notes |
 |------|-------------|----------|-------|
-| Intake Form | Answer options don't match Karli's Wix form (service types, hair history, color reaction, products, etc.) | High | Spec and plan needed -- next session priority |
-| Intake Form | Products field is single textarea, should be 6 labeled inputs (Shampoo, Conditioner, Hair Spray, Dry Shampoo, Heat Protector, Other) | High | Part of options alignment |
-| Intake Form | Color reaction is Yes/No/Not Sure, should be multi-select checkboxes (Itching, Burning, Swelling, etc.) | High | Part of options alignment |
-| SMS | Twilio toll-free verification pending | Medium | Submitted March 21, 1-7 day approval |
-| Email | Email lifecycle system not yet built (5 timed emails) | Medium | After intake alignment |
+| SMS | Twilio toll-free verification pending | Medium | Submitted March 21, check status next session |
+| Email | Email lifecycle system not yet built (5 timed emails) | Medium | After AI chat integration |
+| AI | Claude API integration for intake review chat | High | Next session priority -- Karli needs this for client communication |
+| Photos | Existing uploads not retroactively converted to WebP | Low | Only new uploads get WebP treatment |
