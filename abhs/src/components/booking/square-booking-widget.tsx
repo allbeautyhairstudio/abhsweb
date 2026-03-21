@@ -20,8 +20,9 @@ export function SquareBookingWidget() {
           src={SQUARE_BOOKING_URL}
           title="Book an appointment with All Beauty Hair Studio"
           className="w-full border-0"
-          style={{ height: '800px', display: loading ? 'none' : 'block' }}
+          style={{ height: '1280px', display: loading ? 'none' : 'block' }}
           onLoad={() => setLoading(false)}
+          scrolling="no"
           allow="payment"
         />
       </div>
