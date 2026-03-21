@@ -3,6 +3,7 @@ import { intakeFormSchema } from '@/lib/intake-validation';
 import { sanitizeString } from '@/lib/sanitize';
 import { getDb } from '@/lib/db';
 import { notifySms } from '@/lib/notify-sms';
+import { notifyEmail } from '@/lib/notify-email';
 
 /**
  * Rate limiting — simple in-memory tracker.
@@ -146,9 +147,21 @@ export async function POST(request: NextRequest) {
 
     insertNote.run(clientId, intakeDetails);
 
-    // Send SMS notification (fire-and-forget — don't block response)
-    const smsMessage = `New client: ${fullName}${data.service_interest ? ` (${formatLabel(data.service_interest)})` : ''}. Check admin dashboard.`;
-    notifySms(smsMessage).catch(() => {});
+    // Send notifications (fire-and-forget — don't block response)
+    const smsMsg = `New client: ${fullName}${data.service_interest ? ` (${formatLabel(data.service_interest)})` : ''}. Check admin dashboard.`;
+    notifySms(smsMsg).catch(() => {});
+
+    const siteUrl = process.env.SITE_URL || 'https://allbeautyhairstudio.com';
+    const emailBody = [
+      `New Client Intake Submission`,
+      ``,
+      intakeDetails,
+      ``,
+      `---`,
+      `Review this submission:`,
+      `${siteUrl}/admin/intake/${clientId}`,
+    ].join('\n');
+    notifyEmail(`New Client Intake: ${fullName}`, emailBody).catch(() => {});
 
     return NextResponse.json(
       { success: true, clientId: Number(clientId), message: 'Intake form received.' },

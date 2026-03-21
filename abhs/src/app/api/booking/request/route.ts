@@ -8,6 +8,7 @@ import {
 import { getSquareClient, getLocationId } from '@/lib/square';
 import { searchClients } from '@/lib/queries/clients';
 import { notifySms } from '@/lib/notify-sms';
+import { notifyEmail } from '@/lib/notify-email';
 import type { BookingRequestConfirmation } from '@/lib/booking-types';
 
 /**
@@ -179,6 +180,21 @@ export async function POST(request: NextRequest) {
     const smsServiceList = serviceNames.join(', ');
     const smsMessage = `New booking request: ${firstName} ${lastName} for ${smsServiceList} on ${bookingDate}. Open admin to approve/decline.`;
     notifySms(smsMessage).catch(() => {});
+
+    const siteUrl = process.env.SITE_URL || 'https://allbeautyhairstudio.com';
+    const emailBody = [
+      `New Booking Request`,
+      ``,
+      `Client: ${firstName} ${lastName}`,
+      `Email: ${email}`,
+      `Services: ${smsServiceList}`,
+      `Date: ${bookingDate}`,
+      ``,
+      `---`,
+      `Approve or decline:`,
+      `${siteUrl}/admin/calendar`,
+    ].join('\n');
+    notifyEmail(`Booking Request: ${firstName} ${lastName} - ${bookingDate}`, emailBody).catch(() => {});
 
     return NextResponse.json(
       { success: true, booking: confirmation },

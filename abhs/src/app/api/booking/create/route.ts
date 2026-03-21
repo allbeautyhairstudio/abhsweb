@@ -3,6 +3,7 @@ import { getSquareClient, getLocationId, serializeBigInt, lookupServiceName } fr
 import { createBookingSchema, createMultiBookingSchema } from '@/lib/booking-validation';
 import { sanitizeString } from '@/lib/sanitize';
 import { notifySms } from '@/lib/notify-sms';
+import { notifyEmail } from '@/lib/notify-email';
 import type { BookingConfirmation } from '@/lib/booking-types';
 
 /**
@@ -243,6 +244,20 @@ export async function POST(request: NextRequest) {
     const smsServiceList = serviceNames.join(', ');
     const smsMessage = `New booking: ${firstName} ${lastName} for ${smsServiceList} on ${bookingDate}. Check admin dashboard.`;
     notifySms(smsMessage).catch(() => {});
+
+    const siteUrl = process.env.SITE_URL || 'https://allbeautyhairstudio.com';
+    const emailBody = [
+      `New Booking Confirmed`,
+      ``,
+      `Client: ${firstName} ${lastName}`,
+      `Services: ${smsServiceList}`,
+      `Date: ${bookingDate}`,
+      ``,
+      `---`,
+      `View in calendar:`,
+      `${siteUrl}/admin/calendar`,
+    ].join('\n');
+    notifyEmail(`New Booking: ${firstName} ${lastName} - ${bookingDate}`, emailBody).catch(() => {});
 
     return NextResponse.json(
       serializeBigInt({ success: true, booking: confirmation }),
