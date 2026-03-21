@@ -9,6 +9,7 @@ import { getIntakeNote } from '@/lib/queries/intake-queue';
 import { parseSalonIntakeNote, assessSalonIntake } from '@/lib/salon-summary';
 import { SalonScoreCard } from '@/components/salon/salon-score-card';
 import { SalonReviewActions } from '@/components/salon/salon-review-actions';
+import { IntakePhotoGallery } from '@/components/salon/intake-photo-gallery';
 import type { SalonFlag } from '@/lib/constants/salon-scoring-rules';
 import fs from 'fs';
 import path from 'path';
@@ -48,7 +49,16 @@ export default async function IntakeDetailPage({
 
   // Check for photos
   const uploadDir = path.join(process.cwd(), 'data', 'uploads', String(numId));
-  const hasPhotos = fs.existsSync(uploadDir) && fs.readdirSync(uploadDir).length > 0;
+  let photoFiles: { filename: string; type: string; url: string }[] = [];
+  if (fs.existsSync(uploadDir)) {
+    const files = fs.readdirSync(uploadDir).filter(f => /\.(jpg|jpeg|png|webp|heic)$/i.test(f));
+    photoFiles = files.map(filename => ({
+      filename,
+      type: filename.startsWith('selfie') ? 'selfie' : 'inspiration',
+      url: `/api/admin/uploads/${numId}/${filename}`,
+    }));
+  }
+  const hasPhotos = photoFiles.length > 0;
 
   const intake = parseSalonIntakeNote(noteContent);
   const summary = assessSalonIntake(intake, hasPhotos);
@@ -188,6 +198,9 @@ export default async function IntakeDetailPage({
           </CardContent>
         </Card>
       </div>
+
+      {/* Client Photos */}
+      {hasPhotos && <IntakePhotoGallery photos={photoFiles} />}
 
       {/* Full Intake Data */}
       <Card>
