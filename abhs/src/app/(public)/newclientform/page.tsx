@@ -10,61 +10,58 @@ import { FloralBloom, FloralDivider } from '@/components/decorative/floral-accen
 // --- Option data ---
 
 const serviceOptions = [
-  { value: 'cut', label: 'Precision Cut' },
-  { value: 'color', label: 'Color Service' },
-  { value: 'cut-and-color', label: 'Cut & Color' },
-  { value: 'consultation', label: 'Just a Consultation' },
-  { value: 'not-sure', label: "I'm Not Sure Yet" },
+  { value: 'haircut-style', label: 'Haircut & Style' },
+  { value: 'low-maintenance-color', label: 'Low Maintenance Color' },
+  { value: 'dimensional-color', label: 'Lived in Dimensional Color' },
+  { value: 'mini-service', label: 'Mini Service' },
+  { value: 'other-not-sure', label: 'Other/Not sure yet' },
 ];
 
 const hairTextureOptions = [
   { value: 'straight', label: 'Straight' },
-  { value: 'wavy', label: 'Wavy' },
   { value: 'curly', label: 'Curly' },
+  { value: 'wavy', label: 'Wavy' },
+  { value: 'frizzy-kinky', label: 'Frizzy/Kinky' },
   { value: 'coily', label: 'Coily' },
-  { value: 'not-sure', label: 'Not Sure' },
 ];
 
 const hairLengthOptions = [
-  { value: 'short', label: 'Short (above shoulders)' },
-  { value: 'medium', label: 'Medium (shoulders to mid-back)' },
-  { value: 'long', label: 'Long (mid-back to waist)' },
-  { value: 'very-long', label: 'Very Long (past waist)' },
+  { value: 'short', label: 'Short' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'long', label: 'Long' },
 ];
 
 const hairDensityOptions = [
-  { value: 'fine-thin', label: 'Fine / Thin' },
+  { value: 'fine', label: 'Fine' },
   { value: 'medium', label: 'Medium' },
-  { value: 'thick-coarse', label: 'Thick / Coarse' },
-  { value: 'not-sure', label: 'Not Sure' },
+  { value: 'thick', label: 'Thick' },
+  { value: 'very-thick', label: 'Very Thick' },
+  { value: 'coarse', label: 'Coarse' },
 ];
 
 const hairConditionOptions = [
-  { value: 'healthy', label: 'Healthy' },
-  { value: 'damaged', label: 'Damaged' },
-  { value: 'dry', label: 'Dry' },
-  { value: 'oily', label: 'Oily' },
-  { value: 'frizzy', label: 'Frizzy' },
-  { value: 'thinning', label: 'Thinning' },
-  { value: 'color-treated', label: 'Color-Treated' },
-  { value: 'chemically-treated', label: 'Chemically Treated' },
-  { value: 'heat-damaged', label: 'Heat Damaged' },
+  { value: 'hair-loss', label: 'Hair Loss' },
   { value: 'split-ends', label: 'Split Ends' },
+  { value: 'itchy-scalp', label: 'Itchy Scalp' },
+  { value: 'dandruff', label: 'Dandruff' },
+  { value: 'heat-damage', label: 'Heat Damage' },
+  { value: 'breakage', label: 'Breakage' },
+  { value: 'other', label: 'Other' },
 ];
 
 const stylingDescriptionOptions = [
-  { value: 'low-maintenance', label: 'Low maintenance — wash and forget' },
-  { value: 'simple-styler', label: 'Simple styler — quick and easy' },
-  { value: 'enjoys-styling', label: 'Enjoys styling — I like spending time on it' },
-  { value: 'wants-change-nervous', label: 'Wants a change but nervous' },
-  { value: 'no-idea', label: 'No idea — help me figure it out' },
+  { value: 'low-maintenance', label: 'I prefer low-maintenance, longer-lasting services' },
+  { value: 'grows-out-well', label: "I'm open to investing in hair that grows out well" },
+  { value: 'simple-predictable', label: 'I like to keep things simple and predictable' },
+  { value: 'frequent-visits', label: 'I enjoy frequent salon visits and detailed upkeep' },
 ];
 
 const dailyRoutineOptions = [
-  { value: 'wash-and-go', label: 'Wash and go' },
-  { value: 'quick-style', label: 'Quick style (5 min)' },
-  { value: 'blow-dry-heat', label: 'Blow-dry / heat tools' },
-  { value: 'varies-day-to-day', label: 'Varies day to day' },
+  { value: 'wash-and-go', label: 'Wash & go' },
+  { value: 'style-when-needed', label: 'I style it only when I need to' },
+  { value: 'blow-dryer-brush', label: "I'm pretty good with a blow-dryer & brush" },
+  { value: 'hot-tools-daily', label: 'I style my hair most days using hot tools' },
+  { value: 'enjoys-styling', label: 'My hair is part of my daily routine and I enjoy styling it' },
 ];
 
 const shampooFrequencyOptions = [
@@ -76,31 +73,35 @@ const shampooFrequencyOptions = [
 ];
 
 const hairHistoryOptions = [
-  { value: 'box-dye', label: 'Box dye' },
-  { value: 'salon-color', label: 'Salon color' },
-  { value: 'highlights-foils', label: 'Highlights / Foils' },
-  { value: 'balayage', label: 'Balayage' },
-  { value: 'bleach-lightener', label: 'Bleach / Lightener' },
-  { value: 'keratin', label: 'Keratin treatment' },
+  { value: 'box-color', label: 'Box Color' },
+  { value: 'henna', label: 'Henna' },
+  { value: 'professional-color', label: 'Professional Color' },
+  { value: 'splat', label: 'Splat' },
+  { value: 'manic-panic', label: 'Manic Panic' },
+  { value: 'previous-lightening', label: 'Previous Lightening' },
+  { value: 'keratin', label: 'Keratin Treatment' },
   { value: 'perm', label: 'Perm' },
   { value: 'relaxer', label: 'Relaxer' },
-  { value: 'extensions', label: 'Extensions' },
-  { value: 'henna', label: 'Henna' },
-  { value: 'nothing', label: 'Nothing \u2014 virgin hair' },
+  { value: 'never-colored', label: 'I have never colored my hair' },
 ];
 
 const colorReactionOptions = [
-  { value: 'yes', label: 'Yes' },
-  { value: 'no', label: 'No' },
-  { value: 'not-sure', label: 'Not Sure' },
+  { value: 'itching', label: 'Itching' },
+  { value: 'burning', label: 'Burning' },
+  { value: 'swelling', label: 'Swelling' },
+  { value: 'sores-blisters', label: 'Sores/Blisters' },
+  { value: 'rash-hives', label: 'Rash/Hives' },
+  { value: 'other', label: 'Other' },
+  { value: 'no-reaction', label: "No, I haven't" },
+  { value: 'not-sure', label: 'Not sure' },
 ];
 
 const maintenanceFrequencyOptions = [
-  { value: 'every-4-6-weeks', label: 'Every 4\u20136 weeks' },
-  { value: 'every-8-12-weeks', label: 'Every 8\u201312 weeks' },
-  { value: 'every-3-6-months', label: 'Every 3\u20136 months' },
-  { value: 'as-needed', label: 'As needed' },
-  { value: 'not-sure', label: 'Not sure' },
+  { value: '3-5-weeks', label: '3-5 weeks' },
+  { value: '6-8-weeks', label: '6-8 weeks' },
+  { value: '10-12-weeks', label: '10-12 weeks' },
+  { value: 'every-6-months', label: 'Every 6 Months' },
+  { value: 'once-a-year', label: 'Once a Year' },
 ];
 
 const availabilityOptions = [
@@ -114,9 +115,9 @@ const availabilityOptions = [
 ];
 
 const contactPreferences = [
-  { value: 'email', label: 'Email' },
   { value: 'text', label: 'Text' },
-  { value: 'either', label: 'Either is fine' },
+  { value: 'email', label: 'Email' },
+  { value: 'other', label: 'Other' },
 ];
 
 // --- Types ---
@@ -129,9 +130,9 @@ interface FormData {
   pronouns: string;
   email: string;
   phone: string;
-  preferred_contact: string;
+  preferred_contact: string[];
   hair_love_hate: string;
-  service_interest: string;
+  service_interest: string[];
   hair_texture: string;
   hair_length: string;
   hair_density: string;
@@ -140,8 +141,13 @@ interface FormData {
   daily_routine: string;
   shampoo_frequency: string;
   hair_history: string[];
-  color_reaction: string;
-  current_products: string;
+  color_reaction: string[];
+  product_shampoo: string;
+  product_conditioner: string;
+  product_hair_spray: string;
+  product_dry_shampoo: string;
+  product_heat_protector: string;
+  product_other: string;
   what_you_want: string;
   maintenance_frequency: string;
   availability: string[];
@@ -300,9 +306,9 @@ export default function NewClientFormPage() {
     pronouns: '',
     email: '',
     phone: '',
-    preferred_contact: '',
+    preferred_contact: [],
     hair_love_hate: '',
-    service_interest: '',
+    service_interest: [],
     hair_texture: '',
     hair_length: '',
     hair_density: '',
@@ -311,8 +317,13 @@ export default function NewClientFormPage() {
     daily_routine: '',
     shampoo_frequency: '',
     hair_history: [],
-    color_reaction: '',
-    current_products: '',
+    color_reaction: [],
+    product_shampoo: '',
+    product_conditioner: '',
+    product_hair_spray: '',
+    product_dry_shampoo: '',
+    product_heat_protector: '',
+    product_other: '',
     what_you_want: '',
     maintenance_frequency: '',
     availability: [],
@@ -401,11 +412,11 @@ export default function NewClientFormPage() {
       else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
         newErrors.email = 'Please enter a valid email';
       if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-      if (!formData.preferred_contact) newErrors.preferred_contact = 'Please select one';
+      if (formData.preferred_contact.length === 0) newErrors.preferred_contact = 'Please select one';
     }
 
     if (s === 2) {
-      if (!formData.service_interest) newErrors.service_interest = 'Please select a service';
+      if (formData.service_interest.length === 0) newErrors.service_interest = 'Please select a service';
       if (!formData.hair_texture) newErrors.hair_texture = 'Please select your texture';
       if (!formData.hair_length) newErrors.hair_length = 'Please select your length';
       if (!formData.hair_density) newErrors.hair_density = 'Please select your density';
@@ -420,7 +431,7 @@ export default function NewClientFormPage() {
 
     if (s === 4) {
       if (formData.hair_history.length === 0) newErrors.hair_history = 'Select at least one';
-      if (!formData.color_reaction) newErrors.color_reaction = 'Please select one';
+      if (formData.color_reaction.length === 0) newErrors.color_reaction = 'Please select one';
     }
 
     if (s === 5) {
@@ -484,7 +495,12 @@ export default function NewClientFormPage() {
           shampoo_frequency: formData.shampoo_frequency,
           hair_history: formData.hair_history,
           color_reaction: formData.color_reaction,
-          current_products: formData.current_products || undefined,
+          product_shampoo: formData.product_shampoo || undefined,
+          product_conditioner: formData.product_conditioner || undefined,
+          product_hair_spray: formData.product_hair_spray || undefined,
+          product_dry_shampoo: formData.product_dry_shampoo || undefined,
+          product_heat_protector: formData.product_heat_protector || undefined,
+          product_other: formData.product_other || undefined,
           what_you_want: formData.what_you_want,
           maintenance_frequency: formData.maintenance_frequency,
           availability: formData.availability,
@@ -787,11 +803,11 @@ export default function NewClientFormPage() {
                   <label className="block text-sm font-medium text-warm-600 mb-2">
                     Best way to reach you? <span className="text-copper-400">*</span>
                   </label>
-                  <PillGroup
+                  <CheckboxGroup
                     name="preferred_contact"
                     options={contactPreferences}
-                    value={formData.preferred_contact}
-                    onChange={handleRadio}
+                    values={formData.preferred_contact}
+                    onChange={handleCheckboxGroup}
                   />
                   {errors.preferred_contact && <p className="text-xs text-red-500 mt-1">{errors.preferred_contact}</p>}
                 </div>
@@ -803,7 +819,7 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Your Hair</h2>
-                  <p className="text-sm text-warm-400 mb-6">No wrong answers &mdash; this helps me prepare.</p>
+                  <p className="text-sm text-warm-400 mb-6">No wrong answers -- this helps me prepare.</p>
                 </div>
 
                 <div>
@@ -820,15 +836,17 @@ export default function NewClientFormPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    What are you interested in? <span className="text-copper-400">*</span>
+                    What service/s are you interested in? <span className="text-copper-400">*</span>{' '}
+                    <span className="text-warm-400 text-xs font-normal">(select all that apply)</span>
                   </label>
-                  <RadioGroup name="service_interest" options={serviceOptions} value={formData.service_interest} onChange={handleRadio} />
+                  <CheckboxGroup name="service_interest" options={serviceOptions} values={formData.service_interest} onChange={handleCheckboxGroup} />
                   {errors.service_interest && <p className="text-xs text-red-500 mt-1">{errors.service_interest}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    Hair Texture <span className="text-copper-400">*</span>
+                    Hair Type <span className="text-copper-400">*</span>{' '}
+                    <span className="text-warm-400 text-xs font-normal">Please select one of the following that best describes your hair</span>
                   </label>
                   <PillGroup name="hair_texture" options={hairTextureOptions} value={formData.hair_texture} onChange={handleRadio} />
                   {errors.hair_texture && <p className="text-xs text-red-500 mt-1">{errors.hair_texture}</p>}
@@ -844,7 +862,8 @@ export default function NewClientFormPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    Hair Type / Density <span className="text-copper-400">*</span>
+                    Hair Texture <span className="text-copper-400">*</span>{' '}
+                    <span className="text-warm-400 text-xs font-normal">How would you describe your hair texture?</span>
                   </label>
                   <RadioGroup name="hair_density" options={hairDensityOptions} value={formData.hair_density} onChange={handleRadio} />
                   {errors.hair_density && <p className="text-xs text-red-500 mt-1">{errors.hair_density}</p>}
@@ -869,12 +888,12 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Hair Personality &amp; Routine</h2>
-                  <p className="text-sm text-warm-400 mb-6">I design around your actual life &mdash; not a Pinterest board.</p>
+                  <p className="text-sm text-warm-400 mb-6">I design around your actual life -- not a Pinterest board.</p>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    Which best describes you? <span className="text-copper-400">*</span>
+                    When it comes to your hair, which best describes you? <span className="text-copper-400">*</span>
                   </label>
                   <RadioGroup name="styling_description" options={stylingDescriptionOptions} value={formData.styling_description} onChange={handleRadio} columns={1} />
                   {errors.styling_description && <p className="text-xs text-red-500 mt-1">{errors.styling_description}</p>}
@@ -882,7 +901,7 @@ export default function NewClientFormPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    Day-to-day routine <span className="text-copper-400">*</span>
+                    What does your day-to-day hair routine usually look like? <span className="text-copper-400">*</span>
                   </label>
                   <RadioGroup name="daily_routine" options={dailyRoutineOptions} value={formData.daily_routine} onChange={handleRadio} />
                   {errors.daily_routine && <p className="text-xs text-red-500 mt-1">{errors.daily_routine}</p>}
@@ -903,13 +922,12 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Hair History</h2>
-                  <p className="text-sm text-warm-400 mb-6">What your hair has been through matters &mdash; no judgment.</p>
+                  <p className="text-sm text-warm-400 mb-6">What your hair has been through matters -- no judgment.</p>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    What have you done to your hair in the last 2 years? <span className="text-copper-400">*</span>{' '}
-                    <span className="text-warm-400 text-xs font-normal">(select all that apply)</span>
+                    Let&apos;s talk hair history. Click all that apply within the last 2 years <span className="text-copper-400">*</span>
                   </label>
                   <CheckboxGroup
                     name="hair_history" options={hairHistoryOptions}
@@ -930,21 +948,35 @@ export default function NewClientFormPage() {
                   <label className="block text-sm font-medium text-warm-600 mb-2">
                     Have you ever had a reaction to color or chemical treatments? <span className="text-copper-400">*</span>
                   </label>
-                  <PillGroup name="color_reaction" options={colorReactionOptions} value={formData.color_reaction} onChange={handleRadio} />
+                  <CheckboxGroup name="color_reaction" options={colorReactionOptions} values={formData.color_reaction} onChange={handleCheckboxGroup} />
                   {errors.color_reaction && <p className="text-xs text-red-500 mt-1">{errors.color_reaction}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="current_products" className="block text-sm font-medium text-warm-600 mb-1">
-                    What products or brands are you currently using?{' '}
-                    <span className="text-warm-400 text-xs">(optional)</span>
+                  <label className="block text-sm font-medium text-warm-600 mb-2">
+                    What hair products do you currently use? Please specify brand.{' '}
+                    <span className="text-warm-400 text-xs font-normal">(optional)</span>
                   </label>
-                  <textarea
-                    id="current_products" name="current_products" rows={3}
-                    value={formData.current_products} onChange={handleChange}
-                    className="w-full px-3 py-2.5 rounded-lg border border-warm-200 text-sm bg-white text-warm-700 placeholder:text-warm-300 focus:outline-none focus:ring-2 focus:ring-copper-500 resize-y"
-                    placeholder="Olaplex shampoo, Moroccan oil, drugstore conditioner..."
-                  />
+                  <div className="space-y-3">
+                    {[
+                      { name: 'product_shampoo', label: 'Shampoo' },
+                      { name: 'product_conditioner', label: 'Conditioner' },
+                      { name: 'product_hair_spray', label: 'Hair Spray' },
+                      { name: 'product_dry_shampoo', label: 'Dry Shampoo' },
+                      { name: 'product_heat_protector', label: 'Heat Protector' },
+                      { name: 'product_other', label: 'Other' },
+                    ].map(({ name, label }) => (
+                      <div key={name} className="flex items-center gap-3">
+                        <label htmlFor={name} className="text-sm text-warm-600 w-28 flex-shrink-0">{label}</label>
+                        <input
+                          type="text" id={name} name={name}
+                          value={(formData as unknown as Record<string, string>)[name] || ''}
+                          onChange={handleChange}
+                          className="flex-1 px-3 py-2.5 rounded-lg border border-warm-200 text-sm bg-white text-warm-700 placeholder:text-warm-300 focus:outline-none focus:ring-2 focus:ring-copper-500"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -955,7 +987,7 @@ export default function NewClientFormPage() {
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Goals &amp; Schedule</h2>
                   <p className="text-sm text-warm-400 mb-6">
-                    Don&apos;t worry about having it all figured out &mdash; that&apos;s what I&apos;m here for.
+                    Don&apos;t worry about having it all figured out -- that&apos;s what I&apos;m here for.
                   </p>
                 </div>
 
@@ -983,7 +1015,7 @@ export default function NewClientFormPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-2">
-                    How often do you want to come in for maintenance? <span className="text-copper-400">*</span>
+                    How often do you want to visit the salon for maintenance? <span className="text-copper-400">*</span>
                   </label>
                   <RadioGroup name="maintenance_frequency" options={maintenanceFrequencyOptions} value={formData.maintenance_frequency} onChange={handleRadio} />
                   {errors.maintenance_frequency && <p className="text-xs text-red-500 mt-1">{errors.maintenance_frequency}</p>}
@@ -1010,18 +1042,19 @@ export default function NewClientFormPage() {
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Show Me!</h2>
                   <p className="text-sm text-warm-400 mb-6">
-                    Photos aren&apos;t required, but they help a lot. A picture is worth a thousand words
-                    &mdash; especially when it comes to hair.
+                    Now let&apos;s take a look! Attach some photos of yourself :) lemme see that gorgeous face!
+                    Please show how you normally wear your hair. Please take photos in good lighting if possible.
+                    Also attach some inspo photos. We&apos;re one step closer to creating the hair of your DREAMS!
                   </p>
                 </div>
 
                 {/* Selfie photos */}
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-1">
-                    Selfie Photos <span className="text-warm-400 text-xs font-normal">(front, side, back &mdash; up to 3)</span>
+                    Selfie Photos <span className="text-warm-400 text-xs font-normal">(front, side, back -- up to 3)</span>
                   </label>
                   <p className="text-xs text-warm-400 mb-3">
-                    Show how you normally wear your hair. Good lighting, no filters &mdash; I want to see the real you!
+                    Show how you normally wear your hair. Good lighting, no filters -- I want to see the real you!
                   </p>
 
                   {selfieFiles.length > 0 && (
@@ -1077,7 +1110,7 @@ export default function NewClientFormPage() {
                     Inspiration Photos <span className="text-warm-400 text-xs font-normal">(up to 3)</span>
                   </label>
                   <p className="text-xs text-warm-400 mb-3">
-                    Screenshots from Instagram, Pinterest, or anywhere &mdash; show me what catches your eye.
+                    Screenshots from Instagram, Pinterest, or anywhere -- show me what catches your eye.
                   </p>
 
                   {inspoFiles.length > 0 && (
@@ -1134,7 +1167,7 @@ export default function NewClientFormPage() {
                 <div className="bg-blush-50 rounded-lg p-4 border border-warm-100">
                   <p className="text-xs text-warm-500 leading-relaxed">
                     <strong>Accepted formats:</strong> JPG, PNG, WebP, or HEIC. Max 10MB each.
-                    No photos? No worries &mdash; we&apos;ll figure it out together at your appointment.
+                    No photos? No worries -- we&apos;ll figure it out together at your appointment.
                   </p>
                 </div>
               </div>

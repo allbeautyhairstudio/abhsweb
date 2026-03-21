@@ -80,6 +80,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Build product fields from individual inputs
+    const productFields = [
+      { label: 'Shampoo', value: data.product_shampoo },
+      { label: 'Conditioner', value: data.product_conditioner },
+      { label: 'Hair Spray', value: data.product_hair_spray },
+      { label: 'Dry Shampoo', value: data.product_dry_shampoo },
+      { label: 'Heat Protector', value: data.product_heat_protector },
+      { label: 'Other', value: data.product_other },
+    ].filter(p => p.value);
+
     // Build detailed intake note
     const intakeDetails = [
       `--- NEW CLIENT INTAKE FORM ---`,
@@ -90,10 +100,10 @@ export async function POST(request: NextRequest) {
       pronouns ? `Pronouns: ${pronouns}` : null,
       `Email: ${email}`,
       `Phone: ${phone}`,
-      `Preferred Contact: ${formatLabel(data.preferred_contact)}`,
+      `Preferred Contact: ${data.preferred_contact.map(formatLabel).join(', ')}`,
       ``,
       `--- HAIR PROFILE ---`,
-      `Service Interest: ${formatLabel(data.service_interest)}`,
+      `Service Interest: ${data.service_interest.map(formatLabel).join(', ')}`,
       data.hair_love_hate ? `Love/Hate: ${sanitizeString(data.hair_love_hate)}` : null,
       `Texture: ${formatLabel(data.hair_texture)}`,
       `Length: ${formatLabel(data.hair_length)}`,
@@ -107,8 +117,8 @@ export async function POST(request: NextRequest) {
       ``,
       `--- HAIR HISTORY (LAST 2 YEARS) ---`,
       `Treatments: ${data.hair_history.map(formatLabel).join(', ')}`,
-      `Color Reaction: ${formatLabel(data.color_reaction)}`,
-      data.current_products ? `Current Products: ${sanitizeString(data.current_products)}` : null,
+      `Color Reaction: ${data.color_reaction.map(formatLabel).join(', ')}`,
+      productFields.length > 0 ? `\n--- PRODUCTS ---\n${productFields.map(p => `${p.label}: ${sanitizeString(p.value!)}`).join('\n')}` : null,
       ``,
       `--- GOALS & SCHEDULE ---`,
       `What They Want: ${sanitizeString(data.what_you_want)}`,
@@ -136,7 +146,7 @@ export async function POST(request: NextRequest) {
       ) VALUES ('salon', ?, ?, ?, ?, 'intake_submitted', ?, ?, 1, ?, datetime('now'), datetime('now'))
     `);
 
-    const result = insertClient.run(fullName, email, phone, data.preferred_contact, today, referralSource, today);
+    const result = insertClient.run(fullName, email, phone, data.preferred_contact.join(','), today, referralSource, today);
     const clientId = result.lastInsertRowid;
 
     // Create comprehensive intake note
@@ -148,7 +158,7 @@ export async function POST(request: NextRequest) {
     insertNote.run(clientId, intakeDetails);
 
     // Send notifications (fire-and-forget — don't block response)
-    const smsMsg = `New client: ${fullName}${data.service_interest ? ` (${formatLabel(data.service_interest)})` : ''}. Check admin dashboard.`;
+    const smsMsg = `New client: ${fullName} (${data.service_interest.map(formatLabel).join(', ')}). Check admin dashboard.`;
     notifySms(smsMsg).catch(() => {});
 
     const siteUrl = process.env.SITE_URL || 'https://allbeautyhairstudio.com';
@@ -167,8 +177,8 @@ export async function POST(request: NextRequest) {
     if (pronouns) htmlSections.push({ label: 'Pronouns', value: pronouns });
     htmlSections.push({ label: 'Email', value: email || '' });
     htmlSections.push({ label: 'Phone', value: phone || '' });
-    htmlSections.push({ label: 'Preferred Contact', value: formatLabel(data.preferred_contact) });
-    htmlSections.push({ label: 'Service Interest', value: formatLabel(data.service_interest) });
+    htmlSections.push({ label: 'Preferred Contact', value: data.preferred_contact.map(formatLabel).join(', ') });
+    htmlSections.push({ label: 'Service Interest', value: data.service_interest.map(formatLabel).join(', ') });
     if (data.hair_love_hate) htmlSections.push({ label: 'Love/Hate', value: sanitizeString(data.hair_love_hate) || '' });
     htmlSections.push({ label: 'Texture', value: formatLabel(data.hair_texture) });
     htmlSections.push({ label: 'Length', value: formatLabel(data.hair_length) });
@@ -178,8 +188,8 @@ export async function POST(request: NextRequest) {
     htmlSections.push({ label: 'Daily Routine', value: formatLabel(data.daily_routine) });
     htmlSections.push({ label: 'Shampoo Frequency', value: formatLabel(data.shampoo_frequency) });
     htmlSections.push({ label: 'Hair History', value: data.hair_history.map(formatLabel).join(', ') });
-    htmlSections.push({ label: 'Color Reaction', value: formatLabel(data.color_reaction) });
-    if (data.current_products) htmlSections.push({ label: 'Current Products', value: sanitizeString(data.current_products) || '' });
+    htmlSections.push({ label: 'Color Reaction', value: data.color_reaction.map(formatLabel).join(', ') });
+    if (productFields.length > 0) htmlSections.push({ label: 'Products', value: productFields.map(p => `${p.label}: ${sanitizeString(p.value!)}`).join(', ') });
     htmlSections.push({ label: 'What They Want', value: sanitizeString(data.what_you_want) || '' });
     htmlSections.push({ label: 'Maintenance', value: formatLabel(data.maintenance_frequency) });
     htmlSections.push({ label: 'Availability', value: data.availability.map(formatLabel).join(', ') });

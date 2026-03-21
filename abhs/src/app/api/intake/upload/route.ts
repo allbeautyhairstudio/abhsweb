@@ -3,6 +3,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import sharp from 'sharp';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -71,19 +72,19 @@ export async function POST(request: NextRequest) {
 
     for (let i = 0; i < selfies.length; i++) {
       const file = selfies[i];
-      const ext = path.extname(file.name).toLowerCase() || '.jpg';
-      const safeName = `selfie-${i + 1}-${crypto.randomBytes(4).toString('hex')}${ext}`;
+      const safeName = `selfie-${i + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
       const buffer = Buffer.from(await file.arrayBuffer());
-      await writeFile(path.join(uploadDir, safeName), buffer);
+      const webpBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+      await writeFile(path.join(uploadDir, safeName), webpBuffer);
       saved.push(safeName);
     }
 
     for (let i = 0; i < inspiration.length; i++) {
       const file = inspiration[i];
-      const ext = path.extname(file.name).toLowerCase() || '.jpg';
-      const safeName = `inspo-${i + 1}-${crypto.randomBytes(4).toString('hex')}${ext}`;
+      const safeName = `inspo-${i + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
       const buffer = Buffer.from(await file.arrayBuffer());
-      await writeFile(path.join(uploadDir, safeName), buffer);
+      const webpBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+      await writeFile(path.join(uploadDir, safeName), webpBuffer);
       saved.push(safeName);
     }
 

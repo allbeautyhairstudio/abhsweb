@@ -150,9 +150,9 @@ describe('parseSalonIntakeNote', () => {
     expect(parseMinimal().pronouns).toBeNull();
   });
 
-  it('parses service interest', () => {
-    expect(parseFull().serviceInterest).toBe('Cut And Color');
-    expect(parseMinimal().serviceInterest).toBe('Not Sure');
+  it('parses service interest as array', () => {
+    expect(parseFull().serviceInterest).toEqual(['Cut And Color']);
+    expect(parseMinimal().serviceInterest).toEqual(['Not Sure']);
   });
 
   it('parses hair profile fields', () => {
@@ -175,7 +175,7 @@ describe('parseSalonIntakeNote', () => {
   it('parses optional fields as null when missing', () => {
     const p = parseMinimal();
     expect(p.hairLoveHate).toBeNull();
-    expect(p.currentProducts).toBeNull();
+    expect(p.products.other).toBeNull();
     expect(p.pronouns).toBeNull();
   });
 
@@ -199,6 +199,9 @@ describe('parseSalonIntakeNote', () => {
     expect(p.name).toBeNull();
     expect(p.hairCondition).toEqual([]);
     expect(p.hairHistory).toEqual([]);
+    expect(p.serviceInterest).toEqual([]);
+    expect(p.colorReaction).toEqual([]);
+    expect(p.products.other).toBeNull();
   });
 });
 
@@ -530,5 +533,155 @@ describe('assessSalonIntake', () => {
     const withPhotos = assessSalonIntake(parseFull(), true);
     const withoutPhotos = assessSalonIntake(parseFull(), false);
     expect(withPhotos.engagement.score).toBe(withoutPhotos.engagement.score + 10);
+  });
+});
+
+// ─── Backwards Compatibility Tests ──────────────────────────
+
+describe('backwards compatibility — old note formats', () => {
+  it('parses old "Color Reaction: Yes" as array triggering complexity', () => {
+    const note = [
+      'Name: Old Client',
+      'Email: old@test.com',
+      'Phone: 555-111-2222',
+      'Service Interest: Color',
+      'Texture: Straight',
+      'Length: Medium',
+      'Density: Fine Thin',
+      'Condition: Color Treated, Damaged',
+      'Treatments: Box Dye',
+      'Color Reaction: Yes',
+      'What They Want: Fix my color',
+      'Maintenance Frequency: Every 4 6 Weeks',
+      'Availability: Tue Morning',
+    ].join('\n');
+    const parsed = parseSalonIntakeNote(note);
+
+    // "Yes" parsed as single-element array
+    expect(parsed.colorReaction).toEqual(['Yes']);
+
+    // "Yes" is not "No Reaction" or "Not Sure" so it triggers complexity
+    const complexity = calculateComplexityScore(parsed);
+    const reactionBreakdown = complexity.breakdowns.find(b => b.label === 'Prior color reaction');
+    expect(reactionBreakdown!.points).toBe(15);
+
+    // Also triggers patch test flag
+    const flags = detectFlags(parsed);
+    expect(flags.some(f => f.label.includes('patch test'))).toBe(true);
+  });
+
+  it('parses old "Color Reaction: No" without triggering complexity', () => {
+    const note = [
+      'Name: Safe Client',
+      'Service Interest: Cut',
+      'Treatments: Salon Color',
+      'Color Reaction: No',
+    ].join('\n');
+    const parsed = parseSalonIntakeNote(note);
+    // "No" is not in the exclusion list ["No Reaction", "Not Sure"]
+    // but old data used "No" — which triggers reaction (different from "No Reaction")
+    expect(parsed.colorReaction).toEqual(['No']);
+  });
+
+  it('parses old "Service Interest: Cut" as single-element array', () => {
+    const note = 'Service Interest: Cut';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.serviceInterest).toEqual(['Cut']);
+  });
+
+  it('parses old "Service Interest: Cut And Color" with label lookup', () => {
+    const note = 'Service Interest: Cut And Color';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.serviceInterest).toEqual(['Cut And Color']);
+    const highlights = generateHighlights(parsed);
+    expect(highlights.some(h => h.includes('Cut & Color'))).toBe(true);
+  });
+
+  it('parses old "Current Products:" into products.other fallback', () => {
+    const note = 'Current Products: Olaplex shampoo and conditioner, Moroccan oil';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.products.other).toBe('Olaplex shampoo and conditioner, Moroccan oil');
+    // No individual product fields set
+    expect(parsed.products.shampoo).toBeNull();
+    expect(parsed.products.conditioner).toBeNull();
+  });
+
+  it('prefers new individual product fields over old Current Products', () => {
+    const note = [
+      'Shampoo: Olaplex No.4',
+      'Conditioner: Olaplex No.5',
+      'Current Products: Should be ignored',
+    ].join('\n');
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.products.shampoo).toBe('Olaplex No.4');
+    expect(parsed.products.conditioner).toBe('Olaplex No.5');
+    // When individual fields exist, products.other uses "Other Product" field, not "Current Products"
+    expect(parsed.products.other).toBeNull();
+  });
+
+  it('scores engagement for old Current Products notes', () => {
+    const note = 'Current Products: Moroccan oil, Kenra shampoo';
+    const parsed = parseSalonIntakeNote(note);
+    const engagement = calculateEngagementScore(parsed);
+    const productsBreakdown = engagement.breakdowns.find(b => b.label === 'Products described');
+    expect(productsBreakdown!.points).toBe(15);
+  });
+
+  it('scores engagement for new individual product fields', () => {
+    const note = [
+      'Shampoo: Olaplex No.4',
+      'Heat Protector: Chi 44',
+    ].join('\n');
+    const parsed = parseSalonIntakeNote(note);
+    const engagement = calculateEngagementScore(parsed);
+    const productsBreakdown = engagement.breakdowns.find(b => b.label === 'Products described');
+    expect(productsBreakdown!.points).toBe(15);
+  });
+
+  it('handles new multi-value color reaction format', () => {
+    const note = 'Color Reaction: Itching, Burning, Swelling';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.colorReaction).toEqual(['Itching', 'Burning', 'Swelling']);
+
+    const complexity = calculateComplexityScore(parsed);
+    const reactionBreakdown = complexity.breakdowns.find(b => b.label === 'Prior color reaction');
+    expect(reactionBreakdown!.points).toBe(15);
+  });
+
+  it('handles new "No Reaction" value without triggering complexity', () => {
+    const note = 'Color Reaction: No Reaction';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.colorReaction).toEqual(['No Reaction']);
+
+    const complexity = calculateComplexityScore(parsed);
+    const reactionBreakdown = complexity.breakdowns.find(b => b.label === 'Prior color reaction');
+    expect(reactionBreakdown!.points).toBe(0);
+  });
+
+  it('handles new "Not Sure" value without triggering complexity', () => {
+    const note = 'Color Reaction: Not Sure';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.colorReaction).toEqual(['Not Sure']);
+
+    const complexity = calculateComplexityScore(parsed);
+    const reactionBreakdown = complexity.breakdowns.find(b => b.label === 'Prior color reaction');
+    expect(reactionBreakdown!.points).toBe(0);
+  });
+
+  it('handles multi-value service interest from new format', () => {
+    const note = 'Service Interest: Haircut & Style, Low Maintenance Color, Mini Service';
+    const parsed = parseSalonIntakeNote(note);
+    expect(parsed.serviceInterest).toEqual(['Haircut & Style', 'Low Maintenance Color', 'Mini Service']);
+  });
+
+  it('detects color correction from new hair history values', () => {
+    const note = [
+      'Treatments: Box Color, Splat, Manic Panic',
+      'Condition: Damaged, Heat Damage',
+    ].join('\n');
+    const parsed = parseSalonIntakeNote(note);
+    const complexity = calculateComplexityScore(parsed);
+    const colorBreakdown = complexity.breakdowns.find(b => b.label === 'Color correction history');
+    expect(colorBreakdown!.points).toBe(25);
   });
 });

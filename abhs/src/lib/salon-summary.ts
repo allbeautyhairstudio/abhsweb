@@ -33,7 +33,7 @@ export interface ParsedSalonIntake {
   email: string | null;
   phone: string | null;
   preferredContact: string | null;
-  serviceInterest: string | null;
+  serviceInterest: string[];
   hairLoveHate: string | null;
   hairTexture: string | null;
   hairLength: string | null;
@@ -43,8 +43,15 @@ export interface ParsedSalonIntake {
   dailyRoutine: string | null;
   shampooFrequency: string | null;
   hairHistory: string[];
-  colorReaction: string | null;
-  currentProducts: string | null;
+  colorReaction: string[];
+  products: {
+    shampoo: string | null;
+    conditioner: string | null;
+    hairSpray: string | null;
+    dryShampoo: string | null;
+    heatProtector: string | null;
+    other: string | null;
+  };
   whatTheyWant: string | null;
   maintenanceFrequency: string | null;
   availability: string[];
@@ -97,13 +104,23 @@ export function parseSalonIntakeNote(noteContent: string): ParsedSalonIntake {
     return val.split(', ').map(s => s.trim()).filter(Boolean);
   }
 
+  // Products: try individual fields first, fallback to old 'Current Products'
+  const shampoo = getField('Shampoo');
+  const conditioner = getField('Conditioner');
+  const hairSpray = getField('Hair Spray');
+  const dryShampoo = getField('Dry Shampoo');
+  const heatProtector = getField('Heat Protector');
+  const otherProduct = getField('Other Product');
+  const hasIndividualProducts = [shampoo, conditioner, hairSpray, dryShampoo, heatProtector, otherProduct].some(Boolean);
+  const oldProducts = getField('Current Products');
+
   return {
     name: getField('Name'),
     pronouns: getField('Pronouns'),
     email: getField('Email'),
     phone: getField('Phone'),
     preferredContact: getField('Preferred Contact'),
-    serviceInterest: getField('Service Interest'),
+    serviceInterest: getList('Service Interest'),
     hairLoveHate: getField('Love/Hate'),
     hairTexture: getField('Texture'),
     hairLength: getField('Length'),
@@ -113,8 +130,15 @@ export function parseSalonIntakeNote(noteContent: string): ParsedSalonIntake {
     dailyRoutine: getField('Daily Routine'),
     shampooFrequency: getField('Shampoo Frequency'),
     hairHistory: getList('Treatments'),
-    colorReaction: getField('Color Reaction'),
-    currentProducts: getField('Current Products'),
+    colorReaction: getList('Color Reaction'),
+    products: {
+      shampoo,
+      conditioner,
+      hairSpray,
+      dryShampoo,
+      heatProtector,
+      other: hasIndividualProducts ? otherProduct : oldProducts,
+    },
     whatTheyWant: getField('What They Want'),
     maintenanceFrequency: getField('Maintenance Frequency'),
     availability: getList('Availability'),
@@ -141,7 +165,7 @@ export function calculateReadinessScore(intake: ParsedSalonIntake): SalonScore {
   let total = 0;
 
   // Service interest specified
-  const servicePoints = intake.serviceInterest ? READINESS_WEIGHTS.serviceInterest : 0;
+  const servicePoints = intake.serviceInterest.length > 0 ? READINESS_WEIGHTS.serviceInterest : 0;
   total += servicePoints;
   breakdowns.push({ label: 'Service interest specified', points: servicePoints, maxPoints: READINESS_WEIGHTS.serviceInterest });
 
@@ -221,8 +245,9 @@ export function calculateComplexityScore(intake: ParsedSalonIntake): SalonScore 
   total += chemPoints;
   breakdowns.push({ label: 'Chemical treatment history', points: chemPoints, maxPoints: COMPLEXITY_WEIGHTS.chemicalHistory });
 
-  // Color reaction history
-  const reactionPoints = intake.colorReaction === 'Yes' ? COMPLEXITY_WEIGHTS.colorReaction : 0;
+  // Color reaction history (handles old 'Yes' and new specific reactions like 'Itching', 'Burning')
+  const hasReaction = intake.colorReaction.some(r => !['No Reaction', 'Not Sure'].includes(r));
+  const reactionPoints = hasReaction ? COMPLEXITY_WEIGHTS.colorReaction : 0;
   total += reactionPoints;
   breakdowns.push({ label: 'Prior color reaction', points: reactionPoints, maxPoints: COMPLEXITY_WEIGHTS.colorReaction });
 
@@ -266,8 +291,16 @@ export function calculateEngagementScore(
   total += loveHatePoints;
   breakdowns.push({ label: 'Hair love/hate shared', points: loveHatePoints, maxPoints: ENGAGEMENT_WEIGHTS.hairLoveHate });
 
-  // Products described
-  const productPoints = intake.currentProducts ? ENGAGEMENT_WEIGHTS.productsDescribed : 0;
+  // Products described (new: 6 individual fields; old: products.other from currentProducts fallback)
+  const hasProducts = [
+    intake.products.shampoo,
+    intake.products.conditioner,
+    intake.products.hairSpray,
+    intake.products.dryShampoo,
+    intake.products.heatProtector,
+    intake.products.other,
+  ].some(Boolean);
+  const productPoints = hasProducts ? ENGAGEMENT_WEIGHTS.productsDescribed : 0;
   total += productPoints;
   breakdowns.push({ label: 'Products described', points: productPoints, maxPoints: ENGAGEMENT_WEIGHTS.productsDescribed });
 
@@ -310,8 +343,9 @@ export function detectFlags(intake: ParsedSalonIntake): SalonFlag[] {
     flags.push({ type: 'HEADS_UP', label: 'Color correction likely — review hair history carefully' });
   }
 
-  // Allergy/reaction history
-  if (intake.colorReaction === 'Yes') {
+  // Allergy/reaction history (handles old 'Yes' and new specific reactions)
+  const hasColorReaction = intake.colorReaction.some(r => !['No Reaction', 'Not Sure'].includes(r));
+  if (hasColorReaction) {
     flags.push({ type: 'HEADS_UP', label: 'Prior color reaction — patch test required' });
   }
   if (intake.medicalInfo && intake.medicalInfo !== 'None provided') {
@@ -340,9 +374,11 @@ export function detectFlags(intake: ParsedSalonIntake): SalonFlag[] {
   }
 
   // Good fit: low-maintenance returning client
+  const goodFitFrequencies = ['Every 4 6 Weeks', '3 5 Weeks', '6 8 Weeks'];
+  const goodFitStyles = ['Low Maintenance', 'Simple Styler', 'Simple Predictable'];
   if (
-    intake.maintenanceFrequency === 'Every 4 6 Weeks' &&
-    (intake.stylingDescription === 'Low Maintenance' || intake.stylingDescription === 'Simple Styler')
+    intake.maintenanceFrequency && goodFitFrequencies.includes(intake.maintenanceFrequency) &&
+    intake.stylingDescription && goodFitStyles.includes(intake.stylingDescription)
   ) {
     flags.push({ type: 'GOOD_FIT', label: 'Low-maintenance client with regular schedule' });
   }
@@ -363,10 +399,13 @@ export function detectFlags(intake: ParsedSalonIntake): SalonFlag[] {
 export function generateHighlights(intake: ParsedSalonIntake): string[] {
   const highlights: string[] = [];
 
-  // Service interest
-  if (intake.serviceInterest) {
-    const label = SERVICE_LABELS[intake.serviceInterest] || intake.serviceInterest;
-    highlights.push(`Looking for: ${label}`);
+  // Service interest (array — use first value for label lookup, join all for display)
+  if (intake.serviceInterest.length > 0) {
+    const firstLabel = SERVICE_LABELS[intake.serviceInterest[0]] || intake.serviceInterest[0];
+    const display = intake.serviceInterest.length === 1
+      ? firstLabel
+      : intake.serviceInterest.join(', ');
+    highlights.push(`Looking for: ${display}`);
   }
 
   // Hair type summary

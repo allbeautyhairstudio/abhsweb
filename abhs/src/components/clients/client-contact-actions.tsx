@@ -41,6 +41,12 @@ export function ClientContactActions({
 
   const digits = hasPhone ? cleanPhone(phone) : '';
 
+  // Support comma-separated preferred_contact (e.g. "text,email") + legacy "either"/"call"
+  const prefs = preferredContact?.split(',').map((s) => s.trim()) ?? [];
+  const emailPreferred = prefs.includes('email') || preferredContact === 'either';
+  const textPreferred = prefs.includes('text') || preferredContact === 'either';
+  const callPreferred = prefs.includes('call') || preferredContact === 'either';
+
   if (variant === 'compact') {
     return (
       <div className="flex items-center gap-1">
@@ -52,7 +58,7 @@ export function ClientContactActions({
             title={`Email: ${email}`}
           >
             <Mail size={14} className="text-muted-foreground" />
-            <PreferredStar isPreferred={preferredContact === 'email'} />
+            <PreferredStar isPreferred={emailPreferred} />
           </a>
         )}
         {hasPhone && (
@@ -63,7 +69,7 @@ export function ClientContactActions({
             title={`Call: ${phone}`}
           >
             <Phone size={14} className="text-muted-foreground" />
-            <PreferredStar isPreferred={preferredContact === 'call'} />
+            <PreferredStar isPreferred={callPreferred} />
           </a>
         )}
         {hasPhone && (
@@ -74,7 +80,7 @@ export function ClientContactActions({
             title={`Text: ${phone}`}
           >
             <MessageSquare size={14} className="text-muted-foreground" />
-            <PreferredStar isPreferred={preferredContact === 'text' || preferredContact === 'either'} />
+            <PreferredStar isPreferred={textPreferred} />
           </a>
         )}
       </div>
@@ -92,7 +98,7 @@ export function ClientContactActions({
         >
           <Mail size={14} />
           <span>{email}</span>
-          <PreferredStar isPreferred={preferredContact === 'email'} />
+          <PreferredStar isPreferred={emailPreferred} />
         </a>
       )}
       {hasPhone && (
@@ -103,7 +109,7 @@ export function ClientContactActions({
         >
           <Phone size={14} />
           <span>{phone}</span>
-          <PreferredStar isPreferred={preferredContact === 'call'} />
+          <PreferredStar isPreferred={callPreferred} />
         </a>
       )}
       {hasPhone && (
@@ -114,7 +120,7 @@ export function ClientContactActions({
         >
           <MessageSquare size={14} />
           <span>Text</span>
-          <PreferredStar isPreferred={preferredContact === 'text' || preferredContact === 'either'} />
+          <PreferredStar isPreferred={textPreferred} />
         </a>
       )}
     </div>

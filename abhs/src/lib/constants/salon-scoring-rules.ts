@@ -33,6 +33,7 @@ export const COMPLEXITY_WEIGHTS = {
 /** Hair history values that signal color correction complexity. */
 export const COLOR_CORRECTION_SIGNALS = new Set([
   'Box Dye', 'Bleach Lightener',
+  'Box Color', 'Splat', 'Manic Panic', 'Previous Lightening',
 ]);
 
 /** Hair history values that signal chemical treatment history. */
@@ -42,7 +43,8 @@ export const CHEMICAL_SIGNALS = new Set([
 
 /** Hair conditions that compound complexity. */
 export const COMPOUNDING_CONDITIONS = new Set([
-  'Damaged', 'Color Treated', 'Chemically Treated', 'Heat Damaged',
+  'Damaged', 'Color Treated', 'Chemically Treated', 'Heat Damaged', 'Thinning',
+  'Heat Damage', 'Breakage', 'Hair Loss', 'Itchy Scalp', 'Dandruff',
 ]);
 
 // ─── Engagement Weights (total: 100) ────────────────────────
@@ -129,4 +131,9 @@ export const SERVICE_LABELS: Record<string, string> = {
   'Cut And Color': 'Cut & Color',
   'Consultation': 'Consultation Only',
   'Not Sure': 'Not Sure Yet',
+  'Haircut & Style': 'Haircut & Style',
+  'Low Maintenance Color': 'Low Maintenance Color',
+  'Lived In Dimensional Color': 'Lived-In Dimensional Color',
+  'Mini Service': 'Mini Service',
+  'Other Not Sure': 'Not Sure Yet',
 };
