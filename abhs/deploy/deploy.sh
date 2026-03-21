@@ -19,7 +19,7 @@ git reset --hard "origin/$BRANCH"
 # Install dependencies
 echo "→ Installing dependencies..."
 cd "$APP_DIR"
-npm ci --production=false
+pnpm install --frozen-lockfile
 
 # Build
 echo "→ Building production..."
