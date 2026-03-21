@@ -93,12 +93,6 @@ export default function HomePage() {
                 Hair became the way I chose myself again — and now it&apos;s
                 how I help other people feel like themselves, too.
               </p>
-              <Link
-                href="/about"
-                className="text-sm text-copper-500 hover:text-copper-600 font-medium inline-flex items-center gap-1 transition-colors"
-              >
-                Read my full story <ArrowRight size={14} />
-              </Link>
             </div>
           </div>
 

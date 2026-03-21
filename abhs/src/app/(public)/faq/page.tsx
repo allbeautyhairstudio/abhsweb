@@ -46,11 +46,6 @@ const faqs = [
     answer:
       'This is actually the thing I\'m most passionate about. I design cuts and color that grow out gracefully — so you\'re not chained to a rigid schedule and panicking at six weeks. Some of my clients come every 6 weeks. Some come every 3-4 months and their hair still looks incredible. You decide when to come back, not your hair. That\'s what intentional hair design means.',
   },
-  {
-    question: 'Do you do wedding or event hair?',
-    answer:
-      'My real focus is on everyday intentional hair — the cut and color you live in, not just the one you wear for a single night. That said, I\'m not going to say a flat no. If you\'ve got something special coming up, reach out through the contact form and tell me what you\'re thinking. We\'ll talk about it.',
-  },
 ];
 
 function FaqItem({

@@ -8,7 +8,6 @@ import { MobileNav } from './mobile-nav';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/about', label: 'My Journey' },
   { href: '/philosophy', label: 'Philosophy' },
   { href: '/faq', label: 'FAQ' },
   { href: '/book', label: 'Book', cta: true },

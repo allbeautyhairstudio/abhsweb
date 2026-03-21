@@ -73,11 +73,6 @@ export function Footer() {
             <p className="text-white font-medium text-sm mb-3">Quick Links</p>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/about" className="text-warm-300 hover:text-white transition-colors">
-                  My Journey
-                </Link>
-              </li>
-              <li>
                 <Link href="/gallery" className="text-warm-300 hover:text-white transition-colors">
                   Gallery
                 </Link>
