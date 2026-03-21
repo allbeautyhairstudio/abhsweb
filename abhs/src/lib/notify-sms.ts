@@ -1,39 +1,26 @@
-import nodemailer from 'nodemailer';
+import twilio from 'twilio';
 
 /**
- * Send an SMS via email-to-SMS gateway (AT&T: number@txt.att.net).
- * Uses SMTP credentials from env vars. Fails silently — intake should
- * succeed even if the notification doesn't go through.
+ * Send an SMS via Twilio. Fails silently — intake/booking operations
+ * should succeed even if the notification doesn't go through.
  */
 export async function notifySms(message: string): Promise<void> {
-  const phone = process.env.NOTIFY_PHONE;
-  const smtpHost = process.env.SMTP_HOST;
-  const smtpPort = Number(process.env.SMTP_PORT || '587');
-  const smtpUser = process.env.SMTP_USER;
-  const smtpPass = process.env.SMTP_PASS;
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const fromNumber = process.env.TWILIO_PHONE_NUMBER;
+  const toNumber = process.env.NOTIFY_PHONE;
 
-  if (!phone || !smtpHost || !smtpUser || !smtpPass) {
-    console.warn('SMS notification skipped — missing env vars (NOTIFY_PHONE, SMTP_HOST, SMTP_USER, SMTP_PASS)');
+  if (!accountSid || !authToken || !fromNumber || !toNumber) {
+    console.warn('SMS notification skipped — missing env vars (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, NOTIFY_PHONE)');
     return;
   }
 
-  // AT&T SMS gateway
-  const gateway = process.env.SMS_GATEWAY || 'txt.att.net';
-  const to = `${phone}@${gateway}`;
-
   try {
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465,
-      auth: { user: smtpUser, pass: smtpPass },
-    });
-
-    await transporter.sendMail({
-      from: smtpUser,
-      to,
-      subject: '',
-      text: message.slice(0, 160), // SMS character limit
+    const client = twilio(accountSid, authToken);
+    await client.messages.create({
+      body: message,
+      from: fromNumber,
+      to: toNumber,
     });
   } catch (error) {
     // Log but don't throw — intake should still succeed
