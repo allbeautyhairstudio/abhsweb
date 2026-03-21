@@ -583,7 +583,7 @@ export default function NewClientFormPage() {
                   <a href="tel:9515416620" className="text-copper-500 hover:text-copper-600 font-medium text-xs">
                     (951) 541-6620
                   </a>
-                  <img
+                  <Image
                     src="/images/karli-qr.svg"
                     alt="Scan to save Karli's contact info"
                     width={80}
