@@ -33,7 +33,7 @@ export function PipelineColumn({
   return (
     <div
       id={`stage-${stageId}`}
-      className="flex flex-col bg-muted/50 rounded-lg min-w-0"
+      className="flex flex-col bg-muted/50 rounded-lg md:min-w-0"
     >
       {/* Column Header */}
       <div className={`px-2 py-1.5 rounded-t-lg ${color}`}>

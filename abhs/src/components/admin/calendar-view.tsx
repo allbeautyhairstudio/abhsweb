@@ -154,9 +154,41 @@ function minutesToTimeLabel(totalMin: number): string {
   return `${h12}:${String(m).padStart(2, '0')} ${period}`;
 }
 
+/** Detect if viewport is mobile-sized (< 768px) */
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    function check() { setIsMobile(window.innerWidth < 768); }
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
+
 export function CalendarView() {
+  const isMobile = useIsMobile();
+  // Default to day view on mobile, week on desktop
   const [viewMode, setViewMode] = useState<ViewMode>('week');
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [hasSetInitialView, setHasSetInitialView] = useState(false);
+
+  // Set initial view mode based on screen size (runs once after hydration)
+  useEffect(() => {
+    if (!hasSetInitialView) {
+      if (window.innerWidth < 768) {
+        setViewMode('day');
+      }
+      setHasSetInitialView(true);
+    }
+  }, [hasSetInitialView]);
+
+  // If viewport shrinks to mobile while on week/year view, switch to day view
+  useEffect(() => {
+    if (isMobile && (viewMode === 'week' || viewMode === 'year')) {
+      setViewMode('day');
+    }
+  }, [isMobile, viewMode]);
   const [calendarItems, setCalendarItems] = useState<CalendarItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CalendarItem | null>(null);
@@ -677,28 +709,28 @@ export function CalendarView() {
     <div className="relative">
       {/* Header controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 md:gap-2">
           <button
             onClick={() => navigate('prev')}
             aria-label={viewMode === 'year' ? 'Previous year' : viewMode === 'month' ? 'Previous month' : viewMode === 'week' ? 'Previous week' : 'Previous day'}
-            className="p-2 rounded-lg hover:bg-warm-100 transition-colors"
+            className="p-2.5 md:p-2 rounded-lg hover:bg-warm-100 transition-colors min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center"
           >
             <ChevronLeft size={18} />
           </button>
           <button
             onClick={() => navigate('next')}
             aria-label={viewMode === 'year' ? 'Next year' : viewMode === 'month' ? 'Next month' : viewMode === 'week' ? 'Next week' : 'Next day'}
-            className="p-2 rounded-lg hover:bg-warm-100 transition-colors"
+            className="p-2.5 md:p-2 rounded-lg hover:bg-warm-100 transition-colors min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center"
           >
             <ChevronRight size={18} />
           </button>
           <button
             onClick={goToday}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-forest-500 text-white hover:bg-forest-600 transition-colors"
+            className="px-3 py-2.5 md:py-1.5 rounded-lg text-xs font-medium bg-forest-500 text-white hover:bg-forest-600 transition-colors min-h-[44px] md:min-h-0"
           >
             Today
           </button>
-          <h2 className="text-sm font-medium text-warm-600 ml-2">
+          <h2 className="text-xs md:text-sm font-medium text-warm-600 ml-1 md:ml-2 truncate">
             {headerLabel}
           </h2>
         </div>
@@ -706,16 +738,17 @@ export function CalendarView() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => openCreateForm(currentDateStr)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-forest-500 text-white hover:bg-forest-600 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2.5 md:py-1.5 rounded-lg text-xs font-medium bg-forest-500 text-white hover:bg-forest-600 transition-colors min-h-[44px] md:min-h-0"
           >
             <Plus size={14} />
-            New Booking
+            <span className="hidden sm:inline">New Booking</span>
+            <span className="sm:hidden">Book</span>
           </button>
 
           <div className="flex items-center gap-1 bg-warm-100 rounded-lg p-0.5">
             <button
               onClick={() => setViewMode('year')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              className={`px-3 py-2.5 md:py-1.5 rounded-md text-xs font-medium transition-colors min-h-[44px] md:min-h-0 hidden md:inline-flex ${
                 viewMode === 'year'
                   ? 'bg-white text-warm-700 shadow-sm'
                   : 'text-warm-500 hover:text-warm-700'
@@ -725,7 +758,7 @@ export function CalendarView() {
             </button>
             <button
               onClick={() => setViewMode('month')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              className={`px-3 py-2.5 md:py-1.5 rounded-md text-xs font-medium transition-colors min-h-[44px] md:min-h-0 ${
                 viewMode === 'month'
                   ? 'bg-white text-warm-700 shadow-sm'
                   : 'text-warm-500 hover:text-warm-700'
@@ -733,9 +766,10 @@ export function CalendarView() {
             >
               Month
             </button>
+            {/* Week view hidden on mobile -- 7-column grid is unusable at 375px */}
             <button
               onClick={() => setViewMode('week')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              className={`px-3 py-2.5 md:py-1.5 rounded-md text-xs font-medium transition-colors min-h-[44px] md:min-h-0 hidden md:inline-flex ${
                 viewMode === 'week'
                   ? 'bg-white text-warm-700 shadow-sm'
                   : 'text-warm-500 hover:text-warm-700'
@@ -745,7 +779,7 @@ export function CalendarView() {
             </button>
             <button
               onClick={() => setViewMode('day')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+              className={`px-3 py-2.5 md:py-1.5 rounded-md text-xs font-medium transition-colors min-h-[44px] md:min-h-0 ${
                 viewMode === 'day'
                   ? 'bg-white text-warm-700 shadow-sm'
                   : 'text-warm-500 hover:text-warm-700'
@@ -951,87 +985,144 @@ export function CalendarView() {
           const gridDays = getMonthGridDays(currentDate.getFullYear(), currentDate.getMonth());
           const currentMonth = currentDate.getMonth();
           const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+          const dayLettersMobile = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+          const selectedDayItems = getItemsForDay(currentDate);
 
           return (
-            <div className="border border-warm-200 rounded-xl overflow-hidden bg-white">
-              {/* Day of week headers */}
-              <div className="grid grid-cols-7 border-b border-warm-200">
-                {dayNames.map((name) => (
-                  <div
-                    key={name}
-                    className="py-2 text-center text-[10px] uppercase tracking-wider text-warm-400 font-medium"
-                  >
-                    {name}
-                  </div>
-                ))}
-              </div>
-
-              {/* Day cells grid */}
-              <div className="grid grid-cols-7">
-                {gridDays.map((date) => {
-                  const dateStr = toDateStr(date);
-                  const dayItems = getItemsForDay(date);
-                  const isCurrentMonth = date.getMonth() === currentMonth;
-                  const isToday = isSameDay(date, today);
-                  const isWorkingDay = WORKING_DAYS.includes(date.getDay());
-
-                  return (
+            <div>
+              <div className="border border-warm-200 rounded-xl overflow-hidden bg-white">
+                {/* Day of week headers */}
+                <div className="grid grid-cols-7 border-b border-warm-200">
+                  {dayNames.map((name, i) => (
                     <div
-                      key={dateStr}
-                      className={`border-b border-r border-warm-100 min-h-[90px] p-1 ${
-                        !isCurrentMonth
-                          ? 'bg-warm-50/50'
-                          : isToday
-                            ? 'bg-forest-50/40'
-                            : !isWorkingDay
-                              ? 'bg-warm-50/30'
-                              : ''
-                      }`}
+                      key={name}
+                      className="py-2 text-center text-[10px] uppercase tracking-wider text-warm-400 font-medium"
                     >
-                      {/* Day number */}
-                      <button
-                        onClick={() => {
-                          setCurrentDate(date);
-                          setViewMode('day');
-                        }}
-                        className={`w-6 h-6 flex items-center justify-center rounded-full text-xs mb-0.5 transition-colors hover:bg-forest-100 ${
-                          isToday
-                            ? 'bg-forest-500 text-white font-bold'
-                            : isCurrentMonth
-                              ? 'text-warm-600 font-medium'
-                              : 'text-warm-300'
+                      <span className="hidden md:inline">{name}</span>
+                      <span className="md:hidden">{dayLettersMobile[i]}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Day cells grid -- desktop: full cards, mobile: compact mini-calendar */}
+                <div className="grid grid-cols-7">
+                  {gridDays.map((date) => {
+                    const dateStr = toDateStr(date);
+                    const dayItems = getItemsForDay(date);
+                    const isCurrentMonth = date.getMonth() === currentMonth;
+                    const isToday = isSameDay(date, today);
+                    const isWorkingDay = WORKING_DAYS.includes(date.getDay());
+                    const isSelected = isSameDay(date, currentDate);
+                    const hasPending = dayItems.some(
+                      (it) => it.status === 'AWAITING_APPROVAL' || it.status === 'PENDING'
+                    );
+
+                    return (
+                      <div
+                        key={dateStr}
+                        className={`border-b border-r border-warm-100 md:min-h-[90px] p-0.5 md:p-1 ${
+                          !isCurrentMonth
+                            ? 'bg-warm-50/50'
+                            : isToday
+                              ? 'bg-forest-50/40'
+                              : !isWorkingDay
+                                ? 'bg-warm-50/30'
+                                : ''
                         }`}
                       >
-                        {date.getDate()}
-                      </button>
+                        {/* Day number -- mobile: tappable cell selecting day, desktop: navigates to day view */}
+                        <button
+                          onClick={() => {
+                            setCurrentDate(date);
+                            if (!isMobile) setViewMode('day');
+                          }}
+                          className={`w-7 h-7 md:w-6 md:h-6 flex items-center justify-center rounded-full text-xs mb-0.5 transition-colors hover:bg-forest-100 mx-auto md:mx-0 relative ${
+                            isToday
+                              ? 'bg-forest-500 text-white font-bold'
+                              : isSelected && isMobile
+                                ? 'bg-forest-200 text-forest-800 font-bold ring-2 ring-forest-400'
+                                : isCurrentMonth
+                                  ? 'text-warm-600 font-medium'
+                                  : 'text-warm-300'
+                          }`}
+                        >
+                          {date.getDate()}
+                          {/* Mobile: dot indicator for days with bookings */}
+                          {dayItems.length > 0 && isCurrentMonth && !isToday && (
+                            <span
+                              className={`md:hidden absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                                hasPending ? 'bg-amber-400' : 'bg-forest-500'
+                              }`}
+                            />
+                          )}
+                          {dayItems.length > 0 && isToday && (
+                            <span className="md:hidden absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white" />
+                          )}
+                        </button>
 
-                      {/* Compact booking indicators */}
-                      <div className="space-y-0.5">
-                        {dayItems.slice(0, 3).map((item) => (
-                          <button
-                            key={item.itemId}
-                            onClick={() => setSelectedItem(item)}
-                            className={`w-full text-left px-1 py-0.5 rounded text-[10px] leading-tight truncate transition-all hover:shadow-sm cursor-pointer ${getStatusColor(item.status)}`}
-                          >
-                            {formatTime(item.startAt)} {item.customerName.split(' ')[0]}
-                          </button>
-                        ))}
-                        {dayItems.length > 3 && (
-                          <button
-                            onClick={() => {
-                              setCurrentDate(date);
-                              setViewMode('day');
-                            }}
-                            className="w-full text-left px-1 text-[10px] text-forest-600 font-medium hover:underline"
-                          >
-                            +{dayItems.length - 3} more
-                          </button>
-                        )}
+                        {/* Desktop only: compact booking indicators */}
+                        <div className="hidden md:block space-y-0.5">
+                          {dayItems.slice(0, 3).map((item) => (
+                            <button
+                              key={item.itemId}
+                              onClick={() => setSelectedItem(item)}
+                              className={`w-full text-left px-1 py-0.5 rounded text-[10px] leading-tight truncate transition-all hover:shadow-sm cursor-pointer ${getStatusColor(item.status)}`}
+                            >
+                              {formatTime(item.startAt)} {item.customerName.split(' ')[0]}
+                            </button>
+                          ))}
+                          {dayItems.length > 3 && (
+                            <button
+                              onClick={() => {
+                                setCurrentDate(date);
+                                setViewMode('day');
+                              }}
+                              className="w-full text-left px-1 text-[10px] text-forest-600 font-medium hover:underline"
+                            >
+                              +{dayItems.length - 3} more
+                            </button>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
+
+              {/* Mobile only: selected day events list below the mini calendar */}
+              {isMobile && (
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-warm-700">
+                      {currentDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                    </h3>
+                    <button
+                      onClick={() => setViewMode('day')}
+                      className="text-xs text-forest-600 font-medium hover:underline min-h-[44px] flex items-center"
+                    >
+                      Full Day View
+                    </button>
+                  </div>
+                  {selectedDayItems.length === 0 ? (
+                    <p className="text-xs text-warm-400 py-4 text-center">No appointments this day</p>
+                  ) : (
+                    selectedDayItems.map((item) => (
+                      <button
+                        key={item.itemId}
+                        onClick={() => setSelectedItem(item)}
+                        className={`w-full text-left p-3 rounded-xl text-sm transition-all hover:shadow-md cursor-pointer ${getStatusColor(item.status)}`}
+                      >
+                        <div className="font-medium">
+                          {formatTime(item.startAt)} -- {item.customerName}
+                        </div>
+                        <div className="text-xs opacity-80 mt-0.5">
+                          {item.source === 'local' ? 'Awaiting Approval' : item.serviceName} -- {item.durationMinutes} min
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           );
         })()
@@ -1219,7 +1310,7 @@ export function CalendarView() {
                       </div>
 
                       {/* Customer fields */}
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                           <label className="block text-xs font-medium text-warm-600 mb-1">First Name</label>
                           <input

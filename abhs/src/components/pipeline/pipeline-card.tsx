@@ -52,13 +52,13 @@ export function PipelineCard({ client, onMoveNext, onMovePrev, isFirstStage, isL
               variant="ghost"
               size="sm"
               aria-label={`Move ${client.q02_client_name} back`}
-              className="h-5 w-5 p-0 text-muted-foreground hover:text-brand-800 hover:bg-brand-100"
+              className="h-7 w-7 min-h-[44px] min-w-[44px] p-0 text-muted-foreground hover:text-brand-800 hover:bg-brand-100 md:h-5 md:w-5 md:min-h-0 md:min-w-0"
               onClick={(e) => {
                 e.preventDefault();
                 onMovePrev();
               }}
             >
-              <ChevronLeft size={12} />
+              <ChevronLeft size={14} className="md:size-3" />
             </Button>
           )}
           {!isLastStage && (
@@ -66,13 +66,13 @@ export function PipelineCard({ client, onMoveNext, onMovePrev, isFirstStage, isL
               variant="ghost"
               size="sm"
               aria-label={`Move ${client.q02_client_name} forward`}
-              className="h-5 w-5 p-0 text-brand-600 hover:text-brand-800 hover:bg-brand-100"
+              className="h-7 w-7 min-h-[44px] min-w-[44px] p-0 text-brand-600 hover:text-brand-800 hover:bg-brand-100 md:h-5 md:w-5 md:min-h-0 md:min-w-0"
               onClick={(e) => {
                 e.preventDefault();
                 onMoveNext();
               }}
             >
-              <ChevronRight size={12} />
+              <ChevronRight size={14} className="md:size-3" />
             </Button>
           )}
         </div>

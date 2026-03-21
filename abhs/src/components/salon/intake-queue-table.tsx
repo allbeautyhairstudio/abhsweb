@@ -71,7 +71,50 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <>
+      {/* Mobile card list */}
+      <div className="space-y-3 md:hidden">
+        {intakes.map((row) => (
+          <div
+            key={row.id}
+            className={`p-3 rounded-lg border transition-colors ${
+              isNew(row.created_at)
+                ? 'bg-brand-50/50 border-brand-200'
+                : 'bg-muted border-transparent'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center gap-2">
+                {isNew(row.created_at) && (
+                  <span className="w-2 h-2 bg-brand-500 rounded-full flex-shrink-0" aria-label="New submission" />
+                )}
+                <span className="font-medium text-brand-700">{row.q02_client_name}</span>
+              </div>
+              {statusBadge(row.status)}
+            </div>
+            <p className="text-xs text-muted-foreground mb-2">
+              Submitted {relativeDate(row.created_at)}
+            </p>
+            <div className="mb-2.5" onClick={(e) => e.stopPropagation()}>
+              <ClientContactActions
+                email={row.q03_email}
+                phone={row.phone}
+                preferredContact={row.preferred_contact}
+                variant="compact"
+              />
+            </div>
+            <Link href={`/admin/intake/${row.id}`}>
+              <Button size="sm" variant="outline" className="w-full min-h-[44px]">
+                <Eye className="w-4 h-4 mr-1.5" />
+                Review
+              </Button>
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b text-left">
@@ -124,6 +167,7 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }

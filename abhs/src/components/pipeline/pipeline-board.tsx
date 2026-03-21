@@ -100,7 +100,10 @@ export function PipelineBoard({ initialClients, stages }: PipelineBoardProps) {
   return (
     <>
       <div className="space-y-3">
-        <div className={`grid gap-2`} style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}>
+        <div
+          className="flex flex-col gap-3 md:grid md:gap-2"
+          style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` } as React.CSSProperties}
+        >
           {row1.map((stage, i) => (
             <PipelineColumn
               key={stage.id}
@@ -115,7 +118,9 @@ export function PipelineBoard({ initialClients, stages }: PipelineBoardProps) {
           ))}
         </div>
         {row2.length > 0 && (
-          <div className="grid grid-cols-5 gap-2">
+          <div
+            className="flex flex-col gap-3 md:grid md:grid-cols-5 md:gap-2"
+          >
             {row2.map((stage, i) => (
               <PipelineColumn
                 key={stage.id}
