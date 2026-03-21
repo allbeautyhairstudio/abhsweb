@@ -194,7 +194,17 @@ export async function POST(request: NextRequest) {
       `Approve or decline:`,
       `${siteUrl}/admin/calendar`,
     ].join('\n');
-    notifyEmail(`Booking Request: ${firstName} ${lastName} - ${bookingDate}`, emailBody).catch(() => {});
+    notifyEmail(`Booking Request: ${firstName} ${lastName} - ${bookingDate}`, emailBody, {
+      headline: 'New Booking Request',
+      sections: [
+        { label: 'Client', value: `${firstName} ${lastName}` },
+        { label: 'Email', value: email },
+        { label: 'Services', value: smsServiceList },
+        { label: 'Date', value: bookingDate },
+      ],
+      actionUrl: `${siteUrl}/admin/calendar`,
+      actionLabel: 'Approve or Decline',
+    }).catch(() => {});
 
     return NextResponse.json(
       { success: true, booking: confirmation },

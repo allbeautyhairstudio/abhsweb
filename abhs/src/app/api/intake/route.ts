@@ -161,7 +161,38 @@ export async function POST(request: NextRequest) {
       `Review this submission:`,
       `${siteUrl}/admin/intake/${clientId}`,
     ].join('\n');
-    notifyEmail(`New Client Intake: ${fullName}`, emailBody).catch(() => {});
+
+    const htmlSections = [
+      { label: 'Name', value: fullName },
+      ...(pronouns ? [{ label: 'Pronouns', value: pronouns }] : []),
+      { label: 'Email', value: email },
+      { label: 'Phone', value: phone },
+      { label: 'Preferred Contact', value: formatLabel(data.preferred_contact) },
+      { label: 'Service Interest', value: formatLabel(data.service_interest) },
+      ...(data.hair_love_hate ? [{ label: 'Love/Hate', value: sanitizeString(data.hair_love_hate) }] : []),
+      { label: 'Texture', value: formatLabel(data.hair_texture) },
+      { label: 'Length', value: formatLabel(data.hair_length) },
+      { label: 'Density', value: formatLabel(data.hair_density) },
+      { label: 'Condition', value: data.hair_condition.map(formatLabel).join(', ') },
+      { label: 'Self-Description', value: formatLabel(data.styling_description) },
+      { label: 'Daily Routine', value: formatLabel(data.daily_routine) },
+      { label: 'Shampoo Frequency', value: formatLabel(data.shampoo_frequency) },
+      { label: 'Hair History', value: data.hair_history.map(formatLabel).join(', ') },
+      { label: 'Color Reaction', value: formatLabel(data.color_reaction) },
+      ...(data.current_products ? [{ label: 'Current Products', value: sanitizeString(data.current_products) }] : []),
+      { label: 'What They Want', value: sanitizeString(data.what_you_want) },
+      { label: 'Maintenance', value: formatLabel(data.maintenance_frequency) },
+      { label: 'Availability', value: data.availability.map(formatLabel).join(', ') },
+      ...(data.medical_info ? [{ label: 'Medical/Allergy', value: sanitizeString(data.medical_info) }] : []),
+      { label: 'Referral', value: referralSource || 'Not specified' },
+    ];
+
+    notifyEmail(`New Client Intake: ${fullName}`, emailBody, {
+      headline: `New Client: ${fullName}`,
+      sections: htmlSections,
+      actionUrl: `${siteUrl}/admin/intake/${clientId}`,
+      actionLabel: 'Review Intake',
+    }).catch(() => {});
 
     return NextResponse.json(
       { success: true, clientId: Number(clientId), message: 'Intake form received.' },

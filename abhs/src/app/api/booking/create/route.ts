@@ -257,7 +257,16 @@ export async function POST(request: NextRequest) {
       `View in calendar:`,
       `${siteUrl}/admin/calendar`,
     ].join('\n');
-    notifyEmail(`New Booking: ${firstName} ${lastName} - ${bookingDate}`, emailBody).catch(() => {});
+    notifyEmail(`New Booking: ${firstName} ${lastName} - ${bookingDate}`, emailBody, {
+      headline: 'Booking Confirmed',
+      sections: [
+        { label: 'Client', value: `${firstName} ${lastName}` },
+        { label: 'Services', value: smsServiceList },
+        { label: 'Date', value: bookingDate },
+      ],
+      actionUrl: `${siteUrl}/admin/calendar`,
+      actionLabel: 'View Calendar',
+    }).catch(() => {});
 
     return NextResponse.json(
       serializeBigInt({ success: true, booking: confirmation }),
