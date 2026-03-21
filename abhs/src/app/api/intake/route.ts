@@ -162,30 +162,29 @@ export async function POST(request: NextRequest) {
       `${siteUrl}/admin/intake/${clientId}`,
     ].join('\n');
 
-    const htmlSections = [
-      { label: 'Name', value: fullName },
-      ...(pronouns ? [{ label: 'Pronouns', value: pronouns }] : []),
-      { label: 'Email', value: email },
-      { label: 'Phone', value: phone },
-      { label: 'Preferred Contact', value: formatLabel(data.preferred_contact) },
-      { label: 'Service Interest', value: formatLabel(data.service_interest) },
-      ...(data.hair_love_hate ? [{ label: 'Love/Hate', value: sanitizeString(data.hair_love_hate) || '' }] : []),
-      { label: 'Texture', value: formatLabel(data.hair_texture) },
-      { label: 'Length', value: formatLabel(data.hair_length) },
-      { label: 'Density', value: formatLabel(data.hair_density) },
-      { label: 'Condition', value: data.hair_condition.map(formatLabel).join(', ') },
-      { label: 'Self-Description', value: formatLabel(data.styling_description) },
-      { label: 'Daily Routine', value: formatLabel(data.daily_routine) },
-      { label: 'Shampoo Frequency', value: formatLabel(data.shampoo_frequency) },
-      { label: 'Hair History', value: data.hair_history.map(formatLabel).join(', ') },
-      { label: 'Color Reaction', value: formatLabel(data.color_reaction) },
-      ...(data.current_products ? [{ label: 'Current Products', value: sanitizeString(data.current_products) || '' }] : []),
-      { label: 'What They Want', value: sanitizeString(data.what_you_want) || '' },
-      { label: 'Maintenance', value: formatLabel(data.maintenance_frequency) },
-      { label: 'Availability', value: data.availability.map(formatLabel).join(', ') },
-      ...(data.medical_info ? [{ label: 'Medical/Allergy', value: sanitizeString(data.medical_info) || '' }] : []),
-      { label: 'Referral', value: referralSource || 'Not specified' },
-    ];
+    const htmlSections: { label: string; value: string }[] = [];
+    htmlSections.push({ label: 'Name', value: fullName });
+    if (pronouns) htmlSections.push({ label: 'Pronouns', value: pronouns });
+    htmlSections.push({ label: 'Email', value: email || '' });
+    htmlSections.push({ label: 'Phone', value: phone || '' });
+    htmlSections.push({ label: 'Preferred Contact', value: formatLabel(data.preferred_contact) });
+    htmlSections.push({ label: 'Service Interest', value: formatLabel(data.service_interest) });
+    if (data.hair_love_hate) htmlSections.push({ label: 'Love/Hate', value: sanitizeString(data.hair_love_hate) || '' });
+    htmlSections.push({ label: 'Texture', value: formatLabel(data.hair_texture) });
+    htmlSections.push({ label: 'Length', value: formatLabel(data.hair_length) });
+    htmlSections.push({ label: 'Density', value: formatLabel(data.hair_density) });
+    htmlSections.push({ label: 'Condition', value: data.hair_condition.map(formatLabel).join(', ') });
+    htmlSections.push({ label: 'Self-Description', value: formatLabel(data.styling_description) });
+    htmlSections.push({ label: 'Daily Routine', value: formatLabel(data.daily_routine) });
+    htmlSections.push({ label: 'Shampoo Frequency', value: formatLabel(data.shampoo_frequency) });
+    htmlSections.push({ label: 'Hair History', value: data.hair_history.map(formatLabel).join(', ') });
+    htmlSections.push({ label: 'Color Reaction', value: formatLabel(data.color_reaction) });
+    if (data.current_products) htmlSections.push({ label: 'Current Products', value: sanitizeString(data.current_products) || '' });
+    htmlSections.push({ label: 'What They Want', value: sanitizeString(data.what_you_want) || '' });
+    htmlSections.push({ label: 'Maintenance', value: formatLabel(data.maintenance_frequency) });
+    htmlSections.push({ label: 'Availability', value: data.availability.map(formatLabel).join(', ') });
+    if (data.medical_info) htmlSections.push({ label: 'Medical/Allergy', value: sanitizeString(data.medical_info) || '' });
+    htmlSections.push({ label: 'Referral', value: referralSource || 'Not specified' });
 
     notifyEmail(`New Client Intake: ${fullName}`, emailBody, {
       headline: `New Client: ${fullName}`,
