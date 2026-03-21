@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles } from 'lucide-react';
+import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles, Calendar } from 'lucide-react';
 import { FloralBloom, FloralDivider } from '@/components/decorative/floral-accents';
 
 // --- Option data ---
@@ -543,6 +543,13 @@ export default function NewClientFormPage() {
               reach out to schedule your consultation. Talk soon!
             </p>
             <p className="text-sm text-warm-400 italic">&mdash; Karli</p>
+            <Link
+              href="/book"
+              className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
+            >
+              <Calendar size={18} />
+              Ready to Book?
+            </Link>
             <FloralDivider className="text-forest-500 mt-10" />
             <Link
               href="/"
