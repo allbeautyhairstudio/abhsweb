@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles, Calendar } from 'lucide-react';
@@ -283,6 +284,7 @@ function CheckboxGroup({
 // --- Main Component ---
 
 export default function NewClientFormPage() {
+  const router = useRouter();
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState<Step>(1);
   const [status, setStatus] = useState<'idle' | 'sending' | 'uploading' | 'success' | 'error'>('idle');
@@ -515,53 +517,10 @@ export default function NewClientFormPage() {
       }
 
       setStatus('success');
+      router.push('/book');
     } catch {
       setStatus('error');
     }
-  }
-
-  // --- Success state ---
-
-  if (status === 'success') {
-    return (
-      <div className="flex flex-col">
-        <section className="py-20 sm:py-28">
-          <div className="mx-auto max-w-xl px-4 sm:px-6 lg:px-8 text-center">
-            <FloralBloom className="w-10 h-10 text-forest-500 mx-auto mb-4" />
-            <div className="w-14 h-14 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle size={28} className="text-sage-500" />
-            </div>
-            <h1 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-4">
-              You&apos;re All Set!
-            </h1>
-            <p className="text-warm-500 leading-relaxed mb-3">
-              Thanks for taking the time to fill this out — it really helps me
-              prepare for our first conversation.
-            </p>
-            <p className="text-warm-500 leading-relaxed mb-8">
-              I&apos;ll review everything within <strong className="text-warm-600">72 hours</strong> and
-              reach out to schedule your consultation. Talk soon!
-            </p>
-            <p className="text-sm text-warm-400 italic">&mdash; Karli</p>
-            <Link
-              href="/book"
-              className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
-            >
-              <Calendar size={18} />
-              Ready to Book?
-            </Link>
-            <FloralDivider className="text-forest-500 mt-10" />
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 mt-6 text-sm text-copper-500 hover:text-copper-600 font-medium transition-colors"
-            >
-              <ArrowLeft size={14} />
-              Back to Home
-            </Link>
-          </div>
-        </section>
-      </div>
-    );
   }
 
   // --- Karli's opening (before form) ---
