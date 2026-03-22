@@ -379,6 +379,7 @@ SMTP_PASS=your-app-password       # Gmail app password
 | Global projectmap directory        | Mar 21     | 268         |
 | Intake detail Q&A format rework    | Mar 22     | 268         |
 | AI chat implementation (8 tasks)   | Mar 22     | 292         |
+| Clickable intake queue rows        | Mar 22     | 292         |
 
 ---
 
@@ -431,7 +432,12 @@ SMTP_PASS=your-app-password       # Gmail app password
 - Run standard deploy script after Bas verifies on local dev server
 - Test chat on production with a real intake record
 
-### Priority 2: Intake Output Formatting
+### Priority 2: Remove Color Lab from Site
+
+- Bas wants the Color Lab feature removed from the admin sidebar and site
+- Clarify scope with Bas: remove from sidebar only, or delete the code/DB tables/API routes entirely?
+
+### Priority 3: Intake Output Formatting
 
 - Intake detail page already shows Q&A format (done Session 4)
 - Remaining: printable/PDF version of the Q&A output (Wix-style)

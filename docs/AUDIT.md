@@ -34,3 +34,4 @@
 | Email | Email lifecycle system not yet built (5 timed emails) | Medium | After AI chat integration |
 | AI | Claude API integration for intake review chat | DONE | Implemented Session 4. Streaming chat, draft mode, 292 tests. Needs deploy. |
 | Photos | Existing uploads not retroactively converted to WebP | Low | Only new uploads get WebP treatment |
+| Deps | 3 deprecated subdependencies: node-domexception@1.0.0, prebuild-install@7.1.3, scmp@2.1.0 | Low | Upstream (Twilio, better-sqlite3). PostgreSQL migration removes prebuild-install. Twilio ones resolve with SDK update. |
