@@ -1,7 +1,7 @@
 # All Beauty Hair Studio — Project Handoff Document
 
-**Last Updated:** March 21, 2026 (Session 2)
-**Status:** **LIVE at https://allbeautyhairstudio.com** — Public site + Admin CRM + Square booking widget + email notifications. Intake form aligned to Wix, admin polished. Next: AI chat for intakes, email lifecycle, Twilio SMS.
+**Last Updated:** March 21, 2026 (Session 3)
+**Status:** **LIVE at https://allbeautyhairstudio.com** — Public site + Admin CRM + Square booking widget + email notifications. Intake form aligned to Wix, admin polished. AI chat spec + plan written, ready for implementation. Next: Execute AI chat plan, intake output formatting, email lifecycle, PostgreSQL migration.
 
 ---
 
@@ -374,6 +374,8 @@ SMTP_PASS=your-app-password       # Gmail app password
 | Photo gallery + zoom on intake     | Mar 21     | 268         |
 | Mobile-responsive admin panel      | Mar 21     | 268         |
 | Admin intake polish + sticky bar   | Mar 21     | 268         |
+| AI chat design spec + plan written | Mar 21     | 268         |
+| Global projectmap directory        | Mar 21     | 268         |
 
 ---
 
@@ -401,7 +403,7 @@ SMTP_PASS=your-app-password       # Gmail app password
 - [x] Mobile-responsive admin — intake queue cards, pipeline vertical stack, calendar day-view default (March 21, 2026 Session 2)
 - [x] Admin intake polish — warm ABHS styling, single status badge, sticky accept/decline bar with iPhone safe area (March 21, 2026 Session 2)
 - [x] `&mdash;` cleanup — all 9 instances fixed (A-001 resolved) (March 21, 2026 Session 2)
-- [ ] **AI chat for intake review** — Claude API integration for Karli to ask questions about intakes, draft client messages. Spec needed.
+- [ ] **AI chat for intake review** — Spec + plan COMPLETE (Session 3). 8-task implementation plan ready for execution. Spec: `docs/superpowers/specs/2026-03-21-intake-ai-chat-design.md`. Plan: `docs/superpowers/plans/2026-03-21-intake-ai-chat-plan.md`. Bas has Anthropic API key ready.
 - [ ] **Email lifecycle system** — 5 timed emails (booking confirm, 7-day, 48h, 24h, post-visit thank you)
 - [ ] Twilio SMS — toll-free verification submitted March 21, check status next session
 - [ ] My Journey page — hidden from nav, needs Karli collaboration to make it special
@@ -419,29 +421,47 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ## 13. FOR THE NEXT SESSION <a name="next-session"></a>
 
-### Priority 1: AI Chat for Intake Review
+### Priority 1: Execute AI Chat Implementation Plan
 
-- Integrate Claude API into admin intake detail page
-- Conversational chat panel where Karli can ask questions about each intake
-- Primary use case: help Karli draft messages to clients about missing/unclear info
-- Needs: Anthropic API key, API route, chat UI component, intake context injection
-- Karli's voice and warmth should come through in AI-drafted messages
-- Spec needed -- brainstorm at session start
+- **Plan is written and reviewed** -- 8 tasks, ready to execute via subagent-driven development
+- Plan: `docs/superpowers/plans/2026-03-21-intake-ai-chat-plan.md`
+- Spec: `docs/superpowers/specs/2026-03-21-intake-ai-chat-design.md`
+- Bas has `ANTHROPIC_API_KEY` ready -- add to `.env.local` before starting Task 1
+- Use `superpowers:subagent-driven-development` skill to execute
+- 8 tasks: SDK install -> DB migration -> CRUD queries -> system prompt -> streaming API -> UI components -> page integration -> polish
 
-### Priority 2: Email Lifecycle System
+### Priority 2: Intake Output Formatting
+
+- Generate Wix-style formatted consultation form (Q&A layout with photos)
+- Karli wants the intake output to look like her old Wix form PDF (no QR code needed)
+- Needs its own spec/plan cycle
+
+### Priority 3: PostgreSQL Migration
+
+- Migrate ABHS from SQLite to PostgreSQL (already running on VPS)
+- Separate spec/plan cycle -- touches every query, schema, db.ts, deploy script
+- Decision logged in `~/.claude/docs/projectmap/decisions.md`
+
+### Priority 4: Email Lifecycle System
 
 - 5 timed emails: booking confirm, 7-day, 48h, 24h, post-visit thank you
 
-### Priority 3: Check Twilio SMS Verification Status
+### Priority 5: Check Twilio SMS Verification Status
 
-- Submitted March 21, 2026 -- should be approved by now (1-7 day window)
+- Submitted March 21, 2026 -- should be approved by now
+
+### After ABHS Session
+
+- Fill in skeleton project maps for whichever project is worked on next
+- See `~/.claude/docs/projectmap/INDEX.md` for all skeleton maps
 
 ### Session Start
 
 1. Read this handoff for project context
 2. Run `cd c:\kar\abhs && npx vitest run` to verify 268 tests pass
-3. Run `npx next dev -p 3005` for dev server
-4. All commits pushed, production deployed -- clean slate
+3. Add `ANTHROPIC_API_KEY` to `.env.local`
+4. Execute the AI chat plan using subagent-driven development
+5. All commits pushed -- clean slate
 
 ---
 
