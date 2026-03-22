@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
@@ -47,6 +47,7 @@ function extractServiceInterest(row: IntakeQueueRow): string {
 const LAST_VIEWED_KEY = 'intake_last_viewed';
 
 export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
+  const router = useRouter();
   const [lastViewed, setLastViewed] = useState<string | null>(null);
 
   useEffect(() => {
@@ -77,7 +78,8 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
         {intakes.map((row) => (
           <div
             key={row.id}
-            className={`p-3 rounded-lg border transition-colors ${
+            onClick={() => router.push(`/admin/intake/${row.id}`)}
+            className={`p-3 rounded-lg border transition-colors cursor-pointer ${
               isNew(row.created_at)
                 ? 'bg-brand-50/50 border-brand-200'
                 : 'bg-muted border-transparent'
@@ -103,12 +105,10 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
                 variant="compact"
               />
             </div>
-            <Link href={`/admin/intake/${row.id}`}>
-              <Button size="sm" variant="outline" className="w-full min-h-[44px]">
-                <Eye className="w-4 h-4 mr-1.5" />
-                Review
-              </Button>
-            </Link>
+            <Button size="sm" variant="outline" className="w-full min-h-[44px]">
+              <Eye className="w-4 h-4 mr-1.5" />
+              Review
+            </Button>
           </div>
         ))}
       </div>
@@ -129,7 +129,8 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
           {intakes.map((row) => (
             <tr
               key={row.id}
-              className={`border-b hover:bg-muted/50 transition-colors ${
+              onClick={() => router.push(`/admin/intake/${row.id}`)}
+              className={`border-b hover:bg-muted/50 transition-colors cursor-pointer ${
                 isNew(row.created_at) ? 'bg-brand-50/50' : ''
               }`}
             >
@@ -141,7 +142,7 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
                   <span className="font-medium">{row.q02_client_name}</span>
                 </div>
               </td>
-              <td className="py-3 px-4">
+              <td className="py-3 px-4" onClick={(e) => e.stopPropagation()}>
                 <ClientContactActions
                   email={row.q03_email}
                   phone={row.phone}
@@ -156,12 +157,10 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
                 {statusBadge(row.status)}
               </td>
               <td className="py-3 px-4 text-right">
-                <Link href={`/admin/intake/${row.id}`}>
-                  <Button size="sm" variant="outline">
-                    <Eye className="w-4 h-4 mr-1.5" />
-                    Review
-                  </Button>
-                </Link>
+                <Button size="sm" variant="outline">
+                  <Eye className="w-4 h-4 mr-1.5" />
+                  Review
+                </Button>
               </td>
             </tr>
           ))}
