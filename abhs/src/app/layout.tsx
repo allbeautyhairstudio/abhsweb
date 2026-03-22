@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Inter, Playfair_Display, Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -62,6 +63,11 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Script
+          src="https://analytics.builtbybas.com/script.js"
+          data-website-id="bf645176-d22f-493c-9680-f5ee38aabbbd"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
