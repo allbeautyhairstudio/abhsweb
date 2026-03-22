@@ -1,7 +1,7 @@
 # All Beauty Hair Studio — Project Handoff Document
 
-**Last Updated:** March 21, 2026 (Session 3)
-**Status:** **LIVE at https://allbeautyhairstudio.com** — Public site + Admin CRM + Square booking widget + email notifications. Intake form aligned to Wix, admin polished. AI chat spec + plan written, ready for implementation. Next: Execute AI chat plan, intake output formatting, email lifecycle, PostgreSQL migration.
+**Last Updated:** March 22, 2026 (Session 4)
+**Status:** **LIVE at https://allbeautyhairstudio.com** — Public site + Admin CRM + Square booking widget + email notifications + AI chat assistant. Intake detail page restructured to Q&A format. AI chat fully implemented (streaming Claude Sonnet, draft mode for SMS/email). Next: Deploy, intake output formatting, email lifecycle, PostgreSQL migration.
 
 ---
 
@@ -60,7 +60,8 @@
 | Validation  | Zod                                           |
 | Icons       | Lucide React                                  |
 | Dates       | date-fns                                      |
-| Testing     | Vitest (268 tests passing)                    |
+| Testing     | Vitest (292 tests passing)                    |
+| AI Chat     | Anthropic SDK (@anthropic-ai/sdk v0.80.0)     |
 | Bookings    | Square SDK v44                                |
 | Images      | sharp (WebP conversion on upload)             |
 | SMS         | Twilio SDK (pending toll-free verification)   |
@@ -376,6 +377,8 @@ SMTP_PASS=your-app-password       # Gmail app password
 | Admin intake polish + sticky bar   | Mar 21     | 268         |
 | AI chat design spec + plan written | Mar 21     | 268         |
 | Global projectmap directory        | Mar 21     | 268         |
+| Intake detail Q&A format rework    | Mar 22     | 268         |
+| AI chat implementation (8 tasks)   | Mar 22     | 292         |
 
 ---
 
@@ -403,7 +406,7 @@ SMTP_PASS=your-app-password       # Gmail app password
 - [x] Mobile-responsive admin — intake queue cards, pipeline vertical stack, calendar day-view default (March 21, 2026 Session 2)
 - [x] Admin intake polish — warm ABHS styling, single status badge, sticky accept/decline bar with iPhone safe area (March 21, 2026 Session 2)
 - [x] `&mdash;` cleanup — all 9 instances fixed (A-001 resolved) (March 21, 2026 Session 2)
-- [ ] **AI chat for intake review** — Spec + plan COMPLETE (Session 3). 8-task implementation plan ready for execution. Spec: `docs/superpowers/specs/2026-03-21-intake-ai-chat-design.md`. Plan: `docs/superpowers/plans/2026-03-21-intake-ai-chat-plan.md`. Bas has Anthropic API key ready.
+- [x] **AI chat for intake review** — IMPLEMENTED (Session 4). Streaming Claude Sonnet chat on intake detail page. Draft mode for SMS/email/both. Persistent chat history in SQLite. 292 tests passing. `ANTHROPIC_API_KEY` in `.env.local`. Needs deploy to VPS with API key added there.
 - [ ] **Email lifecycle system** — 5 timed emails (booking confirm, 7-day, 48h, 24h, post-visit thank you)
 - [ ] Twilio SMS — toll-free verification submitted March 21, check status next session
 - [ ] My Journey page — hidden from nav, needs Karli collaboration to make it special
@@ -421,19 +424,17 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ## 13. FOR THE NEXT SESSION <a name="next-session"></a>
 
-### Priority 1: Execute AI Chat Implementation Plan
+### Priority 1: Deploy AI Chat to Production
 
-- **Plan is written and reviewed** -- 8 tasks, ready to execute via subagent-driven development
-- Plan: `docs/superpowers/plans/2026-03-21-intake-ai-chat-plan.md`
-- Spec: `docs/superpowers/specs/2026-03-21-intake-ai-chat-design.md`
-- Bas has `ANTHROPIC_API_KEY` ready -- add to `.env.local` before starting Task 1
-- Use `superpowers:subagent-driven-development` skill to execute
-- 8 tasks: SDK install -> DB migration -> CRUD queries -> system prompt -> streaming API -> UI components -> page integration -> polish
+- All code is local and tested (292 tests passing)
+- Add `ANTHROPIC_API_KEY` to VPS `.env.local` before deploying
+- Run standard deploy script after Bas verifies on local dev server
+- Test chat on production with a real intake record
 
 ### Priority 2: Intake Output Formatting
 
-- Generate Wix-style formatted consultation form (Q&A layout with photos)
-- Karli wants the intake output to look like her old Wix form PDF (no QR code needed)
+- Intake detail page already shows Q&A format (done Session 4)
+- Remaining: printable/PDF version of the Q&A output (Wix-style)
 - Needs its own spec/plan cycle
 
 ### Priority 3: PostgreSQL Migration
@@ -458,10 +459,9 @@ SMTP_PASS=your-app-password       # Gmail app password
 ### Session Start
 
 1. Read this handoff for project context
-2. Run `cd c:\kar\abhs && npx vitest run` to verify 268 tests pass
-3. Add `ANTHROPIC_API_KEY` to `.env.local`
-4. Execute the AI chat plan using subagent-driven development
-5. All commits pushed -- clean slate
+2. Run `cd c:\kar\abhs && npx vitest run` to verify 292 tests pass
+3. Check if unpushed commits exist -- commit and push Session 4 work if needed
+4. Deploy AI chat to production (Priority 1)
 
 ---
 

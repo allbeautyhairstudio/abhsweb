@@ -184,6 +184,8 @@ export function updateClient(id: number, data: Record<string, unknown>): void {
 
 export function deleteClient(id: number): void {
   const db = getDb();
+  db.prepare('DELETE FROM chat_messages WHERE client_id = ?').run(id);
+  db.prepare('DELETE FROM client_notes WHERE client_id = ?').run(id);
   db.prepare('DELETE FROM clients WHERE id = ?').run(id);
 }
 
@@ -247,6 +249,8 @@ export function deleteClients(ids: number[]): number {
   if (ids.length === 0) return 0;
   const db = getDb();
   const placeholders = ids.map(() => '?').join(', ');
+  db.prepare(`DELETE FROM chat_messages WHERE client_id IN (${placeholders})`).run(...ids);
+  db.prepare(`DELETE FROM client_notes WHERE client_id IN (${placeholders})`).run(...ids);
   const result = db.prepare(`DELETE FROM clients WHERE id IN (${placeholders})`).run(...ids);
   return result.changes;
 }

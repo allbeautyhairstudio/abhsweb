@@ -111,6 +111,21 @@ export function getDb(): Database.Database {
       db.exec("CREATE INDEX IF NOT EXISTS idx_booking_requests_client ON booking_requests(client_id)");
     }
 
+    // Migration: create chat_messages table if missing
+    if (!tableNames.has('chat_messages')) {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS chat_messages (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          client_id INTEGER NOT NULL,
+          role TEXT NOT NULL CHECK(role IN ('user', 'assistant')),
+          content TEXT NOT NULL,
+          channel_context TEXT,
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        CREATE INDEX IF NOT EXISTS idx_chat_messages_client ON chat_messages(client_id);
+      `);
+    }
+
     // Migration: add contact/personal columns to clients if missing
     const colNames = new Set(cols.map(c => c.name));
     if (!colNames.has('phone')) {
