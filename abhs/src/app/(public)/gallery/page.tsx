@@ -23,7 +23,7 @@ export default async function GalleryPage() {
         <MotionReveal>
           <section className="relative py-16 sm:py-20">
             <Image
-              src="https://images.unsplash.com/photo-1678356163587-6bb3afb89679?w=1920&q=80"
+              src="/firstcontact.webp"
               alt=""
               fill
               className="object-cover"

@@ -183,7 +183,7 @@ export default function HomePage() {
         {/* Final CTA with background */}
         <section className="relative py-20 sm:py-28">
           <Image
-            src="/firstcontact.webp"
+            src="/bowls.webp"
             alt=""
             fill
             className="object-cover"
