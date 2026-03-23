@@ -454,13 +454,13 @@ export default function NewClientFormPage() {
   function nextStep() {
     if (validateStep(step)) {
       setStep((s) => Math.min(s + 1, 7) as Step);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 50);
     }
   }
 
   function prevStep() {
     setStep((s) => Math.max(s - 1, 1) as Step);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 50);
   }
 
   // --- Submit ---
