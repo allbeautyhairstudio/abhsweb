@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Scissors } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { MobileNav } from './mobile-nav';
 
 const navLinks = [
@@ -15,6 +17,7 @@ const navLinks = [
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-warm-200">
@@ -46,9 +49,16 @@ export function Header() {
                 ) : (
                   <Link
                     href={link.href}
-                    className="text-sm text-warm-500 hover:text-copper-500 transition-colors"
+                    className="relative text-sm text-warm-500 hover:text-copper-500 transition-colors pb-0.5"
                   >
                     {link.label}
+                    <motion.span
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-copper-500 origin-left"
+                      initial={false}
+                      animate={{ scaleX: pathname === link.href ? 1 : 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    />
                   </Link>
                 )}
               </li>
