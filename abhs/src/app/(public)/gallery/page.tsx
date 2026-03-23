@@ -61,7 +61,7 @@ export default async function GalleryPage() {
               <>
                 <div className="text-center mb-10">
                   <MotionFloral>
-                    <FloralBloom className="w-6 h-6 text-forest-500 mx-auto mb-3" />
+                    <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-3" />
                   </MotionFloral>
                   <h2 className="font-serif text-2xl text-warm-700">
                     Latest from Instagram
@@ -87,7 +87,7 @@ export default async function GalleryPage() {
               /* Fallback -- no API token or API is down */
               <div className="text-center py-12">
                 <MotionFloral>
-                  <FloralBloom className="w-8 h-8 text-forest-500 mx-auto mb-4" />
+                  <FloralBloom className="w-16 h-16 text-forest-500 mx-auto mb-4" />
                 </MotionFloral>
                 <h2 className="font-serif text-2xl text-warm-700 mb-4">
                   See My Latest Work

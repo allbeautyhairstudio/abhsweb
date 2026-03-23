@@ -14,7 +14,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
       {/* Header */}
       <section className="relative py-12 sm:py-16 bg-warm-50">
         <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+          <FloralBloom className="w-14 h-14 text-forest-500 mx-auto mb-3" />
           <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
             Policies & Transparency
           </h1>

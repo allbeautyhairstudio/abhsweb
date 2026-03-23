@@ -114,11 +114,11 @@ export default function FaqPage() {
           />
           <div className="absolute inset-0 bg-white/88" />
           <MotionFloral>
-            <FloralCorner className="absolute bottom-2 right-4 w-28 h-28 text-forest-500 opacity-25 scale-x-[-1]" />
+            <FloralCorner className="absolute bottom-2 right-4 w-40 h-40 text-forest-500 opacity-25 scale-x-[-1]" />
           </MotionFloral>
           <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionFloral>
-              <FloralBloom className="w-10 h-10 text-forest-500 mx-auto mb-3" />
+              <FloralBloom className="w-16 h-16 text-forest-500 mx-auto mb-3" />
             </MotionFloral>
             <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
               Frequently Asked Questions

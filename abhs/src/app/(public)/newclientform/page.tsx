@@ -558,7 +558,7 @@ export default function NewClientFormPage() {
           <div className="absolute inset-0 bg-white/85" />
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionFloral>
-              <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+              <FloralBloom className="w-14 h-14 text-forest-500 mx-auto mb-3" />
             </MotionFloral>
             <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-3">
               New Client Form
@@ -656,7 +656,7 @@ export default function NewClientFormPage() {
         <div className="absolute inset-0 bg-white/85" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <MotionFloral>
-            <FloralBloom className="w-6 h-6 text-forest-500 mx-auto mb-2" />
+            <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-2" />
           </MotionFloral>
           <h1 className="font-serif text-2xl sm:text-3xl text-warm-800">
             New Client Form
@@ -1335,7 +1335,7 @@ export default function NewClientFormPage() {
           {/* Reassurance */}
           <div className="mt-10 pt-8 border-t border-warm-100 text-center">
             <MotionFloral>
-            <FloralBloom className="w-5 h-5 text-warm-300 mx-auto mb-3" />
+            <FloralBloom className="w-10 h-10 text-warm-300 mx-auto mb-3" />
           </MotionFloral>
             <p className="text-sm text-warm-600 leading-relaxed max-w-sm mx-auto mb-2">
               Thank you for trusting me with your hair -- I don&apos;t take that lightly.

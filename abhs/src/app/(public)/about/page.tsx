@@ -18,7 +18,7 @@ export default function AboutPage() {
         <section className="py-14 sm:py-16 bg-white">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionFloral>
-              <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-3" />
+              <FloralBloom className="w-20 h-20 text-forest-500 mx-auto mb-3" />
             </MotionFloral>
             <MotionReveal delay={0.1}>
               <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
@@ -179,7 +179,7 @@ export default function AboutPage() {
                 {/* Pull quote */}
                 <blockquote className="relative my-8 py-6 px-6 border-l-2 border-copper-400 bg-blush-50 rounded-r-lg">
                   <MotionFloral>
-                    <FloralCorner className="absolute -top-2 -right-2 w-14 h-14 text-forest-500 opacity-25 scale-x-[-1]" />
+                    <FloralCorner className="absolute -top-2 -right-2 w-24 h-24 text-forest-500 opacity-25 scale-x-[-1]" />
                   </MotionFloral>
                   <p className="font-serif text-lg text-warm-700 italic leading-relaxed">
                     &ldquo;I knew I had to go back to school. This time, I was doing
@@ -301,7 +301,7 @@ export default function AboutPage() {
                 {/* Pull quote */}
                 <blockquote className="relative my-8 py-6 px-6 border-l-2 border-sage-400 bg-sage-50 rounded-r-lg">
                   <MotionFloral>
-                    <FloralCorner className="absolute -top-2 -right-2 w-14 h-14 text-forest-500 opacity-25 scale-x-[-1]" />
+                    <FloralCorner className="absolute -top-2 -right-2 w-24 h-24 text-forest-500 opacity-25 scale-x-[-1]" />
                   </MotionFloral>
                   <p className="font-serif text-lg text-warm-700 italic leading-relaxed">
                     &ldquo;Whether it&apos;s clients or other stylists, when

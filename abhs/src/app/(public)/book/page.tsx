@@ -20,7 +20,7 @@ export default function BookPage() {
         <section className="py-16 sm:py-20">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center mb-10">
             <MotionFloral>
-              <FloralBloom className="w-8 h-8 text-forest-500 mx-auto mb-4" />
+              <FloralBloom className="w-16 h-16 text-forest-500 mx-auto mb-4" />
             </MotionFloral>
             <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
               Book Your Appointment

@@ -27,7 +27,7 @@ export default function HomePage() {
 
           {/* Subtle floral corner accent */}
           <MotionFloral>
-            <FloralCorner withVines className="absolute bottom-6 right-6 w-40 h-40 sm:w-48 sm:h-48 text-forest-500 opacity-30" />
+            <FloralCorner withVines className="absolute bottom-6 right-6 w-56 h-56 sm:w-72 sm:h-72 text-forest-500 opacity-30" />
           </MotionFloral>
 
           <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
@@ -36,7 +36,7 @@ export default function HomePage() {
                 {/* Personal greeting — bold, warm, in your face */}
                 <MotionRevealChild>
                   <MotionFloral>
-                    <FloralBloom className="w-12 h-12 text-forest-500 mb-5" />
+                    <FloralBloom className="w-20 h-20 text-forest-500 mb-5" />
                   </MotionFloral>
                 </MotionRevealChild>
                 <MotionRevealChild>
@@ -102,7 +102,7 @@ export default function HomePage() {
                   />
                   <div className="absolute bottom-0 right-0">
                     <MotionFloral>
-                      <FloralCorner className="w-20 h-20 text-white opacity-30" />
+                      <FloralCorner className="w-32 h-32 text-white opacity-30" />
                     </MotionFloral>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export default function HomePage() {
               <MotionReveal direction="right" delay={0.2}>
                 <div>
                   <MotionFloral>
-                    <FloralBloom className="w-10 h-10 text-forest-500 mb-3" />
+                    <FloralBloom className="w-16 h-16 text-forest-500 mb-3" />
                   </MotionFloral>
                   <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-5">
                     The Person Behind the Chair
@@ -196,7 +196,7 @@ export default function HomePage() {
           <MotionReveal>
             <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
               <MotionFloral>
-                <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-4" />
+                <FloralBloom className="w-20 h-20 text-forest-500 mx-auto mb-4" />
               </MotionFloral>
               <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-4">
                 There&apos;s a chair here whenever you&apos;re ready.
