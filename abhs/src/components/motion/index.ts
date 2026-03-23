@@ -3,3 +3,4 @@ export { MotionParallax } from './motion-parallax';
 export { MotionPage } from './motion-page';
 export { MotionFloral } from './motion-floral';
 export { MotionGalleryLightbox } from './motion-gallery';
+export { MotionButton } from './motion-button';

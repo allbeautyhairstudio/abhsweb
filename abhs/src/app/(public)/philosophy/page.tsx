@@ -7,6 +7,7 @@ import { FloralDividerAnimated } from '@/components/decorative/floral-divider-an
 import { MotionPage } from '@/components/motion/motion-page';
 import { MotionReveal, MotionRevealChild } from '@/components/motion/motion-reveal';
 import { MotionFloral } from '@/components/motion/motion-floral';
+import { MotionButton } from '@/components/motion';
 
 export const metadata: Metadata = {
   title: 'Intentional Hair Philosophy',
@@ -23,7 +24,7 @@ export default function PhilosophyPage() {
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionReveal>
               <MotionFloral>
-                <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+                <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-3" />
               </MotionFloral>
               <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
                 Intentional Hair Design
@@ -244,20 +245,24 @@ export default function PhilosophyPage() {
                 your hair, your life, and design a plan that works for both.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/newclientform"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
-                >
-                  <Calendar size={16} />
-                  New Client? Start Here
-                </Link>
-                <Link
-                  href="/book"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-warm-300 text-warm-600 rounded-lg hover:bg-warm-50 transition-colors text-sm font-medium min-h-[44px]"
-                >
-                  Returning Client Booking
-                  <ArrowRight size={16} />
-                </Link>
+                <MotionButton>
+                  <Link
+                    href="/newclientform"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
+                  >
+                    <Calendar size={16} />
+                    New Client? Start Here
+                  </Link>
+                </MotionButton>
+                <MotionButton>
+                  <Link
+                    href="/book"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-warm-300 text-warm-600 rounded-lg hover:bg-warm-50 transition-colors text-sm font-medium min-h-[44px]"
+                  >
+                    Returning Client Booking
+                    <ArrowRight size={16} />
+                  </Link>
+                </MotionButton>
               </div>
             </MotionReveal>
           </div>

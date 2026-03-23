@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Calendar } from 'lucide-react';
 import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
-import { MotionReveal, MotionRevealChild, MotionParallax, MotionPage, MotionFloral } from '@/components/motion';
+import { MotionReveal, MotionRevealChild, MotionParallax, MotionPage, MotionFloral, MotionButton } from '@/components/motion';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 
 export default function HomePage() {
@@ -27,7 +27,7 @@ export default function HomePage() {
 
           {/* Subtle floral corner accent */}
           <MotionFloral breathing cursorResponse>
-            <FloralCorner className="absolute bottom-6 right-6 w-28 h-28 sm:w-36 sm:h-36 text-forest-500 opacity-30" />
+            <FloralCorner withVines className="absolute bottom-6 right-6 w-40 h-40 sm:w-48 sm:h-48 text-forest-500 opacity-30" />
           </MotionFloral>
 
           <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
@@ -36,7 +36,7 @@ export default function HomePage() {
                 {/* Personal greeting — bold, warm, in your face */}
                 <MotionRevealChild>
                   <MotionFloral>
-                    <FloralBloom className="w-8 h-8 text-forest-500 mb-5" />
+                    <FloralBloom className="w-12 h-12 text-forest-500 mb-5" />
                   </MotionFloral>
                 </MotionRevealChild>
                 <MotionRevealChild>
@@ -59,20 +59,24 @@ export default function HomePage() {
                 </MotionRevealChild>
                 <MotionRevealChild>
                   <div className="flex flex-col sm:flex-row items-start gap-4">
-                    <Link
-                      href="/newclientform"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
-                    >
-                      <Calendar size={18} />
-                      New Here? Let&apos;s Talk
-                    </Link>
-                    <Link
-                      href="/book"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/80 backdrop-blur-sm border border-warm-300 text-warm-600 rounded-lg hover:bg-white transition-colors font-medium min-h-[48px] text-base"
-                    >
-                      Already a Client? Book Here
-                      <ArrowRight size={16} />
-                    </Link>
+                    <MotionButton>
+                      <Link
+                        href="/newclientform"
+                        className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
+                      >
+                        <Calendar size={18} />
+                        New Here? Let&apos;s Talk
+                      </Link>
+                    </MotionButton>
+                    <MotionButton>
+                      <Link
+                        href="/book"
+                        className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/80 backdrop-blur-sm border border-warm-300 text-warm-600 rounded-lg hover:bg-white transition-colors font-medium min-h-[48px] text-base"
+                      >
+                        Already a Client? Book Here
+                        <ArrowRight size={16} />
+                      </Link>
+                    </MotionButton>
                   </div>
                 </MotionRevealChild>
               </div>
@@ -106,7 +110,7 @@ export default function HomePage() {
               <MotionReveal direction="right" delay={0.2}>
                 <div>
                   <MotionFloral>
-                    <FloralBloom className="w-6 h-6 text-forest-500 mb-3" />
+                    <FloralBloom className="w-10 h-10 text-forest-500 mb-3" />
                   </MotionFloral>
                   <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-5">
                     The Person Behind the Chair
@@ -192,7 +196,7 @@ export default function HomePage() {
           <MotionReveal>
             <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
               <MotionFloral>
-                <FloralBloom className="w-8 h-8 text-forest-500 mx-auto mb-4" />
+                <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-4" />
               </MotionFloral>
               <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-4">
                 There&apos;s a chair here whenever you&apos;re ready.
@@ -202,20 +206,24 @@ export default function HomePage() {
                 hair and what would actually work for your life.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/newclientform"
-                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
-                >
-                  <Calendar size={18} />
-                  New Here? Let&apos;s Talk
-                </Link>
-                <Link
-                  href="/book"
-                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/80 backdrop-blur-sm border border-warm-300 text-warm-600 rounded-lg hover:bg-white transition-colors font-medium min-h-[48px] text-base"
-                >
-                  Already a Client? Book Here
-                  <ArrowRight size={16} />
-                </Link>
+                <MotionButton>
+                  <Link
+                    href="/newclientform"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
+                  >
+                    <Calendar size={18} />
+                    New Here? Let&apos;s Talk
+                  </Link>
+                </MotionButton>
+                <MotionButton>
+                  <Link
+                    href="/book"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/80 backdrop-blur-sm border border-warm-300 text-warm-600 rounded-lg hover:bg-white transition-colors font-medium min-h-[48px] text-base"
+                  >
+                    Already a Client? Book Here
+                    <ArrowRight size={16} />
+                  </Link>
+                </MotionButton>
               </div>
             </div>
           </MotionReveal>

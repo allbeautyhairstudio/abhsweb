@@ -6,7 +6,7 @@ import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
-import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral } from '@/components/motion';
+import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton } from '@/components/motion';
 
 const faqs = [
   {
@@ -155,12 +155,14 @@ export default function FaqPage() {
             <p className="text-warm-500 text-sm mb-6">
               Seriously, ask me anything. There&apos;s no such thing as a dumb question when it comes to your hair.
             </p>
-            <a
-              href="/newclientform"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
-            >
-              Reach Out — New Client Form
-            </a>
+            <MotionButton>
+              <a
+                href="/newclientform"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
+              >
+                Reach Out — New Client Form
+              </a>
+            </MotionButton>
           </div>
         </section>
       </div>
