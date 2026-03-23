@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
-import { FloralBloom, FloralDivider, FloralCorner } from '@/components/decorative/floral-accents';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
+import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
+import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral } from '@/components/motion';
 
 const faqs = [
   {
@@ -68,77 +71,99 @@ function FaqItem({
         <span className="font-medium text-warm-700 text-sm sm:text-base pr-4 group-hover:text-copper-500 transition-colors">
           {question}
         </span>
-        <ChevronDown
-          size={18}
-          className={`text-warm-400 shrink-0 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
-        />
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+        >
+          <ChevronDown size={18} className="text-copper-500" />
+        </motion.div>
       </button>
-      {isOpen && (
-        <div className="pb-5 pr-8">
-          <p className="text-sm text-warm-500 leading-relaxed">{answer}</p>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{
+              height: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+              opacity: { duration: 0.3, delay: isOpen ? 0.1 : 0 },
+            }}
+            className="overflow-hidden"
+          >
+            <p className="pb-5 text-warm-500 leading-relaxed">{answer}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 export default function FaqPage() {
   return (
-    <div className="flex flex-col">
-      {/* Header with background image */}
-      <section className="relative py-16 sm:py-20">
-        <Image
-          src="https://images.unsplash.com/photo-1634225109865-7a7b6e4ef85c?w=1920&q=80"
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-white/88" />
-        <FloralCorner className="absolute bottom-2 right-4 w-24 h-24 text-forest-500 opacity-25 scale-x-[-1]" />
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
-          <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
-            Frequently Asked Questions
-          </h1>
-          <p className="text-warm-500 leading-relaxed">
-            The stuff people usually want to know before they book. No fluff, just real answers.
-          </p>
-        </div>
-      </section>
-
-      {/* FAQ List */}
-      <section className="py-14 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <div className="divide-y divide-warm-100 border-t border-warm-100">
-            {faqs.map((faq) => (
-              <FaqItem key={faq.question} {...faq} />
-            ))}
+    <MotionPage>
+      <div className="flex flex-col">
+        {/* Header with background image */}
+        <section className="relative py-16 sm:py-20">
+          <Image
+            src="https://images.unsplash.com/photo-1634225109865-7a7b6e4ef85c?w=1920&q=80"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-white/88" />
+          <MotionFloral breathing cursorResponse>
+            <FloralCorner className="absolute bottom-2 right-4 w-24 h-24 text-forest-500 opacity-25 scale-x-[-1]" />
+          </MotionFloral>
+          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+            <MotionFloral>
+              <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+            </MotionFloral>
+            <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-warm-500 leading-relaxed">
+              The stuff people usually want to know before they book. No fluff, just real answers.
+            </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <FloralDivider className="py-4 text-forest-500" />
+        {/* FAQ List */}
+        <section className="py-14 sm:py-16">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <div className="divide-y divide-warm-100 border-t border-warm-100">
+              <MotionReveal stagger={0.08}>
+                {faqs.map((faq) => (
+                  <MotionRevealChild key={faq.question}>
+                    <FaqItem {...faq} />
+                  </MotionRevealChild>
+                ))}
+              </MotionReveal>
+            </div>
+          </div>
+        </section>
 
-      {/* Still have questions */}
-      <section className="py-14 sm:py-16 bg-sage-50">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-serif text-2xl text-warm-700 mb-3">
-            Still Have Questions?
-          </h2>
-          <p className="text-warm-500 text-sm mb-6">
-            Seriously, ask me anything. There&apos;s no such thing as a dumb question when it comes to your hair.
-          </p>
-          <a
-            href="/newclientform"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
-          >
-            Reach Out — New Client Form
-          </a>
-        </div>
-      </section>
-    </div>
+        <FloralDividerAnimated className="py-4 text-forest-500" />
+
+        {/* Still have questions */}
+        <section className="py-14 sm:py-16 bg-sage-50">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="font-serif text-2xl text-warm-700 mb-3">
+              Still Have Questions?
+            </h2>
+            <p className="text-warm-500 text-sm mb-6">
+              Seriously, ask me anything. There&apos;s no such thing as a dumb question when it comes to your hair.
+            </p>
+            <a
+              href="/newclientform"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
+            >
+              Reach Out — New Client Form
+            </a>
+          </div>
+        </section>
+      </div>
+    </MotionPage>
   );
 }
