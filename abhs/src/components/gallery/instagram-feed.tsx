@@ -10,7 +10,7 @@ import { useAnimationTier } from '@/hooks/useAnimationTier';
 
 // --- Video Card (autoplay on scroll, muted, respects prefers-reduced-motion) ---
 
-function VideoCard({ post }: { post: InstagramPost }) {
+function VideoCard({ post, onSelect }: { post: InstagramPost; onSelect?: (id: string) => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
@@ -51,14 +51,7 @@ function VideoCard({ post }: { post: InstagramPost }) {
   }, []);
 
   function handleClick() {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play().then(() => setPlaying(true)).catch(() => {});
-    } else {
-      video.pause();
-      setPlaying(false);
-    }
+    onSelect?.(post.id);
   }
 
   return (
@@ -213,7 +206,7 @@ export function InstagramFeed({
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.06, duration: 0.5 }}
               >
-                <VideoCard post={post} />
+                <VideoCard post={post} onSelect={setSelectedId} />
               </motion.div>
             );
           }
