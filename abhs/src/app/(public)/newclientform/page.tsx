@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles, Calendar } from 'lucide-react';
-import { FloralBloom, FloralDivider } from '@/components/decorative/floral-accents';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FloralBloom } from '@/components/decorative/floral-accents';
+import { MotionPage, MotionFloral } from '@/components/motion';
 
 // --- Option data ---
 
@@ -543,6 +545,7 @@ export default function NewClientFormPage() {
 
   if (!showForm) {
     return (
+      <MotionPage>
       <div className="flex flex-col">
         <section className="relative py-14 sm:py-20 overflow-hidden">
           <Image
@@ -554,7 +557,9 @@ export default function NewClientFormPage() {
           />
           <div className="absolute inset-0 bg-white/85" />
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-            <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+            <MotionFloral>
+              <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+            </MotionFloral>
             <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-3">
               New Client Form
             </h1>
@@ -622,6 +627,7 @@ export default function NewClientFormPage() {
           </div>
         </section>
       </div>
+      </MotionPage>
     );
   }
 
@@ -636,6 +642,7 @@ export default function NewClientFormPage() {
   // --- Form ---
 
   return (
+    <MotionPage>
     <div className="flex flex-col">
       {/* Header */}
       <section className="relative py-10 sm:py-14 overflow-hidden">
@@ -648,7 +655,9 @@ export default function NewClientFormPage() {
         />
         <div className="absolute inset-0 bg-white/85" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <FloralBloom className="w-6 h-6 text-forest-500 mx-auto mb-2" />
+          <MotionFloral>
+            <FloralBloom className="w-6 h-6 text-forest-500 mx-auto mb-2" />
+          </MotionFloral>
           <h1 className="font-serif text-2xl sm:text-3xl text-warm-800">
             New Client Form
           </h1>
@@ -667,9 +676,10 @@ export default function NewClientFormPage() {
               <span className="text-xs text-warm-400">{Math.round((step / totalSteps) * 100)}%</span>
             </div>
             <div className="h-2 bg-warm-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-forest-500 rounded-full transition-all duration-300"
-                style={{ width: `${(step / totalSteps) * 100}%` }}
+              <motion.div
+                className="h-1 bg-forest-400 rounded-full"
+                animate={{ width: `${(step / totalSteps) * 100}%` }}
+                transition={{ type: 'spring', damping: 20, stiffness: 200 }}
               />
             </div>
           </div>
@@ -722,6 +732,14 @@ export default function NewClientFormPage() {
               />
             </div>
 
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={step}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              >
             {/* ===== STEP 1: About You ===== */}
             {step === 1 && (
               <div className="space-y-6">
@@ -1259,6 +1277,8 @@ export default function NewClientFormPage() {
                 {errors.consent && <p className="text-xs text-red-500 -mt-4">{errors.consent}</p>}
               </div>
             )}
+              </motion.div>
+            </AnimatePresence>
 
             {/* Navigation buttons */}
             <div className="flex items-center justify-between mt-10 pt-6 border-t border-warm-100">
@@ -1314,7 +1334,9 @@ export default function NewClientFormPage() {
 
           {/* Reassurance */}
           <div className="mt-10 pt-8 border-t border-warm-100 text-center">
+            <MotionFloral>
             <FloralBloom className="w-5 h-5 text-warm-300 mx-auto mb-3" />
+          </MotionFloral>
             <p className="text-sm text-warm-600 leading-relaxed max-w-sm mx-auto mb-2">
               Thank you for trusting me with your hair -- I don&apos;t take that lightly.
             </p>
@@ -1326,5 +1348,6 @@ export default function NewClientFormPage() {
         </div>
       </section>
     </div>
+    </MotionPage>
   );
 }
