@@ -121,7 +121,7 @@ export default function HomePage() {
                     href="/about"
                     className="inline-flex items-center gap-1.5 text-copper-500 font-medium hover:text-copper-600 transition-colors"
                   >
-                    My Journey — Read More
+                    My Journey — read more
                     <ArrowRight size={16} />
                   </Link>
                 </div>
