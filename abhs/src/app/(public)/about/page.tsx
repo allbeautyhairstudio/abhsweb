@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight, Calendar } from 'lucide-react';
 import { FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
-import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral } from '@/components/motion';
+import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton } from '@/components/motion';
 
 export const metadata: Metadata = {
   title: 'My Journey',
@@ -321,6 +323,41 @@ export default function AboutPage() {
 
         {/* Closing floral */}
         <FloralDividerAnimated className="text-forest-500 pb-8 px-4" />
+
+        {/* CTA */}
+        <MotionReveal>
+          <section className="py-16 sm:py-20">
+            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-4">
+                Ready to start your own story?
+              </h2>
+              <p className="text-warm-500 mb-8 leading-relaxed">
+                Every great transformation begins with a conversation.
+                Tell me about you, your hair, and what you&apos;re looking for.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <MotionButton>
+                  <Link
+                    href="/newclientform"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors font-medium min-h-[48px] shadow-md text-base"
+                  >
+                    <Calendar size={18} />
+                    Let&apos;s Talk About Your Hair
+                  </Link>
+                </MotionButton>
+                <MotionButton>
+                  <Link
+                    href="/book"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/80 backdrop-blur-sm border border-warm-300 text-warm-600 rounded-lg hover:bg-white transition-colors font-medium min-h-[48px] text-base"
+                  >
+                    Already a Client? Book Here
+                    <ArrowRight size={16} />
+                  </Link>
+                </MotionButton>
+              </div>
+            </div>
+          </section>
+        </MotionReveal>
       </div>
     </MotionPage>
   );
