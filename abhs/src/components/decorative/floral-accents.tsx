@@ -9,75 +9,127 @@ interface AccentProps {
   withVines?: boolean;
 }
 
-/** Detailed rose bloom -- layered petals, stamen, sepals, and leaves */
+/**
+ * Hand-illustrated garden rose bloom.
+ * Layered petals curl and overlap like a real cabbage rose opening.
+ * Each petal has its own curve weight and opacity for depth.
+ * Stamen, pistil, sepals, and companion leaves complete the botanical.
+ */
 export function FloralBloom({ className = '' }: AccentProps) {
   return (
     <svg
-      viewBox="0 0 60 60"
+      viewBox="0 0 80 80"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden="true"
     >
-      {/* Outer petal layer -- 5 large petals with organic curves */}
-      <path d="M30 8 Q24 14 23 20 Q22 14 26 8 Q28 6 30 8z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-      <path d="M30 8 Q36 14 37 20 Q38 14 34 8 Q32 6 30 8z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-      <path d="M44 16 Q40 22 36 24 Q42 20 46 18 Q46 16 44 16z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
-      <path d="M48 28 Q42 26 38 28 Q42 24 48 24 Q50 26 48 28z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
-      <path d="M16 16 Q20 22 24 24 Q18 20 14 18 Q14 16 16 16z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
-      <path d="M12 28 Q18 26 22 28 Q18 24 12 24 Q10 26 12 28z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
-      <path d="M30 52 Q24 46 23 40 Q22 46 26 52 Q28 54 30 52z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-      <path d="M30 52 Q36 46 37 40 Q38 46 34 52 Q32 54 30 52z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-      <path d="M46 42 Q40 38 36 36 Q42 38 46 40 Q48 42 46 42z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
-      <path d="M14 42 Q20 38 24 36 Q18 38 14 40 Q12 42 14 42z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+      {/* === OUTERMOST PETALS (guard petals) -- wide, soft, slightly curled edges === */}
+      {/* Top guard */}
+      <path d="M40 6 C32 10 26 18 25 26 C28 20 34 14 40 12 C46 14 52 20 55 26 C54 18 48 10 40 6z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.28" />
+      {/* Top-right guard */}
+      <path d="M56 10 C60 16 62 24 58 32 C56 26 52 20 48 18 C52 14 56 12 56 10z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.25" />
+      {/* Right guard */}
+      <path d="M66 24 C68 32 66 40 60 46 C62 40 60 32 56 28 C60 26 64 24 66 24z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.25" />
+      {/* Bottom-right guard */}
+      <path d="M62 50 C58 58 50 62 44 60 C50 56 54 50 54 44 C58 46 62 48 62 50z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.25" />
+      {/* Bottom guard */}
+      <path d="M40 68 C48 64 54 58 55 50 C52 56 46 60 40 62 C34 60 28 56 25 50 C26 58 32 64 40 68z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.28" />
+      {/* Bottom-left guard */}
+      <path d="M18 50 C22 58 30 62 36 60 C30 56 26 50 26 44 C22 46 18 48 18 50z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.25" />
+      {/* Left guard */}
+      <path d="M14 24 C12 32 14 40 20 46 C18 40 20 32 24 28 C20 26 16 24 14 24z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.25" />
+      {/* Top-left guard */}
+      <path d="M24 10 C20 16 18 24 22 32 C24 26 28 20 32 18 C28 14 24 12 24 10z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.25" />
 
-      {/* Mid petal layer -- slightly smaller, overlapping */}
-      <path d="M30 12 Q26 18 25 24 Q24 18 28 13 Q30 11 30 12z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
-      <path d="M30 12 Q34 18 35 24 Q36 18 32 13 Q30 11 30 12z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
-      <path d="M42 22 Q38 26 34 28 Q38 24 42 22z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
-      <path d="M18 22 Q22 26 26 28 Q22 24 18 22z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
-      <path d="M30 48 Q26 42 25 36 Q24 42 28 47 Q30 49 30 48z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
-      <path d="M30 48 Q34 42 35 36 Q36 42 32 47 Q30 49 30 48z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
-      <path d="M42 38 Q38 34 34 32 Q38 36 42 38z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
-      <path d="M18 38 Q22 34 26 32 Q22 36 18 38z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
+      {/* === MIDDLE PETALS -- cupped inward, more visible === */}
+      {/* Top */}
+      <path d="M40 14 C34 18 30 24 30 30 C34 24 38 20 40 18 C42 20 46 24 50 30 C50 24 46 18 40 14z"
+        stroke="currentColor" strokeWidth="0.75" opacity="0.38" />
+      {/* Right */}
+      <path d="M58 30 C54 26 48 24 42 26 C48 28 52 32 54 36 C54 32 56 30 58 30z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.35" />
+      {/* Bottom */}
+      <path d="M40 58 C46 54 50 48 50 42 C46 48 42 52 40 54 C38 52 34 48 30 42 C30 48 34 54 40 58z"
+        stroke="currentColor" strokeWidth="0.75" opacity="0.38" />
+      {/* Left */}
+      <path d="M22 30 C26 26 32 24 38 26 C32 28 28 32 26 36 C26 32 24 30 22 30z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.35" />
+      {/* Diagonal petals for fullness */}
+      <path d="M50 18 C52 24 50 30 46 34 C48 28 48 22 50 18z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.32" />
+      <path d="M30 18 C28 24 30 30 34 34 C32 28 32 22 30 18z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.32" />
+      <path d="M50 54 C52 48 50 42 46 38 C48 44 48 50 50 54z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.32" />
+      <path d="M30 54 C28 48 30 42 34 38 C32 44 32 50 30 54z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.32" />
 
-      {/* Inner petal spiral -- the tight center of the rose */}
-      <path
-        d="M30 25 Q28 27 29 30 Q31 28 33 29 Q31 31 30 33 Q28 31 27 30 Q29 28 30 25z"
-        stroke="currentColor" strokeWidth="0.7" opacity="0.5"
-      />
-      <path
-        d="M30 27 Q29 29 30 30 Q31 29 30 27z"
-        stroke="currentColor" strokeWidth="0.6" opacity="0.55"
-      />
+      {/* === INNER PETALS -- tight, spiraling toward center === */}
+      <path d="M40 24 C36 26 34 30 35 34 C37 30 39 28 40 26 C41 28 43 30 45 34 C46 30 44 26 40 24z"
+        stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
+      <path d="M46 30 C44 28 42 28 40 30 C42 30 44 32 46 34 C46 32 46 30 46 30z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.42" />
+      <path d="M34 30 C36 28 38 28 40 30 C38 30 36 32 34 34 C34 32 34 30 34 30z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.42" />
+      <path d="M40 44 C44 42 46 38 44 34 C42 38 40 40 40 42 C40 40 38 38 36 34 C34 38 36 42 40 44z"
+        stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
 
-      {/* Center stamen dots */}
-      <circle cx="29.5" cy="29" r="0.8" fill="currentColor" opacity="0.4" />
-      <circle cx="31" cy="30.5" r="0.6" fill="currentColor" opacity="0.35" />
-      <circle cx="29" cy="31" r="0.5" fill="currentColor" opacity="0.3" />
+      {/* === CENTER SPIRAL -- the tight bud at the heart === */}
+      <path d="M38 33 C37 31 38 29 40 29 C42 29 43 31 42 33 C41 35 39 35 38 33z"
+        stroke="currentColor" strokeWidth="0.8" opacity="0.55" />
+      <path d="M39 31 C39 30 40 29.5 41 30 C41.5 31 41 32 40 32 C39 32 39 31 39 31z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.6" />
 
-      {/* Sepals -- the small leaf-like structures behind the petals */}
-      <path d="M24 10 Q22 6 20 4 Q24 6 26 10" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-      <path d="M36 10 Q38 6 40 4 Q36 6 34 10" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-      <path d="M24 50 Q22 54 20 56 Q24 54 26 50" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-      <path d="M36 50 Q38 54 40 56 Q36 54 34 50" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+      {/* === STAMEN -- tiny dots and filaments at center === */}
+      <circle cx="39.5" cy="31" r="0.7" fill="currentColor" opacity="0.5" />
+      <circle cx="40.8" cy="32" r="0.5" fill="currentColor" opacity="0.45" />
+      <circle cx="39" cy="32.5" r="0.4" fill="currentColor" opacity="0.4" />
+      <circle cx="41" cy="30.5" r="0.4" fill="currentColor" opacity="0.35" />
 
-      {/* Leaves with veins -- reaching diagonally from the bloom */}
-      <path d="M10 10 Q14 14 18 18" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-      <path d="M8 14 Q12 12 16 14 Q12 16 8 14z" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-      <path d="M12 10 Q14 12 12 14" stroke="currentColor" strokeWidth="0.3" opacity="0.2" />
+      {/* === SEPALS -- pointed leaf-shapes peeking from behind the bloom === */}
+      <path d="M30 8 C28 4 26 2 24 1 C26 4 28 7 30 10"
+        stroke="currentColor" strokeWidth="0.5" opacity="0.22" strokeLinecap="round" />
+      <path d="M50 8 C52 4 54 2 56 1 C54 4 52 7 50 10"
+        stroke="currentColor" strokeWidth="0.5" opacity="0.22" strokeLinecap="round" />
+      <path d="M62 20 C66 18 68 16 70 14 C66 18 64 20 62 22"
+        stroke="currentColor" strokeWidth="0.45" opacity="0.2" strokeLinecap="round" />
+      <path d="M18 20 C14 18 12 16 10 14 C14 18 16 20 18 22"
+        stroke="currentColor" strokeWidth="0.45" opacity="0.2" strokeLinecap="round" />
 
-      <path d="M50 50 Q46 46 42 42" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-      <path d="M52 46 Q48 48 44 46 Q48 44 52 46z" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-      <path d="M48 50 Q46 48 48 46" stroke="currentColor" strokeWidth="0.3" opacity="0.2" />
+      {/* === COMPANION LEAVES -- reaching out from stem area === */}
+      {/* Lower-left leaf with midrib and veins */}
+      <path d="M14 62 C10 56 8 48 12 42 C14 48 18 54 22 58 C18 60 14 62 14 62z"
+        stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
+      <path d="M14 62 C12 54 12 46 14 42" stroke="currentColor" strokeWidth="0.35" opacity="0.2" />
+      <path d="M13 52 C15 50 17 52" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
+      <path d="M13 48 C15 46 17 48" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
+      {/* Stem connecting to leaf */}
+      <path d="M22 58 C26 56 30 52 34 46" stroke="currentColor" strokeWidth="0.5" opacity="0.25" strokeLinecap="round" />
 
-      {/* Tiny pollen dots around the bloom */}
-      <circle cx="22" cy="16" r="0.5" fill="currentColor" opacity="0.2" />
-      <circle cx="38" cy="16" r="0.5" fill="currentColor" opacity="0.2" />
-      <circle cx="22" cy="44" r="0.5" fill="currentColor" opacity="0.18" />
-      <circle cx="38" cy="44" r="0.5" fill="currentColor" opacity="0.18" />
-      <circle cx="14" cy="30" r="0.4" fill="currentColor" opacity="0.15" />
-      <circle cx="46" cy="30" r="0.4" fill="currentColor" opacity="0.15" />
+      {/* Lower-right leaf */}
+      <path d="M66 62 C70 56 72 48 68 42 C66 48 62 54 58 58 C62 60 66 62 66 62z"
+        stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
+      <path d="M66 62 C68 54 68 46 66 42" stroke="currentColor" strokeWidth="0.35" opacity="0.2" />
+      <path d="M67 52 C65 50 63 52" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
+      <path d="M67 48 C65 46 63 48" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
+      <path d="M58 58 C54 56 50 52 46 46" stroke="currentColor" strokeWidth="0.5" opacity="0.25" strokeLinecap="round" />
+
+      {/* === POLLEN SCATTER === */}
+      <circle cx="20" cy="20" r="0.5" fill="currentColor" opacity="0.15" />
+      <circle cx="60" cy="20" r="0.5" fill="currentColor" opacity="0.15" />
+      <circle cx="16" cy="36" r="0.4" fill="currentColor" opacity="0.12" />
+      <circle cx="64" cy="36" r="0.4" fill="currentColor" opacity="0.12" />
+      <circle cx="28" cy="64" r="0.4" fill="currentColor" opacity="0.12" />
+      <circle cx="52" cy="64" r="0.4" fill="currentColor" opacity="0.12" />
     </svg>
   );
 }
@@ -183,86 +235,140 @@ export function FloralDivider({ className = '' }: AccentProps) {
   );
 }
 
-/** Corner botanical arrangement — roses, leaves, and buds flowing from corner */
+/**
+ * Corner botanical arrangement -- a lush cascade of roses, buds, leaves,
+ * and trailing vines flowing from the corner. Studio-quality botanical illustration.
+ */
 export function FloralCorner({ className = '', withVines = false }: AccentProps) {
   return (
     <svg
-      viewBox={withVines ? "0 0 170 170" : "0 0 120 120"}
+      viewBox={withVines ? '0 0 180 180' : '0 0 130 130'}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden="true"
     >
-      {/* Main branch from bottom-left */}
-      <path
-        d="M5 115 Q15 90 25 75 Q35 60 50 48 Q60 40 70 30"
-        stroke="currentColor" strokeWidth="0.8" opacity="0.4"
-        strokeLinecap="round"
-      />
-      {/* Secondary branch */}
-      <path
-        d="M5 115 Q25 100 40 90 Q55 80 75 72 Q90 65 105 60"
-        stroke="currentColor" strokeWidth="0.6" opacity="0.35"
-        strokeLinecap="round"
-      />
-      {/* Tertiary wisp */}
-      <path
-        d="M5 115 Q10 105 20 100 Q30 95 45 95"
-        stroke="currentColor" strokeWidth="0.5" opacity="0.3"
-        strokeLinecap="round"
-      />
+      {/* === STEMS -- organic curves flowing from corner === */}
+      {/* Primary branch -- thick, confident, sweeping arc */}
+      <path d="M5 125 C12 105 18 90 28 75 C38 60 48 48 62 38 C72 30 82 24 90 20"
+        stroke="currentColor" strokeWidth="1" opacity="0.4" strokeLinecap="round" />
+      {/* Secondary branch -- diverges mid-way, curves differently */}
+      <path d="M5 125 C15 110 30 98 45 88 C60 78 75 72 92 68 C104 65 112 64 118 62"
+        stroke="currentColor" strokeWidth="0.75" opacity="0.35" strokeLinecap="round" />
+      {/* Tertiary wisp -- short, delicate */}
+      <path d="M5 125 C8 118 14 112 22 108 C30 104 40 102 52 102"
+        stroke="currentColor" strokeWidth="0.5" opacity="0.28" strokeLinecap="round" />
+      {/* Thin accent stem */}
+      <path d="M5 125 C10 120 18 118 28 118 C36 118 42 116 48 112"
+        stroke="currentColor" strokeWidth="0.4" opacity="0.22" strokeLinecap="round" />
 
-      {/* Main rose at top of primary branch */}
-      <circle cx="70" cy="30" r="3" stroke="currentColor" strokeWidth="0.6" opacity="0.45" />
-      <path d="M70 23 Q67 26 68 30 Q70 26 70 23z" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
-      <path d="M70 23 Q73 26 72 30 Q70 26 70 23z" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
-      <path d="M63 28 Q66 26 70 28 Q66 30 63 28z" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
-      <path d="M77 28 Q74 26 70 28 Q74 30 77 28z" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
-      <path d="M70 37 Q67 34 68 30 Q70 34 70 37z" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
-      <path d="M70 37 Q73 34 72 30 Q70 34 70 37z" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
-      {/* Rose leaves */}
-      <path d="M62 35 Q58 30 60 26" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
-      <path d="M62 35 Q56 32 55 28" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-      <path d="M62 35 Q58 30 55 28" stroke="currentColor" strokeWidth="0.3" opacity="0.22" />
+      {/* === PRIMARY ROSE -- full bloom at top of main branch === */}
+      {/* Outer petals */}
+      <path d="M90 8 C84 12 80 18 80 22 C84 18 88 14 90 12 C92 14 96 18 100 22 C100 18 96 12 90 8z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.38" />
+      <path d="M78 16 C76 20 76 26 80 30 C78 26 78 20 78 16z"
+        stroke="currentColor" strokeWidth="0.6" opacity="0.32" />
+      <path d="M102 16 C104 20 104 26 100 30 C102 26 102 20 102 16z"
+        stroke="currentColor" strokeWidth="0.6" opacity="0.32" />
+      <path d="M90 34 C86 32 82 28 80 24 C82 28 86 30 90 32 C94 30 98 28 100 24 C98 28 94 32 90 34z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.38" />
+      {/* Mid petals */}
+      <path d="M90 12 C87 16 85 20 86 24 C88 20 90 16 90 14 C90 16 92 20 94 24 C95 20 93 16 90 12z"
+        stroke="currentColor" strokeWidth="0.75" opacity="0.45" />
+      <path d="M84 18 C82 22 84 26 88 26 C86 24 84 20 84 18z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.4" />
+      <path d="M96 18 C98 22 96 26 92 26 C94 24 96 20 96 18z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.4" />
+      {/* Center spiral */}
+      <path d="M88 20 C88 18 89 17 90 17.5 C91.5 18 92 20 91 21.5 C90 23 88 22 88 20z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.55" />
+      <circle cx="89.8" cy="20" r="0.6" fill="currentColor" opacity="0.5" />
+      <circle cx="90.5" cy="21" r="0.4" fill="currentColor" opacity="0.4" />
+      {/* Rose leaves flanking the bloom */}
+      <path d="M76 28 C72 24 70 18 72 14 C74 20 76 24 78 26"
+        stroke="currentColor" strokeWidth="0.55" opacity="0.3" />
+      <path d="M76 28 C70 24 68 18 70 14" stroke="currentColor" strokeWidth="0.35" opacity="0.2" />
+      <path d="M74 22 C76 20 78 22" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
 
-      {/* Small bud on secondary branch */}
-      <path d="M90 63 Q88 58 90 55 Q92 58 90 63z" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
-      <path d="M90 63 Q87 61 86 58" stroke="currentColor" strokeWidth="0.4" opacity="0.3" />
+      {/* === SECONDARY BUD -- half-open, on the secondary branch === */}
+      <path d="M118 54 C116 50 116 46 118 42 C120 46 120 50 118 54z"
+        stroke="currentColor" strokeWidth="0.65" opacity="0.4" />
+      <path d="M118 42 C114 46 114 50 116 54" stroke="currentColor" strokeWidth="0.55" opacity="0.35" />
+      <path d="M118 42 C122 46 122 50 120 54" stroke="currentColor" strokeWidth="0.55" opacity="0.35" />
+      {/* Bud sepal */}
+      <path d="M116 56 C114 54 112 50 114 46" stroke="currentColor" strokeWidth="0.4" opacity="0.25" />
+      <path d="M120 56 C122 54 124 50 122 46" stroke="currentColor" strokeWidth="0.4" opacity="0.25" />
 
-      {/* Bud at end of secondary branch */}
-      <path d="M105 60 Q103 55 105 52 Q107 55 105 60z" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
+      {/* === SMALL BUD -- tight, near secondary branch end === */}
+      <path d="M98 64 C96 60 96 56 98 53 C100 56 100 60 98 64z"
+        stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
+      <path d="M96 64 C94 62 94 58 96 56" stroke="currentColor" strokeWidth="0.35" opacity="0.25" />
 
-      {/* Leaves along main branch */}
-      <path d="M30 70 Q24 64 26 58" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
-      <path d="M30 70 Q22 66 20 60" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-      <path d="M30 70 Q24 64 20 60" stroke="currentColor" strokeWidth="0.3" opacity="0.22" />
+      {/* === LEAVES -- full botanical detail with veins === */}
+      {/* Large leaf on main branch */}
+      <path d="M35 68 C28 60 26 50 30 44 C32 52 36 60 40 64 C38 66 36 68 35 68z"
+        stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+      <path d="M35 68 C30 58 30 50 32 44" stroke="currentColor" strokeWidth="0.35" opacity="0.22" />
+      <path d="M32 56 C34 54 36 56" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
+      <path d="M31 52 C33 50 35 52" stroke="currentColor" strokeWidth="0.25" opacity="0.15" />
 
-      <path d="M45 55 Q40 49 42 44" stroke="currentColor" strokeWidth="0.5" opacity="0.35" />
-      <path d="M45 55 Q38 51 37 46" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      {/* Paired leaf on main branch */}
+      <path d="M50 52 C44 46 42 38 46 32 C48 40 52 46 54 50"
+        stroke="currentColor" strokeWidth="0.55" opacity="0.32" />
+      <path d="M50 52 C46 44 46 38 48 32" stroke="currentColor" strokeWidth="0.3" opacity="0.2" />
 
-      {/* Small leaves along secondary branch */}
-      <path d="M55 83 Q50 78 52 74" stroke="currentColor" strokeWidth="0.4" opacity="0.3" />
-      <path d="M55 83 Q48 80 47 76" stroke="currentColor" strokeWidth="0.4" opacity="0.28" />
+      {/* Leaf on secondary branch */}
+      <path d="M65 80 C58 76 54 70 58 64 C60 72 64 76 68 78"
+        stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      <path d="M65 80 C60 74 58 68 60 64" stroke="currentColor" strokeWidth="0.3" opacity="0.2" />
+
+      {/* Small leaves on secondary */}
+      <path d="M82 72 C78 68 78 64 80 60 C82 66 84 70 86 72"
+        stroke="currentColor" strokeWidth="0.45" opacity="0.28" />
 
       {/* Leaves on tertiary wisp */}
-      <path d="M25 98 Q22 94 24 91" stroke="currentColor" strokeWidth="0.4" opacity="0.3" />
-      <path d="M38 95 Q36 91 38 88" stroke="currentColor" strokeWidth="0.4" opacity="0.28" />
+      <path d="M28 106 C24 102 24 98 26 94 C28 100 30 104 32 106"
+        stroke="currentColor" strokeWidth="0.4" opacity="0.25" />
+      <path d="M42 100 C38 96 38 92 40 88 C42 94 44 98 46 100"
+        stroke="currentColor" strokeWidth="0.4" opacity="0.25" />
 
-      {/* Tiny scattered dots (pollen/details) */}
-      <circle cx="80" cy="40" r="0.8" fill="currentColor" opacity="0.25" />
-      <circle cx="95" cy="55" r="0.6" fill="currentColor" opacity="0.22" />
-      <circle cx="48" cy="45" r="0.7" fill="currentColor" opacity="0.22" />
+      {/* Tiny leaf on accent stem */}
+      <path d="M36 116 C34 112 36 108 C38 112 36 116z"
+        stroke="currentColor" strokeWidth="0.35" opacity="0.2" />
+
+      {/* === CURLING TENDRILS -- thin, spiraling, alive === */}
+      <path d="M72 32 C76 28 82 26 86 28" stroke="currentColor" strokeWidth="0.35" opacity="0.2" strokeLinecap="round" />
+      <path d="M108 60 C112 56 116 58 114 62 C112 64 108 62 108 60"
+        stroke="currentColor" strokeWidth="0.35" opacity="0.2" strokeLinecap="round" />
+      <path d="M52 95 C56 90 60 92 58 96"
+        stroke="currentColor" strokeWidth="0.3" opacity="0.18" strokeLinecap="round" />
+
+      {/* === POLLEN SCATTER === */}
+      <circle cx="80" cy="38" r="0.7" fill="currentColor" opacity="0.2" />
+      <circle cx="105" cy="50" r="0.5" fill="currentColor" opacity="0.18" />
+      <circle cx="60" cy="55" r="0.6" fill="currentColor" opacity="0.18" />
+      <circle cx="45" cy="78" r="0.5" fill="currentColor" opacity="0.15" />
+      <circle cx="95" cy="72" r="0.4" fill="currentColor" opacity="0.15" />
+      <circle cx="35" cy="90" r="0.4" fill="currentColor" opacity="0.12" />
 
       {withVines && (
         <>
-          {/* Extended vine trailing from main branch */}
-          <path d="M95 25 Q110 15 130 20 Q145 25 160 18" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-          <path d="M130 20 Q128 14 133 10" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
-          <path d="M145 25 Q148 19 143 15" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
-          {/* Extended vine trailing from secondary branch */}
-          <path d="M25 95 Q15 110 20 130 Q25 145 18 160" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
-          <path d="M20 130 Q14 128 10 133" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
-          <path d="M25 145 Q19 143 15 148" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+          {/* Extended vine from primary branch -- crawls outward with curls */}
+          <path d="M92 18 C100 12 112 10 125 14 C135 18 140 24 148 20 C155 16 162 18 168 22"
+            stroke="currentColor" strokeWidth="0.5" opacity="0.22" strokeLinecap="round" />
+          <path d="M125 14 C128 8 126 4 122 2" stroke="currentColor" strokeWidth="0.35" opacity="0.18" strokeLinecap="round" />
+          <path d="M148 20 C150 14 148 10 144 8" stroke="currentColor" strokeWidth="0.35" opacity="0.18" strokeLinecap="round" />
+          {/* Tiny leaves on extended vine */}
+          <path d="M135 18 C132 12 134 8 C136 12 135 18z" stroke="currentColor" strokeWidth="0.35" opacity="0.15" />
+          <path d="M160 20 C158 14 160 10 C162 14 160 20z" stroke="currentColor" strokeWidth="0.35" opacity="0.15" />
+
+          {/* Extended vine from secondary -- drops downward with spirals */}
+          <path d="M48 112 C42 118 35 125 30 135 C26 145 28 152 22 160 C18 166 14 170 10 175"
+            stroke="currentColor" strokeWidth="0.5" opacity="0.22" strokeLinecap="round" />
+          <path d="M30 135 C24 132 20 136 22 140" stroke="currentColor" strokeWidth="0.35" opacity="0.18" strokeLinecap="round" />
+          <path d="M22 160 C16 158 14 162 16 166" stroke="currentColor" strokeWidth="0.3" opacity="0.15" strokeLinecap="round" />
+          {/* Tiny leaves on extended vine */}
+          <path d="M26 148 C22 144 24 140 C28 144 26 148z" stroke="currentColor" strokeWidth="0.35" opacity="0.15" />
         </>
       )}
     </svg>
