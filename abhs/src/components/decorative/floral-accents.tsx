@@ -9,31 +9,75 @@ interface AccentProps {
   withVines?: boolean;
 }
 
-/** Small rose bloom — used near headings and as inline accents */
+/** Detailed rose bloom -- layered petals, stamen, sepals, and leaves */
 export function FloralBloom({ className = '' }: AccentProps) {
   return (
     <svg
-      viewBox="0 0 40 40"
+      viewBox="0 0 60 60"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-hidden="true"
     >
-      {/* Center spiral */}
+      {/* Outer petal layer -- 5 large petals with organic curves */}
+      <path d="M30 8 Q24 14 23 20 Q22 14 26 8 Q28 6 30 8z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
+      <path d="M30 8 Q36 14 37 20 Q38 14 34 8 Q32 6 30 8z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
+      <path d="M44 16 Q40 22 36 24 Q42 20 46 18 Q46 16 44 16z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+      <path d="M48 28 Q42 26 38 28 Q42 24 48 24 Q50 26 48 28z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+      <path d="M16 16 Q20 22 24 24 Q18 20 14 18 Q14 16 16 16z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+      <path d="M12 28 Q18 26 22 28 Q18 24 12 24 Q10 26 12 28z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+      <path d="M30 52 Q24 46 23 40 Q22 46 26 52 Q28 54 30 52z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
+      <path d="M30 52 Q36 46 37 40 Q38 46 34 52 Q32 54 30 52z" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
+      <path d="M46 42 Q40 38 36 36 Q42 38 46 40 Q48 42 46 42z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+      <path d="M14 42 Q20 38 24 36 Q18 38 14 40 Q12 42 14 42z" stroke="currentColor" strokeWidth="0.6" opacity="0.28" />
+
+      {/* Mid petal layer -- slightly smaller, overlapping */}
+      <path d="M30 12 Q26 18 25 24 Q24 18 28 13 Q30 11 30 12z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
+      <path d="M30 12 Q34 18 35 24 Q36 18 32 13 Q30 11 30 12z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
+      <path d="M42 22 Q38 26 34 28 Q38 24 42 22z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
+      <path d="M18 22 Q22 26 26 28 Q22 24 18 22z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
+      <path d="M30 48 Q26 42 25 36 Q24 42 28 47 Q30 49 30 48z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
+      <path d="M30 48 Q34 42 35 36 Q36 42 32 47 Q30 49 30 48z" stroke="currentColor" strokeWidth="0.65" opacity="0.38" />
+      <path d="M42 38 Q38 34 34 32 Q38 36 42 38z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
+      <path d="M18 38 Q22 34 26 32 Q22 36 18 38z" stroke="currentColor" strokeWidth="0.65" opacity="0.35" />
+
+      {/* Inner petal spiral -- the tight center of the rose */}
       <path
-        d="M20 18.5c0.5-1.5 2-2.5 2-2.5s-0.5 2-1.5 3c1.5-0.5 3-0.5 3-0.5s-1.5 1.5-3 2c1.5 0.5 2.5 2 2.5 2s-2-0.5-3-1.5c0.5 1.5 0.5 3 0.5 3s-1.5-1.5-2-3c-0.5 1.5-2 2.5-2 2.5s0.5-2 1.5-3c-1.5 0.5-3 0.5-3 0.5s1.5-1.5 3-2c-1.5-0.5-2.5-2-2.5-2s2 0.5 3 1.5c-0.5-1.5-0.5-3-0.5-3s1.5 1.5 2 3z"
-        stroke="currentColor"
-        strokeWidth="0.7"
-        opacity="0.5"
+        d="M30 25 Q28 27 29 30 Q31 28 33 29 Q31 31 30 33 Q28 31 27 30 Q29 28 30 25z"
+        stroke="currentColor" strokeWidth="0.7" opacity="0.5"
       />
-      {/* Outer petals */}
-      <path d="M20 8c-2 4-1 7 0 9 1-2 2-5 0-9z" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-      <path d="M20 32c2-4 1-7 0-9-1 2-2 5 0 9z" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-      <path d="M8 20c4 2 7 1 9 0-2-1-5-2-9 0z" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-      <path d="M32 20c-4-2-7-1-9 0 2 1 5 2 9 0z" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
-      {/* Small leaves */}
-      <path d="M11 11c2 1 4 3 5 5" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-      <path d="M29 29c-2-1-4-3-5-5" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      <path
+        d="M30 27 Q29 29 30 30 Q31 29 30 27z"
+        stroke="currentColor" strokeWidth="0.6" opacity="0.55"
+      />
+
+      {/* Center stamen dots */}
+      <circle cx="29.5" cy="29" r="0.8" fill="currentColor" opacity="0.4" />
+      <circle cx="31" cy="30.5" r="0.6" fill="currentColor" opacity="0.35" />
+      <circle cx="29" cy="31" r="0.5" fill="currentColor" opacity="0.3" />
+
+      {/* Sepals -- the small leaf-like structures behind the petals */}
+      <path d="M24 10 Q22 6 20 4 Q24 6 26 10" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+      <path d="M36 10 Q38 6 40 4 Q36 6 34 10" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+      <path d="M24 50 Q22 54 20 56 Q24 54 26 50" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+      <path d="M36 50 Q38 54 40 56 Q36 54 34 50" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+
+      {/* Leaves with veins -- reaching diagonally from the bloom */}
+      <path d="M10 10 Q14 14 18 18" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      <path d="M8 14 Q12 12 16 14 Q12 16 8 14z" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+      <path d="M12 10 Q14 12 12 14" stroke="currentColor" strokeWidth="0.3" opacity="0.2" />
+
+      <path d="M50 50 Q46 46 42 42" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+      <path d="M52 46 Q48 48 44 46 Q48 44 52 46z" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+      <path d="M48 50 Q46 48 48 46" stroke="currentColor" strokeWidth="0.3" opacity="0.2" />
+
+      {/* Tiny pollen dots around the bloom */}
+      <circle cx="22" cy="16" r="0.5" fill="currentColor" opacity="0.2" />
+      <circle cx="38" cy="16" r="0.5" fill="currentColor" opacity="0.2" />
+      <circle cx="22" cy="44" r="0.5" fill="currentColor" opacity="0.18" />
+      <circle cx="38" cy="44" r="0.5" fill="currentColor" opacity="0.18" />
+      <circle cx="14" cy="30" r="0.4" fill="currentColor" opacity="0.15" />
+      <circle cx="46" cy="30" r="0.4" fill="currentColor" opacity="0.15" />
     </svg>
   );
 }
