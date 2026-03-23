@@ -2,8 +2,11 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { ExternalLink, Volume2, VolumeX, ChevronDown, Loader2 } from 'lucide-react';
 import type { InstagramPost } from '@/lib/instagram';
+import { MotionGalleryLightbox } from '@/components/motion';
+import { useAnimationTier } from '@/hooks/useAnimationTier';
 
 // --- Video Card (autoplay on scroll, muted, respects prefers-reduced-motion) ---
 
@@ -72,7 +75,7 @@ function VideoCard({ post }: { post: InstagramPost }) {
           className="w-full h-auto block rounded-lg"
         />
 
-        {/* Mute/unmute toggle — always visible on playing videos */}
+        {/* Mute/unmute toggle -- always visible on playing videos */}
         <button
           onClick={toggleMute}
           className={`absolute bottom-3 right-3 w-9 h-9 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-all ${
@@ -93,7 +96,7 @@ function VideoCard({ post }: { post: InstagramPost }) {
         </div>
       )}
 
-      {/* Instagram link overlay — top right */}
+      {/* Instagram link overlay -- top right */}
       <a
         href={post.permalink}
         target="_blank"
@@ -110,23 +113,38 @@ function VideoCard({ post }: { post: InstagramPost }) {
 
 // --- Image Card ---
 
-function ImageCard({ post, featured }: { post: InstagramPost; featured?: boolean }) {
+function ImageCard({
+  post,
+  featured,
+  onSelect,
+  layoutId,
+}: {
+  post: InstagramPost;
+  featured?: boolean;
+  onSelect?: (id: string) => void;
+  layoutId?: string;
+}) {
   return (
-    <div className={`relative rounded-lg overflow-hidden bg-warm-100 break-inside-avoid mb-3 sm:mb-4 group ${featured ? '' : ''}`}>
-      <a
-        href={post.permalink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block focus:outline-none focus:ring-2 focus:ring-copper-500 focus:ring-offset-2 rounded-lg"
+    <motion.div
+      whileHover={{ y: -4, scale: 1.02 }}
+      transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+      className={`relative rounded-lg overflow-hidden bg-warm-100 break-inside-avoid mb-3 sm:mb-4 group ${featured ? '' : ''}`}
+    >
+      <button
+        type="button"
+        onClick={() => onSelect?.(post.id)}
+        className="block w-full text-left focus:outline-none focus:ring-2 focus:ring-copper-500 focus:ring-offset-2 rounded-lg"
       >
-        <Image
-          src={post.media_url}
-          alt={post.caption?.slice(0, 100) ?? 'Instagram post'}
-          width={600}
-          height={featured ? 750 : 600}
-          className="w-full h-auto object-cover group-hover:scale-[1.03] transition-transform duration-500"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-        />
+        <motion.div layoutId={layoutId}>
+          <Image
+            src={post.media_url}
+            alt={post.caption?.slice(0, 100) ?? 'Instagram post'}
+            width={600}
+            height={featured ? 750 : 600}
+            className="w-full h-auto object-cover group-hover:scale-[1.03] transition-transform duration-500"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          />
+        </motion.div>
 
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-warm-800/0 group-hover:bg-warm-800/20 transition-colors duration-300" />
@@ -135,7 +153,7 @@ function ImageCard({ post, featured }: { post: InstagramPost; featured?: boolean
         <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
           <ExternalLink size={14} />
         </div>
-      </a>
+      </button>
 
       {/* Caption */}
       {post.caption && (
@@ -145,7 +163,7 @@ function ImageCard({ post, featured }: { post: InstagramPost; featured?: boolean
           </p>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -161,6 +179,8 @@ export function InstagramFeed({
   const [posts, setPosts] = useState(initialPosts);
   const [cursor, setCursor] = useState(initialCursor);
   const [loading, setLoading] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const tier = useAnimationTier();
 
   async function loadMore() {
     if (!cursor || loading) return;
@@ -174,7 +194,7 @@ export function InstagramFeed({
         setCursor(data.nextCursor);
       }
     } catch {
-      // Silent fail — button stays visible for retry
+      // Silent fail -- button stays visible for retry
     } finally {
       setLoading(false);
     }
@@ -186,10 +206,33 @@ export function InstagramFeed({
       <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 sm:gap-4">
         {posts.map((post, i) => {
           if (post.media_type === 'VIDEO') {
-            return <VideoCard key={post.id} post={post} />;
+            return (
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
+              >
+                <VideoCard post={post} />
+              </motion.div>
+            );
           }
           // Make every 5th image slightly "featured" for visual variety
-          return <ImageCard key={post.id} post={post} featured={i % 5 === 0} />;
+          return (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.06, duration: 0.5 }}
+            >
+              <ImageCard
+                post={post}
+                featured={i % 5 === 0}
+                onSelect={setSelectedId}
+                layoutId={tier === 'full' ? `gallery-${post.id}` : undefined}
+              />
+            </motion.div>
+          );
         })}
       </div>
 
@@ -215,6 +258,14 @@ export function InstagramFeed({
           </button>
         </div>
       )}
+
+      {/* Lightbox */}
+      <MotionGalleryLightbox
+        items={posts}
+        selectedId={selectedId}
+        onClose={() => setSelectedId(null)}
+        onNavigate={setSelectedId}
+      />
     </div>
   );
 }
