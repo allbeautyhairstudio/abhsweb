@@ -182,15 +182,13 @@ export default function HomePage() {
 
         {/* Final CTA with background */}
         <section className="relative py-20 sm:py-28">
-          <MotionParallax speed={0.2} className="absolute inset-0">
-            <Image
-              src="/firstcontact.webp"
-              alt=""
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-          </MotionParallax>
+          <Image
+            src="/firstcontact.webp"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="100vw"
+          />
           <div className="absolute inset-0 bg-white/85" />
           <MotionReveal>
             <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
