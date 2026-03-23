@@ -6,8 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FloralBloom } from '@/components/decorative/floral-accents';
-import { MotionPage, MotionFloral } from '@/components/motion';
+import { MotionPage } from '@/components/motion';
 
 // --- Option data ---
 
@@ -556,11 +555,7 @@ export default function NewClientFormPage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-white/85" />
-          <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-            <MotionFloral>
-              <FloralBloom className="w-14 h-14 text-forest-500 mx-auto mb-3" />
-            </MotionFloral>
-            <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-3">
+          <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">            <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-3">
               New Client Form
             </h1>
           </div>
@@ -654,11 +649,7 @@ export default function NewClientFormPage() {
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-white/85" />
-        <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <MotionFloral>
-            <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-2" />
-          </MotionFloral>
-          <h1 className="font-serif text-2xl sm:text-3xl text-warm-800">
+        <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">          <h1 className="font-serif text-2xl sm:text-3xl text-warm-800">
             New Client Form
           </h1>
         </div>
@@ -1333,11 +1324,7 @@ export default function NewClientFormPage() {
           </form>
 
           {/* Reassurance */}
-          <div className="mt-10 pt-8 border-t border-warm-100 text-center">
-            <MotionFloral>
-            <FloralBloom className="w-10 h-10 text-warm-300 mx-auto mb-3" />
-          </MotionFloral>
-            <p className="text-sm text-warm-600 leading-relaxed max-w-sm mx-auto mb-2">
+          <div className="mt-10 pt-8 border-t border-warm-100 text-center">            <p className="text-sm text-warm-600 leading-relaxed max-w-sm mx-auto mb-2">
               Thank you for trusting me with your hair -- I don&apos;t take that lightly.
             </p>
             <p className="text-xs text-warm-400 leading-relaxed max-w-sm mx-auto">

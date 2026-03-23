@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Calendar } from 'lucide-react';
-import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
+import { FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 import { MotionPage } from '@/components/motion/motion-page';
 import { MotionReveal, MotionRevealChild } from '@/components/motion/motion-reveal';
@@ -22,11 +22,7 @@ export default function PhilosophyPage() {
         {/* Title section */}
         <section className="py-14 sm:py-16 bg-white">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-            <MotionReveal>
-              <MotionFloral>
-                <FloralBloom className="w-20 h-20 text-forest-500 mx-auto mb-3" />
-              </MotionFloral>
-              <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
+            <MotionReveal>              <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
                 Intentional Hair Design
               </h1>
               <p className="text-warm-500 leading-relaxed max-w-2xl mx-auto">
@@ -52,11 +48,7 @@ export default function PhilosophyPage() {
         {/* What It Is */}
         <section className="py-14 sm:py-16">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <MotionReveal>
-              <MotionFloral>
-                <FloralBloom className="w-16 h-16 text-forest-500 mb-3" />
-              </MotionFloral>
-              <h2 className="font-serif text-2xl text-warm-700 mb-5">
+            <MotionReveal>              <h2 className="font-serif text-2xl text-warm-700 mb-5">
                 What Is Intentional Hair?
               </h2>
               <div className="space-y-4 text-warm-500 leading-relaxed">
@@ -108,11 +100,7 @@ export default function PhilosophyPage() {
         {/* Why It Matters */}
         <section className="py-14 sm:py-16">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <MotionReveal>
-              <MotionFloral>
-                <FloralBloom className="w-14 h-14 text-forest-500 mb-3" />
-              </MotionFloral>
-              <h2 className="font-serif text-2xl text-warm-700 mb-5">
+            <MotionReveal>              <h2 className="font-serif text-2xl text-warm-700 mb-5">
                 Why It Matters
               </h2>
               <div className="space-y-4 text-warm-500 leading-relaxed">
@@ -144,11 +132,7 @@ export default function PhilosophyPage() {
         {/* How It Works */}
         <section className="py-14 sm:py-16">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <MotionReveal>
-              <MotionFloral>
-                <FloralBloom className="w-16 h-16 text-forest-500 mb-3" />
-              </MotionFloral>
-              <h2 className="font-serif text-2xl text-warm-700 mb-5">
+            <MotionReveal>              <h2 className="font-serif text-2xl text-warm-700 mb-5">
                 How It Works in Practice
               </h2>
               <div className="space-y-4 text-warm-500 leading-relaxed">
@@ -221,11 +205,7 @@ export default function PhilosophyPage() {
             <FloralCorner className="absolute bottom-0 right-0 w-36 h-36 text-forest-500 opacity-25 -rotate-90" />
           </MotionFloral>
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-            <MotionReveal direction="left">
-              <MotionFloral>
-                <FloralBloom className="w-14 h-14 text-forest-500/40 mx-auto mb-4" />
-              </MotionFloral>
-              <blockquote className="font-serif text-xl sm:text-2xl text-warm-700 italic leading-relaxed">
+            <MotionReveal direction="left">              <blockquote className="font-serif text-xl sm:text-2xl text-warm-700 italic leading-relaxed">
                 &ldquo;You design intentional hair that reduces stress, grows out
                 beautifully, and supports how real people live.&rdquo;
               </blockquote>

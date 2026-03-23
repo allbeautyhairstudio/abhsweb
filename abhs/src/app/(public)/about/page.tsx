@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
+import { FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral } from '@/components/motion';
 
@@ -16,11 +16,7 @@ export default function AboutPage() {
       <div className="flex flex-col">
         {/* Title section */}
         <section className="py-14 sm:py-16 bg-white">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-            <MotionFloral>
-              <FloralBloom className="w-20 h-20 text-forest-500 mx-auto mb-3" />
-            </MotionFloral>
-            <MotionReveal delay={0.1}>
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">            <MotionReveal delay={0.1}>
               <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
                 My Journey
               </h1>

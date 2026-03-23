@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
+import { FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton } from '@/components/motion';
 
@@ -116,11 +116,7 @@ export default function FaqPage() {
           <MotionFloral>
             <FloralCorner className="absolute bottom-2 right-4 w-40 h-40 text-forest-500 opacity-25 scale-x-[-1]" />
           </MotionFloral>
-          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-            <MotionFloral>
-              <FloralBloom className="w-16 h-16 text-forest-500 mx-auto mb-3" />
-            </MotionFloral>
-            <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
+          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">            <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
               Frequently Asked Questions
             </h1>
             <p className="text-warm-500 leading-relaxed">
