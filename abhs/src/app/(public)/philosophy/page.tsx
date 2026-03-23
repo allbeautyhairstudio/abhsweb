@@ -214,10 +214,10 @@ export default function PhilosophyPage() {
 
         {/* Pull Quote */}
         <section className="relative py-10 sm:py-12 bg-blush-50 overflow-hidden">
-          <MotionFloral breathing cursorResponse>
+          <MotionFloral>
             <FloralCorner className="absolute top-0 left-0 w-24 h-24 text-forest-500 opacity-25 rotate-90" />
           </MotionFloral>
-          <MotionFloral breathing cursorResponse>
+          <MotionFloral>
             <FloralCorner className="absolute bottom-0 right-0 w-24 h-24 text-forest-500 opacity-25 -rotate-90" />
           </MotionFloral>
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">

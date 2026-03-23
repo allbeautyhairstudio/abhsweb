@@ -26,7 +26,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/72 to-white/40" />
 
           {/* Subtle floral corner accent */}
-          <MotionFloral breathing cursorResponse>
+          <MotionFloral>
             <FloralCorner withVines className="absolute bottom-6 right-6 w-40 h-40 sm:w-48 sm:h-48 text-forest-500 opacity-30" />
           </MotionFloral>
 

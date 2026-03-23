@@ -113,7 +113,7 @@ export default function FaqPage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-white/88" />
-          <MotionFloral breathing cursorResponse>
+          <MotionFloral>
             <FloralCorner className="absolute bottom-2 right-4 w-28 h-28 text-forest-500 opacity-25 scale-x-[-1]" />
           </MotionFloral>
           <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">

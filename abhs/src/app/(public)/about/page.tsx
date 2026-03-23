@@ -178,7 +178,7 @@ export default function AboutPage() {
 
                 {/* Pull quote */}
                 <blockquote className="relative my-8 py-6 px-6 border-l-2 border-copper-400 bg-blush-50 rounded-r-lg">
-                  <MotionFloral breathing cursorResponse>
+                  <MotionFloral>
                     <FloralCorner className="absolute -top-2 -right-2 w-14 h-14 text-forest-500 opacity-25 scale-x-[-1]" />
                   </MotionFloral>
                   <p className="font-serif text-lg text-warm-700 italic leading-relaxed">
@@ -300,7 +300,7 @@ export default function AboutPage() {
 
                 {/* Pull quote */}
                 <blockquote className="relative my-8 py-6 px-6 border-l-2 border-sage-400 bg-sage-50 rounded-r-lg">
-                  <MotionFloral breathing cursorResponse>
+                  <MotionFloral>
                     <FloralCorner className="absolute -top-2 -right-2 w-14 h-14 text-forest-500 opacity-25 scale-x-[-1]" />
                   </MotionFloral>
                   <p className="font-serif text-lg text-warm-700 italic leading-relaxed">
