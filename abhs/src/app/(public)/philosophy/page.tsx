@@ -54,7 +54,7 @@ export default function PhilosophyPage() {
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <MotionReveal>
               <MotionFloral>
-                <FloralBloom className="w-5 h-5 text-forest-500 mb-3" />
+                <FloralBloom className="w-10 h-10 text-forest-500 mb-3" />
               </MotionFloral>
               <h2 className="font-serif text-2xl text-warm-700 mb-5">
                 What Is Intentional Hair?
@@ -110,7 +110,7 @@ export default function PhilosophyPage() {
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <MotionReveal>
               <MotionFloral>
-                <FloralBloom className="w-5 h-5 text-forest-500 mb-3" />
+                <FloralBloom className="w-8 h-8 text-forest-500 mb-3" />
               </MotionFloral>
               <h2 className="font-serif text-2xl text-warm-700 mb-5">
                 Why It Matters
@@ -146,7 +146,7 @@ export default function PhilosophyPage() {
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <MotionReveal>
               <MotionFloral>
-                <FloralBloom className="w-5 h-5 text-forest-500 mb-3" />
+                <FloralBloom className="w-10 h-10 text-forest-500 mb-3" />
               </MotionFloral>
               <h2 className="font-serif text-2xl text-warm-700 mb-5">
                 How It Works in Practice
@@ -215,15 +215,15 @@ export default function PhilosophyPage() {
         {/* Pull Quote */}
         <section className="relative py-10 sm:py-12 bg-blush-50 overflow-hidden">
           <MotionFloral breathing cursorResponse>
-            <FloralCorner className="absolute top-0 left-0 w-20 h-20 text-forest-500 opacity-25 rotate-90" />
+            <FloralCorner className="absolute top-0 left-0 w-24 h-24 text-forest-500 opacity-25 rotate-90" />
           </MotionFloral>
           <MotionFloral breathing cursorResponse>
-            <FloralCorner className="absolute bottom-0 right-0 w-20 h-20 text-forest-500 opacity-25 -rotate-90" />
+            <FloralCorner className="absolute bottom-0 right-0 w-24 h-24 text-forest-500 opacity-25 -rotate-90" />
           </MotionFloral>
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionReveal direction="left">
               <MotionFloral>
-                <FloralBloom className="w-6 h-6 text-forest-500/40 mx-auto mb-4" />
+                <FloralBloom className="w-8 h-8 text-forest-500/40 mx-auto mb-4" />
               </MotionFloral>
               <blockquote className="font-serif text-xl sm:text-2xl text-warm-700 italic leading-relaxed">
                 &ldquo;You design intentional hair that reduces stress, grows out

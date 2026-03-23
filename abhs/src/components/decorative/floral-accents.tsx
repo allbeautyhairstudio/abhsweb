@@ -6,6 +6,7 @@
 
 interface AccentProps {
   className?: string;
+  withVines?: boolean;
 }
 
 /** Small rose bloom — used near headings and as inline accents */
@@ -139,10 +140,10 @@ export function FloralDivider({ className = '' }: AccentProps) {
 }
 
 /** Corner botanical arrangement — roses, leaves, and buds flowing from corner */
-export function FloralCorner({ className = '' }: AccentProps) {
+export function FloralCorner({ className = '', withVines = false }: AccentProps) {
   return (
     <svg
-      viewBox="0 0 120 120"
+      viewBox={withVines ? "0 0 170 170" : "0 0 120 120"}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
@@ -207,6 +208,19 @@ export function FloralCorner({ className = '' }: AccentProps) {
       <circle cx="80" cy="40" r="0.8" fill="currentColor" opacity="0.25" />
       <circle cx="95" cy="55" r="0.6" fill="currentColor" opacity="0.22" />
       <circle cx="48" cy="45" r="0.7" fill="currentColor" opacity="0.22" />
+
+      {withVines && (
+        <>
+          {/* Extended vine trailing from main branch */}
+          <path d="M95 25 Q110 15 130 20 Q145 25 160 18" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+          <path d="M130 20 Q128 14 133 10" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+          <path d="M145 25 Q148 19 143 15" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+          {/* Extended vine trailing from secondary branch */}
+          <path d="M25 95 Q15 110 20 130 Q25 145 18 160" stroke="currentColor" strokeWidth="0.5" opacity="0.25" />
+          <path d="M20 130 Q14 128 10 133" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+          <path d="M25 145 Q19 143 15 148" stroke="currentColor" strokeWidth="0.4" opacity="0.2" />
+        </>
+      )}
     </svg>
   );
 }

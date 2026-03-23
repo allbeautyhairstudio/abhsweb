@@ -18,7 +18,7 @@ export default function AboutPage() {
         <section className="py-14 sm:py-16 bg-white">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionFloral>
-              <FloralBloom className="w-7 h-7 text-forest-500 mx-auto mb-3" />
+              <FloralBloom className="w-12 h-12 text-forest-500 mx-auto mb-3" />
             </MotionFloral>
             <MotionReveal delay={0.1}>
               <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-4">
