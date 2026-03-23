@@ -611,7 +611,7 @@ export default function NewClientFormPage() {
 
               <div className="mt-8 text-center">
                 <button
-                  onClick={() => setShowForm(true)}
+                  onClick={() => { setShowForm(true); setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 50); }}
                   className="inline-flex items-center gap-2 px-8 py-3.5 bg-forest-500 text-white rounded-lg hover:bg-forest-600 transition-colors text-sm font-medium min-h-[44px]"
                 >
                   Let&apos;s Get Started
