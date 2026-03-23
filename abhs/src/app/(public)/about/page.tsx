@@ -37,7 +37,7 @@ export default function AboutPage() {
               className="object-cover"
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-white via-white/70 to-white/30" />
+            <div className="absolute inset-0 bg-gradient-to-l from-white/70 via-white/45 to-white/20" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative w-56 h-56 sm:w-[19rem] sm:h-[19rem]">
                 <Image
