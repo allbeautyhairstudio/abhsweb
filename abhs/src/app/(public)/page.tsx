@@ -12,7 +12,7 @@ export default function HomePage() {
         {/* Hero — Karli front and center */}
         <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center overflow-hidden">
           {/* Background image with parallax */}
-          <MotionParallax speed={0.3}>
+          <MotionParallax speed={0.3} className="absolute inset-0">
             <Image
               src="/salon.webp"
               alt=""
@@ -183,7 +183,7 @@ export default function HomePage() {
 
         {/* Final CTA with background */}
         <section className="relative py-20 sm:py-28">
-          <MotionParallax speed={0.2}>
+          <MotionParallax speed={0.2} className="absolute inset-0">
             <Image
               src="/scizzors.webp"
               alt=""
