@@ -189,7 +189,7 @@ export default function HomePage() {
             className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-white/85" />
+          <div className="absolute inset-0 bg-white/75" />
           <MotionReveal>
             <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-4">
