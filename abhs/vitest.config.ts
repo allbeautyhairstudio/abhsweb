@@ -11,6 +11,7 @@ export default defineConfig({
     environment: 'node',
     environmentMatchGlobs: [
       ['**/*.component.test.tsx', 'jsdom'],
+      ['**/hooks/*.test.ts', 'happy-dom'],
     ],
     setupFiles: ['./src/test-setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
