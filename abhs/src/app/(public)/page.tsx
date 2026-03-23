@@ -184,10 +184,10 @@ export default function HomePage() {
         <section className="relative py-20 sm:py-28">
           <MotionParallax speed={0.2} className="absolute inset-0">
             <Image
-              src="/scizzors.webp"
+              src="/firstcontact.webp"
               alt=""
               fill
-              className="object-cover object-[center_55%]"
+              className="object-cover"
               sizes="100vw"
             />
           </MotionParallax>
