@@ -180,6 +180,21 @@ SVG paths animate via `strokeDashoffset` from 100% to 0%:
 - Single document-level `mousemove` listener broadcasts cursor position to all
   subscribed floral components (not per-component listeners)
 
+### Floral Scale Enhancement
+
+Existing florals are small (FloralBloom at 32px, FloralCorner at ~128px).
+Scale them up for more visual presence:
+
+- FloralBloom: increase from `w-8 h-8` to `w-12 h-12` (48px) on hero, `w-10 h-10`
+  elsewhere. Vary sizes across the site -- not all the same.
+- FloralCorner: increase from `w-36 h-36` to `w-48 h-48` on hero, `w-40 h-40` elsewhere.
+- Add vine extensions to FloralCorner instances -- additional trailing stems
+  that reach further into the content area. Creates organic, flowing decoration.
+- Different sizes across pages: hero gets the largest, section accents are medium,
+  inline accents are small. Varied scale creates visual rhythm.
+- MotionFloral bloom-in effect: flowers scale from 0.6 to their full size on
+  reveal, creating a natural "blooming" entrance.
+
 ### Floral Wrapping Strategy
 
 `MotionFloral` receives existing floral SVG components as children. It does NOT
