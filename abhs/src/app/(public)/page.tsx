@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Calendar } from 'lucide-react';
-import { FloralBloom, FloralCorner } from '@/components/decorative/floral-accents';
+import { FloralCorner } from '@/components/decorative/floral-accents';
 import { MotionReveal, MotionRevealChild, MotionParallax, MotionPage, MotionFloral, MotionButton } from '@/components/motion';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 
@@ -34,11 +34,6 @@ export default function HomePage() {
             <MotionReveal stagger={0.15}>
               <div className="max-w-2xl">
                 {/* Personal greeting — bold, warm, in your face */}
-                <MotionRevealChild>
-                  <MotionFloral>
-                    <FloralBloom className="w-20 h-20 text-forest-500 mb-5" />
-                  </MotionFloral>
-                </MotionRevealChild>
                 <MotionRevealChild>
                   <p className="text-copper-500 font-medium text-lg sm:text-xl mb-3 tracking-wide">
                     Hi, I&apos;m Karli.
@@ -109,9 +104,6 @@ export default function HomePage() {
               </MotionReveal>
               <MotionReveal direction="right" delay={0.2}>
                 <div>
-                  <MotionFloral>
-                    <FloralBloom className="w-16 h-16 text-forest-500 mb-3" />
-                  </MotionFloral>
                   <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-5">
                     The Person Behind the Chair
                   </h2>
@@ -195,9 +187,6 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-white/85" />
           <MotionReveal>
             <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-              <MotionFloral>
-                <FloralBloom className="w-20 h-20 text-forest-500 mx-auto mb-4" />
-              </MotionFloral>
               <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-4">
                 There&apos;s a chair here whenever you&apos;re ready.
               </h2>
