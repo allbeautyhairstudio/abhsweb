@@ -215,11 +215,11 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-24 right-6 z-40 flex items-center gap-2 px-4 py-3 bg-forest-600 text-white rounded-full shadow-lg hover:bg-forest-700 transition-colors md:bottom-6"
+        className="fixed bottom-24 right-6 z-40 flex items-center gap-2 px-5 py-3.5 bg-forest-600 text-white rounded-full shadow-lg hover:bg-forest-700 transition-colors md:bottom-6"
         aria-label="Open AI chat assistant"
       >
         <MessageCircle size={20} />
-        <span className="text-sm font-medium hidden sm:inline">Ask AI</span>
+        <span className="text-sm font-medium">Ask AI</span>
       </button>
     );
   }
