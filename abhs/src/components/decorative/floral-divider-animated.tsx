@@ -29,6 +29,8 @@ export function FloralDividerAnimated({ className = '' }: AnimatedDividerProps) 
   const bloomOffset = useTransform(scrollYProgress, [0.4, 0.6], [200, 0]);
   // Tiny buds pop in at the end
   const budOffset = useTransform(scrollYProgress, [0.5, 0.65], [30, 0]);
+  // Vine stroke offset normalized 0-1 for strokeDashoffset (must be called unconditionally)
+  const vineStrokeOffset = useTransform(vineOffset, [0, 1800], [0, 1]);
 
   // Static fallback for no-animation tier
   if (tier === 'none') {
@@ -59,7 +61,7 @@ export function FloralDividerAnimated({ className = '' }: AnimatedDividerProps) 
           fill="none"
           strokeLinecap="round"
           pathLength={1}
-          style={tier === 'full' ? { strokeDasharray: 1, strokeDashoffset: useTransform(vineOffset, [0, 1800], [0, 1]) } : undefined}
+          style={tier === 'full' ? { strokeDasharray: 1, strokeDashoffset: vineStrokeOffset } : undefined}
           initial={tier === 'reduced' ? { opacity: 0 } : undefined}
           animate={tier === 'reduced' ? { opacity: 0.4 } : undefined}
           transition={tier === 'reduced' ? { duration: 0.6 } : undefined}
