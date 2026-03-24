@@ -42,7 +42,7 @@ export default function PhilosophyPage() {
             className="object-cover object-[center_55%]"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-white/85" />
+          <div className="absolute inset-0 bg-white/75" />
         </section>
 
         {/* What It Is */}
