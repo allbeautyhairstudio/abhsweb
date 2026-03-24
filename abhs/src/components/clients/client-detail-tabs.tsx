@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { ClientRow } from '@/lib/queries/clients';
+import { SalonAISummaryTab } from '@/components/salon/salon-ai-summary-tab';
 import { NotesTabContent } from '@/components/notes/notes-tab-content';
 import { PhotoGallery } from '@/components/clients/photo-gallery';
 import { ClientBookingsTab } from '@/components/admin/client-bookings-tab';
@@ -287,6 +288,7 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
       <TabsList className="w-full justify-start flex-wrap">
         <TabsTrigger value="overview">Overview</TabsTrigger>
         <TabsTrigger value="intake">Intake Data</TabsTrigger>
+        <TabsTrigger value="ai-summary">AI Summary</TabsTrigger>
         <TabsTrigger value="bookings">Bookings</TabsTrigger>
         <TabsTrigger value="engagement">Engagement</TabsTrigger>
         <TabsTrigger value="notes">Notes & History</TabsTrigger>
@@ -298,6 +300,10 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
 
       <TabsContent value="intake">
         <IntakeDataTab client={client} />
+      </TabsContent>
+
+      <TabsContent value="ai-summary">
+        <SalonAISummaryTab clientId={client.id} />
       </TabsContent>
 
       <TabsContent value="bookings">
