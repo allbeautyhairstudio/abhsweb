@@ -141,13 +141,13 @@
   --ring: #A0714E;
 
   /* CRM admin sidebar */
-  --sidebar: #0B2618;
+  --sidebar: #051a0e;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: #FFFFFF;
-  --sidebar-primary-foreground: #0B2618;
-  --sidebar-accent: #1B4332;
+  --sidebar-primary-foreground: #051a0e;
+  --sidebar-accent: #0e3320;
   --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #1B4332;
+  --sidebar-border: #0e3320;
   --sidebar-ring: #FFFFFF;
 
   /* Chart */

@@ -14,16 +14,16 @@ export default function PrivacyPolicyPage() {
       <Section title="What We Collect">
         <p>When you fill out the new client form, book an appointment, or interact with our website, we may collect:</p>
         <ul>
-          <li><strong>Contact information</strong> — your name, email address, phone number</li>
-          <li><strong>Hair and service details</strong> — your hair history, goals, allergies, medical conditions that may affect services, photos you upload</li>
-          <li><strong>Booking information</strong> — appointment dates, services requested, preferred times</li>
-          <li><strong>Communication preferences</strong> — how you prefer to be contacted (email, text, or call)</li>
+          <li><strong>Contact information</strong> -- your name, email address, phone number</li>
+          <li><strong>Hair and service details</strong> -- your hair history, goals, allergies, medical conditions that may affect services, photos you upload</li>
+          <li><strong>Booking information</strong> -- appointment dates, services requested, preferred times</li>
+          <li><strong>Communication preferences</strong> -- how you prefer to be contacted (email, text, or call)</li>
         </ul>
         <p>We only collect what we actually need to serve you well. Nothing extra.</p>
       </Section>
 
       <Section title="How We Store It">
-        <p>Your data is stored on our own private server — not in a big tech cloud. We use a local database (SQLite) that sits on our secured server infrastructure. Your information is not shared with data brokers, advertisers, or anyone who has no business seeing it.</p>
+        <p>Your data is stored on our own private server -- not in a big tech cloud. We use a local database (SQLite) that sits on our secured server infrastructure. Your information is not shared with data brokers, advertisers, or anyone who has no business seeing it.</p>
         <p>The only external service that receives some of your data is <strong>Square</strong>, which handles appointment booking and payment processing. Square has its own <a href="https://squareup.com/us/en/legal/general/privacy" className="text-forest-500 hover:text-forest-600 underline" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
       </Section>
 
@@ -46,11 +46,11 @@ export default function PrivacyPolicyPage() {
           <li><strong>Request corrections</strong> to any inaccurate information</li>
           <li><strong>Request deletion</strong> of your data (see our <a href="/legal/retention" className="text-forest-500 hover:text-forest-600 underline">Data Retention Policy</a> for details)</li>
         </ul>
-        <p>To make any of these requests, just reach out directly — there&apos;s no form to fill out or hoops to jump through.</p>
+        <p>To make any of these requests, just reach out directly -- there&apos;s no form to fill out or hoops to jump through.</p>
       </Section>
 
       <Section title="Changes to This Policy">
-        <p>If we update this policy, we&apos;ll note the date at the top. We won&apos;t make sneaky changes — transparency is the whole point.</p>
+        <p>If we update this policy, we&apos;ll note the date at the top. We won&apos;t make sneaky changes -- transparency is the whole point.</p>
       </Section>
     </article>
   );

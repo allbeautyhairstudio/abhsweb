@@ -53,7 +53,7 @@ export default function RetentionPolicyPage() {
 
       <Section title="Inactive Clients">
         <p>If you haven&apos;t booked an appointment in over 2 years, your profile may be archived. Archived data is kept in a minimal form (name and contact info only) in case you come back. Full details are removed.</p>
-        <p>If you&apos;d like your data removed entirely before the 2-year window, just let us know — we&apos;ll take care of it.</p>
+        <p>If you&apos;d like your data removed entirely before the 2-year window, just let us know -- we&apos;ll take care of it.</p>
       </Section>
 
       <Section title="Your Right to Deletion">
@@ -62,13 +62,13 @@ export default function RetentionPolicyPage() {
           <li>All personal information is permanently removed from our database</li>
           <li>All uploaded photos are deleted from our server</li>
           <li>Color formulas and service notes are removed</li>
-          <li>We cannot recover deleted data once it&apos;s gone — so we&apos;ll confirm with you before we proceed</li>
+          <li>We cannot recover deleted data once it&apos;s gone -- so we&apos;ll confirm with you before we proceed</li>
         </ul>
         <p><strong>Note:</strong> We cannot delete data that Square holds independently (booking and payment records). You&apos;d need to contact Square directly for that. See <a href="https://squareup.com/us/en/legal/general/privacy" className="text-forest-500 hover:text-forest-600 underline" target="_blank" rel="noopener noreferrer">Square&apos;s privacy policy</a>.</p>
       </Section>
 
       <Section title="How to Make a Request">
-        <p>Just reach out directly — by email, text, or in person. There&apos;s no formal process or form required. We&apos;ll respond within a few business days and confirm when it&apos;s done.</p>
+        <p>Just reach out directly -- by email, text, or in person. There&apos;s no formal process or form required. We&apos;ll respond within a few business days and confirm when it&apos;s done.</p>
       </Section>
     </article>
   );

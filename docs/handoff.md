@@ -1,11 +1,12 @@
 # All Beauty Hair Studio -- Project Handoff Document
 
-**Last Updated:** March 22, 2026 (Session 6)
+**Last Updated:** March 23, 2026 (Session 7)
 **Status:** **LIVE at allbeautyhairstudio.com** -- Public site + Admin CRM + Square booking widget +
-email notifications + AI chat assistant. Umami analytics wired. Next.js 16.1.7 security patch deployed.
-Framer Motion animation system implemented (Session 6). My Journey page gradient overlay + link added.
-Next: Execute Plans A/B/C (public site refresh, backend AI enhancements, service menu restructure),
-deploy animations to VPS, email lifecycle, PostgreSQL migration.
+email notifications + AI chat assistant. Umami analytics wired. Next.js 16.1.7 + Vite 6.4.1 security
+patches deployed. Framer Motion animations deployed (mobile crash fixed). VPS fully hardened (security
+headers, SSH, OS updates). BuiltByBas LLC filed in California.
+Next: Execute Plan B (backend AI enhancements + Color Lab removal), then Plan C (service menu),
+then deploy. Plan A deferred.
 
 ---
 
@@ -411,6 +412,18 @@ SMTP_PASS=your-app-password       # Gmail app password
   - White gradient overlay (15% left, 65% right) -- Karli shows through on left
   - "My Journey -- Read More" link added to homepage Person Behind the Chair section
 - **framer-motion + happy-dom added** to dependencies (296 tests, 4 new for useAnimationTier hook)
+- **Mobile crash fix** -- Mar 23 S7 (296 tests)
+  - `useTransform` hook called conditionally inside JSX in `floral-divider-animated.tsx` -- Rules of Hooks violation
+  - Motion transforms not resetting `x: 0, y: 0` when tier changed to 'reduced' on mobile
+  - Philosophy page CTA-to-footer spacing, scissors overlay tuned to 75%
+- **Vite security patch** -- Mar 23 S7 (296 tests)
+  - Vite 6.3.5 -> 6.4.1 (3 vulnerabilities patched, 0 remaining)
+- **VPS security hardening** -- Mar 23 S7
+  - Added security headers to all 8 Nginx sites (shared snippet at `/etc/nginx/snippets/security-headers.conf`)
+  - X-Frame-Options DENY, HSTS, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy, server_tokens off
+  - Fixed SSH `PasswordAuthentication yes` in `50-cloud-init.conf` -> `no`
+  - Applied 6 OS security updates (libtiff6, python3-openssl, coreutils, docker-compose, monarx)
+- **BuiltByBas LLC filed in California** -- Mar 23 S7
 
 ---
 
@@ -459,7 +472,11 @@ SMTP_PASS=your-app-password       # Gmail app password
 - [ ] Twilio SMS -- toll-free verification submitted March 21, check status next session
 - [x] My Journey page -- gradient overlay + homepage link added (Session 6).
   Still hidden from nav, discoverable via "My Journey -- Read More" link.
-- [ ] **Framer Motion animations** -- needs deploy to VPS. All code local and tested (296 tests).
+- [x] **Framer Motion animations** -- deployed to VPS (Session 7, March 23, 2026).
+  Fixed mobile crash (conditional hook call) and transform reset. 296 tests.
+- [x] **VPS security hardening** -- security headers on all 8 sites, SSH password auth disabled,
+  OS updates applied, server version hidden. (Session 7, March 23, 2026)
+- [x] **Vite security patch** -- 6.3.5 -> 6.4.1, 3 vulnerabilities patched. (Session 7, March 23)
 
 ### Content
 
@@ -475,51 +492,55 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ## 13. FOR THE NEXT SESSION
 
-### Priority 1: Execute Plans A/B/C (Karli's Website Strategy)
+### START HERE: Execute Plan B (Backend & AI Enhancements + Color Lab Removal)
 
-3 specs + 3 plans written and committed. Ready for execution.
-Note: My Journey link (Plan A task) already done in Session 6.
+**Status:** Ready to execute. Plan file: `docs/superpowers/plans/2026-03-22-backend-ai-enhancements-plan.md`
+
+Bas decided (Session 7, March 23): Plan A is deferred. Color Lab removal moved into Plan B.
+
+**Plan B tasks (8 tasks + Color Lab removal):**
+
+1. EXIF auto-orientation fix (sharp `.rotate()` on photo uploads)
+2. Stylist Notes -- database & queries (upsert to `client_notes` with type `stylist_assessment`)
+3. Stylist Notes -- chat context integration (include in AI system prompt)
+4. Stylist Notes -- API route (GET/PUT at `/api/admin/stylist-notes`)
+5. Stylist Notes -- UI component (collapsible textarea in chat panel, auto-save on blur)
+6. Draft Response button + Karli voice profile guardrails in system prompt
+7. Draft Preview Card (distinct card styling, channel badge, copy-to-clipboard)
+8. Final verification (full test suite, build, workflow test)
+9. **Color Lab removal** -- remove Color Lab from admin sidebar, routes, API endpoints, and DB tables
+   (was Plan A task, moved here per Bas's direction)
+
+### Then: Execute Plan C (Service Menu Restructure)
+
+- Plan file: `docs/superpowers/plans/2026-03-22-service-menu-restructure-plan.md`
+- Cut-forward descriptions, color as lived-in enhancements
+
+### Then: Deploy Everything to Production
+
+- All Plan B + C changes + animation fixes from Session 7
+- Add `ANTHROPIC_API_KEY` to VPS `.env.local` before deploying
+- 296 tests passing locally (expect more after Plan B tests added)
+
+### Deferred (Come Back Later)
 
 - **Plan A: Public Site Refresh** -- footer, FAQ, mobile sticky CTA, image swap,
-  cut-forward positioning, Color Lab removal, client detail 4-tab rework,
-  AI-generated intake briefing
-- **Plan B: Backend & AI Enhancements** -- EXIF fix, stylist notes,
-  draft response button, draft preview cards, Karli voice profile
-- **Plan C: Service Menu Restructure** -- cut-forward descriptions,
-  color as lived-in enhancements, em dash cleanup
-- Specs: `docs/superpowers/specs/2026-03-22-*.md`
-- Plans: `docs/superpowers/plans/2026-03-22-*.md`
+  cut-forward positioning, client detail 4-tab rework, AI-generated intake briefing
+  - Plan file: `docs/superpowers/plans/2026-03-22-public-site-refresh-plan.md`
 
-### Priority 2: Deploy to Production
+### Other Priorities (After Plans B/C)
 
-- Animation system + AI chat + all Session 6 changes need deploy
-- Add `ANTHROPIC_API_KEY` to VPS `.env.local` before deploying
-- Run standard deploy script after Bas verifies on local dev server
-- 296 tests passing locally
-
-### Priority 3: Intake Output Formatting
-
-- Intake detail page already shows Q&A format (done Session 4)
-- Remaining: printable/PDF version of the Q&A output (Wix-style)
-
-### Priority 4: PostgreSQL Migration
-
-- Migrate ABHS from SQLite to PostgreSQL (already running on VPS)
-- Separate spec/plan cycle -- touches every query, schema, db.ts, deploy script
-
-### Priority 5: Email Lifecycle System
-
-- 5 timed emails: booking confirm, 7-day, 48h, 24h, post-visit thank you
-
-### Priority 6: Check Twilio SMS Verification Status
-
-- Submitted March 21, 2026 -- should be approved by now
+- Printable/PDF version of intake Q&A output
+- PostgreSQL migration (cleans up 46 dead consulting columns + `business_type`)
+- Email lifecycle system (5 timed emails)
+- Twilio SMS verification check (submitted March 21)
 
 ### Session Start
 
 1. Read this handoff for project context
-2. Run `cd c:\kar\abhs && pnpm vitest run` to verify 296 tests pass
+2. Run `cd c:\kar\abhs && npx vitest run` to verify 296 tests pass
 3. Check for unpushed commits
+4. Start executing Plan B task 1 (EXIF fix)
 
 ---
 

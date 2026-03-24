@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intake Detail Redesign - Mockup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #FDF6F0; color: #4A3728; padding: 20px; max-width: 900px; margin: 0 auto; }
+
+  .back-link { font-size: 13px; color: #9B8579; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .back-link:hover { color: #6B5548; }
+
+  /* Header card */
+  .header-card { background: #FFF8F2; border: 1px solid #E8DDD6; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .client-name { font-size: 24px; font-weight: 700; color: #3B2920; }
+  .contact-row { display: flex; gap: 12px; margin-top: 6px; font-size: 13px; color: #8B7A6F; }
+  .contact-row a { color: #5E8C61; text-decoration: none; }
+  .status-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  .badge { display: inline-flex; align-items: center; padding: 3px 10px; font-size: 12px; font-weight: 600; border-radius: 20px; border: 1px solid; }
+  .badge-green { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+  .badge-amber { background: #FFFBEB; color: #B45309; border-color: #FCD34D; }
+  .badge-red { background: #FEF2F2; color: #DC2626; border-color: #FECACA; }
+  .referral { font-size: 12px; color: #9B8579; }
+
+  /* Flags */
+  .flags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .flag { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+  .flag-badge { padding: 2px 8px; font-size: 11px; font-weight: 600; border-radius: 20px; border: 1px solid; text-transform: uppercase; letter-spacing: 0.5px; }
+  .flag-amber .flag-badge { background: #FFFBEB; color: #B45309; border-color: #FCD34D; }
+  .flag-red .flag-badge { background: #FEF2F2; color: #DC2626; border-color: #FECACA; }
+  .flag-green .flag-badge { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+
+  /* Highlights */
+  .highlights { list-style: none; }
+  .highlights li { font-size: 14px; color: #6B5548; display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+  .highlights li::before { content: ''; display: none; }
+  .bullet { color: #C4956A; margin-top: 3px; flex-shrink: 0; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 2px solid #E8DDD6; margin-bottom: 20px; }
+  .tab { padding: 12px 20px; font-size: 14px; font-weight: 600; color: #9B8579; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+  .tab:hover { color: #5E8C61; }
+  .tab.active { color: #2D6A4F; border-bottom-color: #2D6A4F; }
+  .tab .count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; font-size: 11px; font-weight: 700; border-radius: 10px; margin-left: 6px; }
+  .tab .count-amber { background: #FEF3C7; color: #B45309; }
+  .tab .count-red { background: #FEE2E2; color: #DC2626; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* At a Glance */
+  .glance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  @media (max-width: 640px) { .glance-grid { grid-template-columns: 1fr; } }
+
+  .glance-card { background: white; border: 1px solid #E8DDD6; border-radius: 10px; padding: 16px; }
+  .glance-card h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #9B8579; margin-bottom: 10px; }
+  .glance-value { font-size: 15px; font-weight: 500; color: #3B2920; line-height: 1.5; }
+  .glance-value.goal { font-size: 16px; font-style: italic; color: #5E4A3C; }
+
+  .hair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hair-item { }
+  .hair-label { font-size: 11px; color: #9B8579; text-transform: uppercase; letter-spacing: 0.5px; }
+  .hair-val { font-size: 14px; font-weight: 600; color: #3B2920; }
+
+  .avail-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .avail-tag { padding: 4px 12px; font-size: 13px; font-weight: 500; border-radius: 6px; background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+  .avail-tag.no-match { background: #FEF2F2; color: #DC2626; border-color: #FECACA; }
+
+  .condition-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .condition-tag { padding: 3px 10px; font-size: 12px; font-weight: 500; border-radius: 6px; }
+  .condition-tag.warn { background: #FEF3C7; color: #B45309; }
+  .condition-tag.ok { background: #F0FAF0; color: #2D6A4F; }
+
+  /* Gap summary */
+  .gap-card { background: white; border: 1px solid #E8DDD6; border-radius: 10px; padding: 16px; grid-column: 1 / -1; }
+  .gap-card h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #9B8579; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .gap-count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; font-size: 12px; font-weight: 700; border-radius: 11px; background: #FEF3C7; color: #B45309; }
+  .gap-list { list-style: none; }
+  .gap-list li { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F5EDE6; font-size: 14px; }
+  .gap-list li:last-child { border-bottom: none; }
+  .gap-field { color: #6B5548; }
+  .gap-indicator { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .gap-missing { background: #FEF3C7; color: #B45309; }
+  .gap-sparse { background: #FFF7ED; color: #C2410C; }
+  .gap-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .gap-btn { font-size: 13px; padding: 6px 14px; border-radius: 8px; border: none; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+  .gap-btn-draft { background: #2D6A4F; color: white; }
+  .gap-btn-draft:hover { background: #1B4332; }
+  .gap-btn-view { background: #F5EDE6; color: #6B5548; }
+  .gap-btn-view:hover { background: #E8DDD6; }
+
+  /* Photo grid */
+  .photo-grid-inline { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+  .photo-grid-inline img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+  .photo-more { width: 80px; height: 80px; border-radius: 8px; background: #E8DDD6; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #6B5548; flex-shrink: 0; cursor: pointer; }
+
+  /* Full Intake Q&A */
+  .section-block { border-bottom: 1px solid #E8DDD6; padding: 20px 0; }
+  .section-block:last-child { border-bottom: none; }
+  .section-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #C4956A; margin-bottom: 14px; }
+  .qa { margin-bottom: 14px; }
+  .qa:last-child { margin-bottom: 0; }
+  .qa-question { font-size: 13px; color: #9B8579; margin-bottom: 3px; }
+  .qa-answer { font-size: 15px; font-weight: 500; color: #3B2920; }
+  .qa-answer.empty { color: #D4A76A; font-style: italic; font-weight: 400; }
+  .qa-flagged { background: #FFFBEB; border-left: 3px solid #F59E0B; padding: 8px 12px; border-radius: 0 8px 8px 0; margin: -4px -8px; }
+  .qa-flagged-red { background: #FEF2F2; border-left: 3px solid #EF4444; }
+  .qa-optional { font-size: 11px; color: #B8A99E; font-weight: 400; margin-left: 4px; }
+
+  /* Photos tab */
+  .photo-section { margin-bottom: 24px; }
+  .photo-section h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #9B8579; margin-bottom: 12px; }
+  .photo-full-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .photo-full-grid img { width: 100%; aspect-ratio: 1; border-radius: 10px; object-fit: cover; cursor: pointer; transition: transform 0.2s; }
+  .photo-full-grid img:hover { transform: scale(1.03); }
+  .no-photos { text-align: center; padding: 40px; color: #9B8579; font-size: 14px; }
+
+  /* Label */
+  .mockup-label { text-align: center; padding: 16px; background: #2D6A4F; color: white; border-radius: 8px; margin-bottom: 24px; font-size: 14px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="mockup-label">MOCKUP: Intake Detail Page Redesign -- ADHD-Friendly, Tab-Based</div>
+
+<a href="#" class="back-link">&#8592; Back to Intake Queue</a>
+
+<!-- Header Card (always visible) -->
+<div class="header-card">
+  <div class="header-top">
+    <div>
+      <div class="client-name">TEST - Daniela Ocampo</div>
+      <div class="contact-row">
+        <a href="#">daniela.ocampo@email.com</a>
+        <a href="#">(951) 555-0101</a>
+        <span>Prefers: Text</span>
+      </div>
+      <div class="status-row">
+        <span class="badge badge-amber">New Intake</span>
+        <span class="referral">Referred by: Instagram</span>
+      </div>
+    </div>
+    <span class="badge badge-green" style="font-size: 14px; padding: 6px 14px;">Ready to Book</span>
+  </div>
+
+  <div class="flags">
+    <div class="flag flag-amber">
+      <span class="flag-badge">Heads Up</span>
+      <span style="color: #8B7A6F;">Previous color damage reported</span>
+    </div>
+    <div class="flag flag-green">
+      <span class="flag-badge">Good Fit</span>
+      <span style="color: #8B7A6F;">Low-maintenance goals match Karli's approach</span>
+    </div>
+  </div>
+
+  <ul class="highlights">
+    <li><span class="bullet">&#x2022;</span> Wants lived-in balayage that grows out nice</li>
+    <li><span class="bullet">&#x2022;</span> Coarse, thick hair with color damage and dryness</li>
+    <li><span class="bullet">&#x2022;</span> Uses Olaplex products -- understands hair care</li>
+    <li><span class="bullet">&#x2022;</span> Available Tuesday and Thursday -- fits Karli's schedule</li>
+  </ul>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('glance')">At a Glance</button>
+  <button class="tab" onclick="showTab('intake')">Full Intake <span class="count count-amber">2</span></button>
+  <button class="tab" onclick="showTab('photos')">Photos</button>
+</div>
+
+<!-- TAB 1: At a Glance -->
+<div id="tab-glance" class="tab-content active">
+  <div class="glance-grid">
+
+    <!-- What They Want -->
+    <div class="glance-card" style="grid-column: 1 / -1;">
+      <h3>What They Want</h3>
+      <p class="glance-value goal">"Looking like a spicy hot mommy with lived-in balayage that grows out nice"</p>
+    </div>
+
+    <!-- Hair Profile -->
+    <div class="glance-card">
+      <h3>Hair Profile</h3>
+      <div class="hair-grid">
+        <div class="hair-item"><span class="hair-label">Texture</span><span class="hair-val">Coarse</span></div>
+        <div class="hair-item"><span class="hair-label">Length</span><span class="hair-val">Long</span></div>
+        <div class="hair-item"><span class="hair-label">Density</span><span class="hair-val">Thick</span></div>
+        <div class="hair-item"><span class="hair-label">Frequency</span><span class="hair-val">8-12 weeks</span></div>
+      </div>
+      <div style="margin-top: 10px;">
+        <span class="hair-label">Condition</span>
+        <div class="condition-tags" style="margin-top: 4px;">
+          <span class="condition-tag warn">Color damage</span>
+          <span class="condition-tag warn">Dryness</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="glance-card">
+      <h3>Availability</h3>
+      <div class="avail-tags">
+        <span class="avail-tag">Tuesday</span>
+        <span class="avail-tag no-match">Monday</span>
+        <span class="avail-tag">Thursday</span>
+      </div>
+      <p style="font-size: 12px; color: #9B8579; margin-top: 8px;">Karli works Tue-Thu. Monday doesn't match.</p>
+    </div>
+
+    <!-- Photos Preview -->
+    <div class="glance-card">
+      <h3>Photos</h3>
+      <div class="photo-grid-inline">
+        <img src="https://placehold.co/160x160/E8DDD6/6B5548?text=Selfie+1" alt="Selfie 1">
+        <img src="https://placehold.co/160x160/E8DDD6/6B5548?text=Selfie+2" alt="Selfie 2">
+        <img src="https://placehold.co/160x160/E8DDD6/6B5548?text=Inspo+1" alt="Inspiration 1">
+        <div class="photo-more" onclick="showTab('photos')">+2 more</div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="glance-card">
+      <h3>Current Products</h3>
+      <div style="font-size: 14px; line-height: 1.8; color: #3B2920;">
+        <div><span style="color: #9B8579;">Shampoo:</span> Olaplex No 4</div>
+        <div><span style="color: #9B8579;">Conditioner:</span> Olaplex No 5</div>
+        <div><span style="color: #9B8579;">Heat Protector:</span> Chi 44 Iron Guard</div>
+      </div>
+    </div>
+
+    <!-- Gap Summary -->
+    <div class="gap-card">
+      <h3>Missing Information <span class="gap-count">2</span></h3>
+      <ul class="gap-list">
+        <li>
+          <span class="gap-field">Daily hair routine</span>
+          <span class="gap-indicator gap-sparse">Sparse</span>
+        </li>
+        <li>
+          <span class="gap-field">Styling self-description</span>
+          <span class="gap-indicator gap-missing">Missing</span>
+        </li>
+      </ul>
+      <div class="gap-actions">
+        <button class="gap-btn gap-btn-draft">Draft Follow-Up</button>
+        <button class="gap-btn gap-btn-view" onclick="showTab('intake')">View in Full Intake</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TAB 2: Full Intake -->
+<div id="tab-intake" class="tab-content">
+  <div style="background: white; border: 1px solid #E8DDD6; border-radius: 10px; padding: 20px;">
+
+    <div class="section-block">
+      <div class="section-title">About You</div>
+      <div class="qa"><div class="qa-question">Name</div><div class="qa-answer">TEST - Daniela Ocampo</div></div>
+      <div class="qa"><div class="qa-question">Pronouns <span class="qa-optional">(Optional)</span></div><div class="qa-answer">she/her</div></div>
+      <div class="qa"><div class="qa-question">Email</div><div class="qa-answer">daniela.ocampo@email.com</div></div>
+      <div class="qa"><div class="qa-question">Phone</div><div class="qa-answer">(951) 555-0101</div></div>
+      <div class="qa"><div class="qa-question">Preferred contact method</div><div class="qa-answer">Text</div></div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">Your Hair</div>
+      <div class="qa"><div class="qa-question">What do you love and hate about your hair?</div><div class="qa-answer">I love my natural curl pattern but I hate how brassy my color gets</div></div>
+      <div class="qa"><div class="qa-question">Services interested in</div><div class="qa-answer">Color, Highlights/Balayage</div></div>
+      <div class="qa"><div class="qa-question">Hair texture</div><div class="qa-answer">Coarse</div></div>
+      <div class="qa"><div class="qa-question">Hair length</div><div class="qa-answer">Long (Past shoulders)</div></div>
+      <div class="qa"><div class="qa-question">Hair density</div><div class="qa-answer">Thick</div></div>
+      <div class="qa"><div class="qa-question">Hair condition</div><div class="qa-answer">Color damage, Dryness</div></div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">Hair Personality &amp; Routine</div>
+      <div class="qa qa-flagged">
+        <div class="qa-question">How would you describe your hair style?</div>
+        <div class="qa-answer empty">-- Missing --</div>
+      </div>
+      <div class="qa qa-flagged">
+        <div class="qa-question">Day-to-day hair routine</div>
+        <div class="qa-answer empty" style="color: #C2410C;">"fine" <span style="font-size: 11px; color: #B45309; margin-left: 4px;">&#9888; Sparse answer</span></div>
+      </div>
+      <div class="qa"><div class="qa-question">Shampoo frequency</div><div class="qa-answer">2-3 times a week</div></div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">Hair History</div>
+      <div class="qa"><div class="qa-question">Treatments in the last 2 years</div><div class="qa-answer">Box dye (2 years ago), Salon highlights (6 months ago)</div></div>
+      <div class="qa"><div class="qa-question">Color reaction history</div><div class="qa-answer">No</div></div>
+      <div class="qa"><div class="qa-question">Current products</div>
+        <div class="qa-answer">
+          <div>Shampoo: Olaplex No 4</div>
+          <div>Conditioner: Olaplex No 5</div>
+          <div>Heat Protector: Chi 44 Iron Guard</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">Goals &amp; Schedule</div>
+      <div class="qa"><div class="qa-question">What are you hoping to get out of your visit?</div><div class="qa-answer">Looking like a spicy hot mommy with lived-in balayage that grows out nice</div></div>
+      <div class="qa"><div class="qa-question">Maintenance frequency</div><div class="qa-answer">8-12 weeks</div></div>
+      <div class="qa"><div class="qa-question">Availability</div><div class="qa-answer">Tuesday, Thursday</div></div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">Things I Might Need to Know</div>
+      <div class="qa"><div class="qa-question">Additional info <span class="qa-optional">(Optional)</span></div><div class="qa-answer empty">--</div></div>
+      <div class="qa"><div class="qa-question">How did you find me?</div><div class="qa-answer">Instagram</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TAB 3: Photos -->
+<div id="tab-photos" class="tab-content">
+  <div class="photo-section">
+    <h3>Selfies</h3>
+    <div class="photo-full-grid">
+      <img src="https://placehold.co/400x400/E8DDD6/6B5548?text=Selfie+Front" alt="Front">
+      <img src="https://placehold.co/400x400/E8DDD6/6B5548?text=Selfie+Side" alt="Side">
+      <img src="https://placehold.co/400x400/E8DDD6/6B5548?text=Selfie+Back" alt="Back">
+    </div>
+  </div>
+  <div class="photo-section">
+    <h3>Inspiration</h3>
+    <div class="photo-full-grid">
+      <img src="https://placehold.co/400x400/E8DDD6/6B5548?text=Inspo+1" alt="Inspiration 1">
+      <img src="https://placehold.co/400x400/E8DDD6/6B5548?text=Inspo+2" alt="Inspiration 2">
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  // Highlight correct tab
+  const tabs = document.querySelectorAll('.tab');
+  const tabMap = { glance: 0, intake: 1, photos: 2 };
+  tabs[tabMap[name]].classList.add('active');
+}
+</script>
+
+</body>
+</html>

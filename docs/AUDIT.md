@@ -1,6 +1,6 @@
 # All Beauty Hair Studio -- Audit Log
 
-**Last Updated:** March 22, 2026 (Session 6)
+**Last Updated:** March 23, 2026 (Session 7)
 
 ---
 
@@ -13,7 +13,34 @@
 
 ---
 
+- **A-003** -- Info / Database --
+  46 dead consulting columns (q01-q48) in `clients` table from Marketing Reset era.
+  Not exposed to users. Clean up during PostgreSQL migration.
+  Found: Mar 23. Status: Open.
+
+---
+
 ## Resolved Issues
+
+- **R-008** -- Critical / Public Site --
+  Mobile crash on all pages. `useTransform` hook called conditionally inside JSX
+  in `floral-divider-animated.tsx` (Rules of Hooks violation). Desktop worked fine.
+  Found: Mar 23. Resolved: Mar 23 S7.
+
+- **R-009** -- Important / Public Site --
+  Mobile layout misaligned (text shifted -40px left). MotionReveal not resetting
+  `x: 0, y: 0` when animation tier changed from 'full' to 'reduced'.
+  Found: Mar 23. Resolved: Mar 23 S7.
+
+- **R-010** -- Important / VPS Security --
+  SSH `PasswordAuthentication yes` in `50-cloud-init.conf` overriding secure config.
+  7 of 8 Nginx sites missing security headers (only OrcaChild had them).
+  6 pending OS security updates not applied.
+  Found: Mar 23. Resolved: Mar 23 S7.
+
+- **R-011** -- Moderate / Dev Dependencies --
+  Vite 6.3.5 had 3 known vulnerabilities (1 moderate, 2 low).
+  Found: Mar 23. Resolved: Mar 23 S7. Bumped to 6.4.1.
 
 - **R-001** -- Important / Intake Form --
   Form copy didn't match Karli's original Wix form voice.
@@ -91,8 +118,17 @@
   Wired into root layout, CSP updated.
   Deployed to VPS Session 5.
 
-- **Animations** -- DONE (local) --
+- **Animations** -- DONE --
   Framer Motion animation system. 6 motion components,
   animated vine divider, all 7 public pages animated,
   gallery lightbox, button micro-interactions.
-  296 tests passing. Needs deploy to VPS.
+  296 tests passing. Deployed to VPS Session 7.
+  Mobile crash + alignment fixed Session 7.
+
+- **VPS Security** -- DONE --
+  Security headers on all 8 sites. SSH hardened.
+  OS updates applied. Vite 6.4.1. Session 7.
+
+- **DB Schema** -- Low --
+  46 dead consulting columns in clients table.
+  Clean up during PostgreSQL migration.

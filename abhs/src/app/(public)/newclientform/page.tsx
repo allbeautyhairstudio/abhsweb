@@ -530,7 +530,7 @@ export default function NewClientFormPage() {
           method: 'POST',
           body: fd,
         });
-        // Photo upload failure is non-blocking — client data is already saved
+        // Photo upload failure is non-blocking -- client data is already saved
       }
 
       setStatus('success');
