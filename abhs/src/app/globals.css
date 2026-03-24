@@ -141,14 +141,14 @@
   --ring: #A0714E;
 
   /* CRM admin sidebar */
-  --sidebar: #5E2E22;
-  --sidebar-foreground: #FFECD4;
-  --sidebar-primary: #F5B67A;
-  --sidebar-primary-foreground: #3B1C15;
-  --sidebar-accent: #8B4432;
-  --sidebar-accent-foreground: #FFECD4;
-  --sidebar-border: #8B4432;
-  --sidebar-ring: #D4764A;
+  --sidebar: #0B2618;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #FFFFFF;
+  --sidebar-primary-foreground: #0B2618;
+  --sidebar-accent: #1B4332;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #1B4332;
+  --sidebar-ring: #FFFFFF;
 
   /* Chart */
   --chart-1: #D4764A;
