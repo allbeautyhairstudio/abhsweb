@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { MessageCircle, X, ArrowLeft, Send } from 'lucide-react';
+import { MessageCircle, X, ArrowLeft, Send, ChevronDown, ChevronUp, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ChatMessage } from './chat-message';
 
@@ -27,17 +27,24 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
   const [isDraftMode, setIsDraftMode] = useState(false);
   const [channelContext, setChannelContext] = useState<'sms' | 'email' | 'both' | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Stylist notes state
+  const [stylistNotes, setStylistNotes] = useState('');
+  const [notesExpanded, setNotesExpanded] = useState(false);
+  const [noteStatus, setNoteStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  // Load chat history when panel opens
+  // Load chat history and stylist notes when panel opens
   useEffect(() => {
     if (isOpen) {
       loadHistory();
+      loadStylistNotes();
     }
   }, [isOpen, clientId]);
 
@@ -58,18 +65,50 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
     }
   }
 
-  async function handleSend() {
-    if (!input.trim() || isLoading) return;
+  async function loadStylistNotes() {
+    try {
+      const res = await fetch(`/api/admin/stylist-notes?clientId=${clientId}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.content) {
+          setStylistNotes(data.content);
+          setNotesExpanded(true);
+        }
+      }
+    } catch {
+      // Silent fail
+    }
+  }
 
-    const userMessage = input.trim();
+  async function saveStylistNotes() {
+    if (noteStatus === 'saving') return;
+    setNoteStatus('saving');
+    try {
+      const res = await fetch('/api/admin/stylist-notes', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId, content: stylistNotes }),
+      });
+      setNoteStatus(res.ok ? 'saved' : 'error');
+      if (res.ok) {
+        setTimeout(() => setNoteStatus('idle'), 2000);
+      }
+    } catch {
+      setNoteStatus('error');
+    }
+  }
+
+  async function sendMessage(messageText: string, channel: 'sms' | 'email' | 'both' | null) {
+    if (!messageText.trim() || isLoading) return;
+
     setInput('');
     setError(null);
 
     // Add user message to UI immediately
     const userMsg: Message = {
       role: 'user',
-      content: userMessage,
-      channel_context: isDraftMode ? channelContext : null,
+      content: messageText.trim(),
+      channel_context: channel,
     };
     setMessages(prev => [...prev, userMsg]);
 
@@ -81,7 +120,7 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
     const assistantMsg: Message = {
       role: 'assistant',
       content: '',
-      channel_context: isDraftMode ? channelContext : null,
+      channel_context: channel,
     };
     setMessages(prev => [...prev, assistantMsg]);
 
@@ -91,8 +130,8 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           clientId,
-          message: userMessage,
-          channelContext: isDraftMode ? channelContext : null,
+          message: messageText.trim(),
+          channelContext: channel,
         }),
       });
 
@@ -154,6 +193,17 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
     }
   }
 
+  function handleSend() {
+    sendMessage(input, isDraftMode ? channelContext : null);
+  }
+
+  function handleDraftResponse() {
+    if (!channelContext || isLoading) return;
+    const channelLabel = channelContext === 'both' ? 'SMS and email' : channelContext;
+    const prompt = `Draft a ${channelLabel} response to ${clientName} based on their intake submission and my stylist notes. Keep it warm, professional, and in my voice.`;
+    sendMessage(prompt, channelContext);
+  }
+
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -174,6 +224,77 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
     );
   }
 
+  const chatContent = (
+    <>
+      {/* Stylist Notes (collapsible) */}
+      <div className="border-b border-warm-100">
+        <button
+          onClick={() => setNotesExpanded(!notesExpanded)}
+          className="flex items-center justify-between w-full px-4 py-2.5 text-xs font-medium text-warm-600 hover:bg-warm-50 transition-colors"
+        >
+          <span className="flex items-center gap-1.5">
+            <FileText size={14} />
+            Stylist Notes
+            {noteStatus === 'saving' && <span className="text-warm-400 ml-1">Saving...</span>}
+            {noteStatus === 'saved' && <span className="text-forest-600 ml-1">Saved</span>}
+            {noteStatus === 'error' && <span className="text-red-500 ml-1">Error</span>}
+          </span>
+          {notesExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        </button>
+        {notesExpanded && (
+          <div className="px-4 pb-3">
+            <textarea
+              value={stylistNotes}
+              onChange={e => setStylistNotes(e.target.value)}
+              onBlur={saveStylistNotes}
+              placeholder="Your technical assessment, observations, recommendations..."
+              rows={3}
+              className="w-full resize-none rounded-lg border border-warm-200 bg-warm-50/50 px-3 py-2 text-sm text-warm-800 placeholder:text-warm-300 focus:outline-none focus:ring-2 focus:ring-forest-200 focus:border-forest-300"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+        {messages.length === 0 && (
+          <p className="text-center text-sm text-warm-400 mt-8">
+            Ask me anything about this intake, or toggle Draft Mode to write a message to your client.
+          </p>
+        )}
+        {messages.map((msg, i) => (
+          <ChatMessage
+            key={i}
+            role={msg.role}
+            content={msg.content}
+            channelContext={msg.channel_context}
+            isStreaming={isStreaming && i === messages.length - 1 && msg.role === 'assistant'}
+          />
+        ))}
+        {error && (
+          <div className="text-center text-sm text-red-500 py-2">{error}</div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input area */}
+      <ChatInput
+        input={input}
+        setInput={setInput}
+        isDraftMode={isDraftMode}
+        setIsDraftMode={setIsDraftMode}
+        channelContext={channelContext}
+        setChannelContext={setChannelContext}
+        isLoading={isLoading}
+        onSend={handleSend}
+        onDraftResponse={handleDraftResponse}
+        onKeyDown={handleKeyDown}
+        inputRef={inputRef}
+        clientName={clientName}
+      />
+    </>
+  );
+
   return (
     <>
       {/* Mobile: full screen overlay */}
@@ -188,42 +309,7 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
             <p className="text-xs text-warm-400">AI Assistant</p>
           </div>
         </div>
-
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-          {messages.length === 0 && (
-            <p className="text-center text-sm text-warm-400 mt-8">
-              Ask me anything about this intake, or toggle Draft Mode to write a message to your client.
-            </p>
-          )}
-          {messages.map((msg, i) => (
-            <ChatMessage
-              key={i}
-              role={msg.role}
-              content={msg.content}
-              channelContext={msg.channel_context}
-              isStreaming={isStreaming && i === messages.length - 1 && msg.role === 'assistant'}
-            />
-          ))}
-          {error && (
-            <div className="text-center text-sm text-red-500 py-2">{error}</div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input area */}
-        <ChatInput
-          input={input}
-          setInput={setInput}
-          isDraftMode={isDraftMode}
-          setIsDraftMode={setIsDraftMode}
-          channelContext={channelContext}
-          setChannelContext={setChannelContext}
-          isLoading={isLoading}
-          onSend={handleSend}
-          onKeyDown={handleKeyDown}
-          inputRef={inputRef}
-        />
+        {chatContent}
       </div>
 
       {/* Desktop: side panel */}
@@ -238,42 +324,7 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
             <X size={18} className="text-warm-500" />
           </button>
         </div>
-
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-          {messages.length === 0 && (
-            <p className="text-center text-sm text-warm-400 mt-8">
-              Ask me anything about this intake, or toggle Draft Mode to write a message to your client.
-            </p>
-          )}
-          {messages.map((msg, i) => (
-            <ChatMessage
-              key={i}
-              role={msg.role}
-              content={msg.content}
-              channelContext={msg.channel_context}
-              isStreaming={isStreaming && i === messages.length - 1 && msg.role === 'assistant'}
-            />
-          ))}
-          {error && (
-            <div className="text-center text-sm text-red-500 py-2">{error}</div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input area */}
-        <ChatInput
-          input={input}
-          setInput={setInput}
-          isDraftMode={isDraftMode}
-          setIsDraftMode={setIsDraftMode}
-          channelContext={channelContext}
-          setChannelContext={setChannelContext}
-          isLoading={isLoading}
-          onSend={handleSend}
-          onKeyDown={handleKeyDown}
-          inputRef={inputRef}
-        />
+        {chatContent}
       </div>
     </>
   );
@@ -289,8 +340,10 @@ function ChatInput({
   setChannelContext,
   isLoading,
   onSend,
+  onDraftResponse,
   onKeyDown,
   inputRef,
+  clientName,
 }: {
   input: string;
   setInput: (v: string) => void;
@@ -300,12 +353,14 @@ function ChatInput({
   setChannelContext: (v: 'sms' | 'email' | 'both' | null) => void;
   isLoading: boolean;
   onSend: () => void;
+  onDraftResponse: () => void;
   onKeyDown: (e: React.KeyboardEvent) => void;
   inputRef: React.RefObject<HTMLTextAreaElement | null>;
+  clientName: string;
 }) {
   return (
     <div className="border-t border-warm-100 bg-white px-4 py-3 space-y-2 safe-area-bottom">
-      {/* Draft mode toggle + channel pills */}
+      {/* Draft mode toggle + channel pills + draft response button */}
       <div className="flex items-center gap-2 flex-wrap">
         <button
           onClick={() => {
@@ -321,21 +376,31 @@ function ChatInput({
           Draft Message
         </button>
         {isDraftMode && (
-          <div className="flex gap-1">
-            {(['sms', 'email', 'both'] as const).map(ch => (
-              <button
-                key={ch}
-                onClick={() => setChannelContext(ch)}
-                className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                  channelContext === ch
-                    ? 'bg-warm-600 text-white border-warm-600'
-                    : 'text-warm-500 border-warm-200 hover:border-warm-300'
-                }`}
-              >
-                {ch === 'both' ? 'Both' : ch.toUpperCase()}
-              </button>
-            ))}
-          </div>
+          <>
+            <div className="flex gap-1">
+              {(['sms', 'email', 'both'] as const).map(ch => (
+                <button
+                  key={ch}
+                  onClick={() => setChannelContext(ch)}
+                  className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                    channelContext === ch
+                      ? 'bg-warm-600 text-white border-warm-600'
+                      : 'text-warm-500 border-warm-200 hover:border-warm-300'
+                  }`}
+                >
+                  {ch === 'both' ? 'Both' : ch.toUpperCase()}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={onDraftResponse}
+              disabled={!channelContext || isLoading}
+              className="text-xs px-3 py-1 rounded-full bg-forest-600 text-white hover:bg-forest-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              title={`Draft a ${channelContext || ''} response to ${clientName}`}
+            >
+              Draft Response
+            </button>
+          </>
         )}
       </div>
 
