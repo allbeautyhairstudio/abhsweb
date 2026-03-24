@@ -63,7 +63,8 @@ export function MotionGalleryLightbox({
     <AnimatePresence>
       {selected && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center touch-none"
+          style={{ height: '100dvh' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -101,7 +102,7 @@ export function MotionGalleryLightbox({
           <motion.div
             key={selected.id}
             layoutId={tier === 'full' ? `gallery-${selected.id}` : undefined}
-            className="relative z-10 max-w-[90vw] max-h-[85vh]"
+            className="relative z-10 w-[90vw] max-w-[90vw] max-h-[85vh] flex items-center justify-center"
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
             {selected.media_type === 'VIDEO' ? (
