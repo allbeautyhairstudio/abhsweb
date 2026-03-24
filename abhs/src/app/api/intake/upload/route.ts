@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       const file = selfies[i];
       const safeName = `selfie-${i + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
       const buffer = Buffer.from(await file.arrayBuffer());
-      const webpBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+      const webpBuffer = await sharp(buffer).rotate().webp({ quality: 80 }).toBuffer();
       await writeFile(path.join(uploadDir, safeName), webpBuffer);
       saved.push(safeName);
     }
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       const file = inspiration[i];
       const safeName = `inspo-${i + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
       const buffer = Buffer.from(await file.arrayBuffer());
-      const webpBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+      const webpBuffer = await sharp(buffer).rotate().webp({ quality: 80 }).toBuffer();
       await writeFile(path.join(uploadDir, safeName), webpBuffer);
       saved.push(safeName);
     }
