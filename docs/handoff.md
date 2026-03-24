@@ -1,12 +1,12 @@
 # All Beauty Hair Studio -- Project Handoff Document
 
-**Last Updated:** March 23, 2026 (Session 7)
+**Last Updated:** March 23, 2026 (Session 8)
 **Status:** **LIVE at allbeautyhairstudio.com** -- Public site + Admin CRM + Square booking widget +
-email notifications + AI chat assistant. Umami analytics wired. Next.js 16.1.7 + Vite 6.4.1 security
-patches deployed. Framer Motion animations deployed (mobile crash fixed). VPS fully hardened (security
-headers, SSH, OS updates). BuiltByBas LLC filed in California.
-Next: Execute Plan B (backend AI enhancements + Color Lab removal), then Plan C (service menu),
-then deploy. Plan A deferred.
+email notifications + AI chat assistant with Stylist Notes + Draft Response. Umami analytics wired.
+Next.js 16.1.7 + Vite 6.4.1 security patches deployed. Framer Motion animations deployed.
+VPS fully hardened. Color Lab removed. Dark forest green admin sidebar. All em dashes removed from
+public pages. Gallery lightbox mobile fix deployed. Plan B COMPLETE and deployed.
+Next: Execute intake detail redesign spec, then Plan C (service menu), then form validation.
 
 ---
 
@@ -412,6 +412,20 @@ SMTP_PASS=your-app-password       # Gmail app password
   - White gradient overlay (15% left, 65% right) -- Karli shows through on left
   - "My Journey -- Read More" link added to homepage Person Behind the Chair section
 - **framer-motion + happy-dom added** to dependencies (296 tests, 4 new for useAnimationTier hook)
+- **Plan B: Backend AI Enhancements** -- Mar 23 S8 (257 tests)
+  - EXIF auto-orientation on photo uploads (sharp .rotate())
+  - Stylist Notes: DB queries, chat context, API (GET/PUT), collapsible UI in chat panel
+  - Draft Response button + Karli voice profile guardrails in system prompt
+  - Draft Preview Cards (sage styling, channel badge, copy-to-clipboard)
+  - Color Lab fully removed (7 API routes, 4 components, 4 DB tables, 48 tests, 2889 lines)
+  - AI Summary tab reworked (badge + flags + highlights, no scoring cards)
+  - Nested anchor hydration fix on clients page
+  - 9 new tests (5 stylist notes + 4 chat context)
+- **Admin sidebar** -- dark forest green with white text (Mar 23 S8)
+- **Em dash sweep** -- 52 em dashes replaced across all public pages (Mar 23 S8)
+- **Gallery lightbox mobile fix** -- 100dvh + touch-none for proper centering (Mar 23 S8)
+- **Ask AI button** -- text always visible on mobile (Mar 23 S8)
+- **Intake detail redesign spec written** -- ADHD-friendly tab-based layout, gap detection (Mar 23 S8)
 - **Mobile crash fix** -- Mar 23 S7 (296 tests)
   - `useTransform` hook called conditionally inside JSX in `floral-divider-animated.tsx` -- Rules of Hooks violation
   - Motion transforms not resetting `x: 0, y: 0` when tier changed to 'reduced' on mobile
@@ -492,35 +506,29 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ## 13. FOR THE NEXT SESSION
 
-### START HERE: Execute Plan B (Backend & AI Enhancements + Color Lab Removal)
+### START HERE: Write Implementation Plan for Intake Detail Redesign
 
-**Status:** Ready to execute. Plan file: `docs/superpowers/plans/2026-03-22-backend-ai-enhancements-plan.md`
+**Status:** Spec approved and committed. Needs implementation plan written, then executed.
+**Spec:** `docs/superpowers/specs/2026-03-23-intake-detail-redesign-design.md`
+**Mockup:** `public/mockup.html` (viewable at `/mockup.html` on dev server)
 
-Bas decided (Session 7, March 23): Plan A is deferred. Color Lab removal moved into Plan B.
-
-**Plan B tasks (8 tasks + Color Lab removal):**
-
-1. EXIF auto-orientation fix (sharp `.rotate()` on photo uploads)
-2. Stylist Notes -- database & queries (upsert to `client_notes` with type `stylist_assessment`)
-3. Stylist Notes -- chat context integration (include in AI system prompt)
-4. Stylist Notes -- API route (GET/PUT at `/api/admin/stylist-notes`)
-5. Stylist Notes -- UI component (collapsible textarea in chat panel, auto-save on blur)
-6. Draft Response button + Karli voice profile guardrails in system prompt
-7. Draft Preview Card (distinct card styling, channel badge, copy-to-clipboard)
-8. Final verification (full test suite, build, workflow test)
-9. **Color Lab removal** -- remove Color Lab from admin sidebar, routes, API endpoints, and DB tables
-   (was Plan A task, moved here per Bas's direction)
+**What the redesign does:**
+- 3-tab layout: At a Glance, Full Intake, Photos
+- Gap detection (missing/sparse fields flagged amber, health flags red)
+- "Draft Email Follow-Up" and "Draft SMS Follow-Up" buttons integrated with AI chat
+- ADHD-friendly design: visual hierarchy, chunking, progressive disclosure
+- IntakeChatPanel needs `forwardRef` + `useImperativeHandle` for programmatic open
 
 ### Then: Execute Plan C (Service Menu Restructure)
 
 - Plan file: `docs/superpowers/plans/2026-03-22-service-menu-restructure-plan.md`
 - Cut-forward descriptions, color as lived-in enhancements
 
-### Then: Deploy Everything to Production
+### Then: Form Validation Tightening (Separate Spec)
 
-- All Plan B + C changes + animation fixes from Session 7
-- Add `ANTHROPIC_API_KEY` to VPS `.env.local` before deploying
-- 296 tests passing locally (expect more after Plan B tests added)
+- Make most intake form fields required (except pronouns, medical info)
+- Minimum quality checks on free-text fields
+- Informed by which gaps show up most on the admin side
 
 ### Deferred (Come Back Later)
 
@@ -528,19 +536,20 @@ Bas decided (Session 7, March 23): Plan A is deferred. Color Lab removal moved i
   cut-forward positioning, client detail 4-tab rework, AI-generated intake briefing
   - Plan file: `docs/superpowers/plans/2026-03-22-public-site-refresh-plan.md`
 
-### Other Priorities (After Plans B/C)
+### Other Priorities
 
 - Printable/PDF version of intake Q&A output
 - PostgreSQL migration (cleans up 46 dead consulting columns + `business_type`)
 - Email lifecycle system (5 timed emails)
 - Twilio SMS verification check (submitted March 21)
+- Deploy dark green sidebar to VPS (done Mar 23 S8)
 
 ### Session Start
 
 1. Read this handoff for project context
-2. Run `cd c:\kar\abhs && npx vitest run` to verify 296 tests pass
+2. Run `cd c:\kar\abhs && npx vitest run` to verify 257 tests pass
 3. Check for unpushed commits
-4. Start executing Plan B task 1 (EXIF fix)
+4. Write implementation plan for intake detail redesign spec
 
 ---
 
