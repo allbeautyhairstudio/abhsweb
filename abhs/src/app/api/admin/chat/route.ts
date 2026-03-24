@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     clientName: client.q02_client_name || 'Unknown',
     email: client.q03_email || '',
     phone: client.phone || intake.phone,
-    pronouns: client.q04_pronouns,
+    pronouns: intake.pronouns,
     preferredContact: client.preferred_contact,
     hairLoveHate: intake.hairLoveHate,
     serviceInterest: intake.serviceInterest,
