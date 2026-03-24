@@ -7,7 +7,7 @@ import type { ClientRow } from '@/lib/queries/clients';
 import { NotesTabContent } from '@/components/notes/notes-tab-content';
 import { PhotoGallery } from '@/components/clients/photo-gallery';
 import { ClientBookingsTab } from '@/components/admin/client-bookings-tab';
-import { SalonSummaryTab } from '@/components/salon/salon-summary-tab';
+
 
 /** Display a labeled value pair */
 function Field({ label, value }: { label: string; value: string | number | null | undefined }) {
@@ -287,7 +287,6 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
       <TabsList className="w-full justify-start flex-wrap">
         <TabsTrigger value="overview">Overview</TabsTrigger>
         <TabsTrigger value="intake">Intake Data</TabsTrigger>
-        <TabsTrigger value="salon-summary">AI Summary</TabsTrigger>
         <TabsTrigger value="bookings">Bookings</TabsTrigger>
         <TabsTrigger value="engagement">Engagement</TabsTrigger>
         <TabsTrigger value="notes">Notes & History</TabsTrigger>
@@ -303,10 +302,6 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
 
       <TabsContent value="bookings">
         <ClientBookingsTab clientId={client.id} />
-      </TabsContent>
-
-      <TabsContent value="salon-summary">
-        <SalonSummaryTab clientId={client.id} />
       </TabsContent>
 
       <TabsContent value="engagement">
