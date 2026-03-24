@@ -66,6 +66,31 @@ export function getChecklist(clientId: number, stage: string): ChecklistState {
   return state;
 }
 
+/** Get the stylist assessment note for a client (returns content string or null). */
+export function getStylistNote(clientId: number): string | null {
+  const db = getDb();
+  const row = db.prepare(
+    "SELECT content FROM client_notes WHERE client_id = ? AND note_type = 'stylist_assessment' LIMIT 1"
+  ).get(clientId) as { content: string } | undefined;
+  return row?.content ?? null;
+}
+
+/** Create or update the stylist assessment note for a client. */
+export function upsertStylistNote(clientId: number, content: string): void {
+  const db = getDb();
+  const existing = db.prepare(
+    "SELECT id FROM client_notes WHERE client_id = ? AND note_type = 'stylist_assessment' LIMIT 1"
+  ).get(clientId) as { id: number } | undefined;
+
+  if (existing) {
+    db.prepare('UPDATE client_notes SET content = ? WHERE id = ?').run(content, existing.id);
+  } else {
+    db.prepare(
+      "INSERT INTO client_notes (client_id, note_type, content) VALUES (?, 'stylist_assessment', ?)"
+    ).run(clientId, content);
+  }
+}
+
 /**
  * Toggle a checklist item on/off.
  * Upserts: updates existing or creates new.
