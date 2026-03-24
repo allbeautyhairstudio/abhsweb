@@ -152,22 +152,24 @@ export function ClientsTable({ clients }: ClientsTableProps) {
               className="mt-1 h-4 w-4 rounded border-brand-300 text-primary accent-primary"
               aria-label={`Select ${client.q02_client_name}`}
             />
-            <Link
-              href={`/admin/clients/${client.id}`}
-              className="flex-1 min-w-0"
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-medium text-brand-700">{client.q02_client_name}</span>
-                <StatusBadge status={client.status} />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {client.q01_business_name ?? '—'}
-                {client.q05_service_type ? ` · ${client.q05_service_type}` : ''}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {client.inquiry_date ?? client.created_at?.slice(0, 10) ?? '—'}
-              </p>
-              <div className="mt-1.5" onClick={(e) => e.preventDefault()}>
+            <div className="flex-1 min-w-0">
+              <Link
+                href={`/admin/clients/${client.id}`}
+                className="block"
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-medium text-brand-700">{client.q02_client_name}</span>
+                  <StatusBadge status={client.status} />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {client.q01_business_name ?? '—'}
+                  {client.q05_service_type ? ` · ${client.q05_service_type}` : ''}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {client.inquiry_date ?? client.created_at?.slice(0, 10) ?? '—'}
+                </p>
+              </Link>
+              <div className="mt-1.5">
                 <ClientContactActions
                   email={client.q03_email}
                   phone={client.phone}
@@ -175,7 +177,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                   variant="compact"
                 />
               </div>
-            </Link>
+            </div>
           </div>
         ))}
       </div>

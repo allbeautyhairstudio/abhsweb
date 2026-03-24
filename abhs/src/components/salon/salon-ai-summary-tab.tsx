@@ -19,7 +19,7 @@ export function SalonAISummaryTab({ clientId }: { clientId: number }) {
         const res = await fetch(`/api/admin/salon/summary/${clientId}`);
         if (res.ok) {
           const data = await res.json();
-          setSummary(data);
+          setSummary(data.summary ?? null);
         }
       } catch {
         // Silent fail
