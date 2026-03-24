@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { isAuthenticated } from '@/lib/admin-auth';
 import { getClientById } from '@/lib/queries/clients';
 import { getIntakeNote } from '@/lib/queries/intake-queue';
-import { getNotesByClientId } from '@/lib/queries/notes';
+import { getNotesByClientId, getStylistNote } from '@/lib/queries/notes';
 import { getChatMessages, createChatMessage } from '@/lib/queries/chat';
 import { parseSalonIntakeNote, assessSalonIntake } from '@/lib/salon-summary';
 import { buildSystemPrompt, buildChatMessages } from '@/lib/chat-context';
@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
     clientName: client.q02_client_name || 'Unknown',
     email: client.q03_email || '',
     phone: client.phone || intake.phone,
+    pronouns: client.q04_pronouns,
     preferredContact: client.preferred_contact,
     hairLoveHate: intake.hairLoveHate,
     serviceInterest: intake.serviceInterest,
@@ -98,8 +99,9 @@ export async function POST(request: NextRequest) {
     products: intake.products,
   };
 
-  // Load client notes
+  // Load client notes and stylist assessment
   const clientNotes = getNotesByClientId(clientId);
+  const stylistNotes = getStylistNote(clientId);
 
   // Load chat history
   const chatHistory = getChatMessages(clientId, CHAT_HISTORY_WINDOW);
@@ -118,7 +120,7 @@ export async function POST(request: NextRequest) {
   };
 
   // Build messages for Claude
-  const systemPrompt = buildSystemPrompt(intakeContext, summaryContext, clientNotes, channelContext);
+  const systemPrompt = buildSystemPrompt(intakeContext, summaryContext, clientNotes, channelContext, stylistNotes);
   const messages = buildChatMessages(chatHistory, message);
 
   // Stream response
