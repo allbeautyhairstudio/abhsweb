@@ -66,43 +66,8 @@ export function getDb(): Database.Database {
       db.exec("CREATE INDEX IF NOT EXISTS idx_clients_business_type ON clients(business_type)");
     }
 
-    // Migration: create color tables if missing (existing databases)
     const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all() as Array<{ name: string }>;
     const tableNames = new Set(tables.map(t => t.name));
-    if (!tableNames.has('color_lines')) {
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS color_lines (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, brand_name TEXT NOT NULL, line_name TEXT NOT NULL,
-          is_custom INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT (datetime('now')),
-          UNIQUE(brand_name, line_name)
-        );
-        CREATE TABLE IF NOT EXISTS color_shades (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, color_line_id INTEGER NOT NULL REFERENCES color_lines(id) ON DELETE CASCADE,
-          shade_name TEXT NOT NULL, shade_code TEXT, is_custom INTEGER NOT NULL DEFAULT 0,
-          UNIQUE(color_line_id, shade_name)
-        );
-        CREATE TABLE IF NOT EXISTS color_formulas (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, client_id INTEGER NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
-          created_at TEXT NOT NULL DEFAULT (datetime('now')), service_date TEXT NOT NULL,
-          color_line_id INTEGER REFERENCES color_lines(id) ON DELETE SET NULL,
-          shade_id INTEGER REFERENCES color_shades(id) ON DELETE SET NULL,
-          custom_shade TEXT, developer_volume TEXT, ratio TEXT, processing_time INTEGER,
-          technique TEXT, placement TEXT, notes TEXT
-        );
-        CREATE TABLE IF NOT EXISTS color_inventory (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, color_line_id INTEGER NOT NULL REFERENCES color_lines(id) ON DELETE CASCADE,
-          shade_id INTEGER REFERENCES color_shades(id) ON DELETE SET NULL,
-          quantity REAL NOT NULL DEFAULT 0, minimum_stock REAL NOT NULL DEFAULT 1,
-          unit TEXT NOT NULL DEFAULT 'tubes', last_restocked TEXT,
-          updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-        );
-        CREATE INDEX IF NOT EXISTS idx_color_lines_brand ON color_lines(brand_name);
-        CREATE INDEX IF NOT EXISTS idx_color_shades_line ON color_shades(color_line_id);
-        CREATE INDEX IF NOT EXISTS idx_color_formulas_client ON color_formulas(client_id);
-        CREATE INDEX IF NOT EXISTS idx_color_formulas_date ON color_formulas(service_date);
-        CREATE INDEX IF NOT EXISTS idx_color_inventory_line ON color_inventory(color_line_id);
-      `);
-    }
 
     // Migration: add client_id to booking_requests if missing (Phase F)
     const brCols = db.prepare("PRAGMA table_info(booking_requests)").all() as Array<{ name: string }>;

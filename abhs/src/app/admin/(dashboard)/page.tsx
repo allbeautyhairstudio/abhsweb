@@ -9,11 +9,10 @@ import {
   getTestimonialCount,
   getClientCount,
 } from '@/lib/queries/clients';
-import { getLowStockAlerts } from '@/lib/queries/color';
 import { PIPELINE_STAGES } from '@/lib/constants/stages';
 import { getPendingIntakeCount } from '@/lib/queries/intake-queue';
 import { formatRelativeDate } from '@/lib/date-utils';
-import { Users, DollarSign, MessageSquareQuote, UserPlus, CalendarClock, AlertTriangle, Palette, TrendingUp, Package, Inbox } from 'lucide-react';
+import { Users, DollarSign, MessageSquareQuote, UserPlus, CalendarClock, AlertTriangle, TrendingUp, Inbox } from 'lucide-react';
 import { TodaysAppointments } from '@/components/admin/todays-appointments';
 import { ClientContactActions } from '@/components/clients/client-contact-actions';
 
@@ -152,22 +151,6 @@ export default async function DashboardHome() {
 
       {/* Command Center quick access */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Link href="/admin/color-lab" className="group">
-          <Card className="hover:border-copper-400 transition-colors">
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-copper-500/10 rounded-lg">
-                  <Palette size={20} className="text-copper-500" />
-                </div>
-                <div>
-                  <p className="font-medium text-brand-700 group-hover:text-copper-500 transition-colors">Color Lab</p>
-                  <p className="text-xs text-muted-foreground">Formula tracking & inventory</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-
         <Link href="/admin/engagement" className="group">
           <Card className="hover:border-copper-400 transition-colors">
             <CardContent className="pt-6">
@@ -184,53 +167,6 @@ export default async function DashboardHome() {
           </Card>
         </Link>
       </div>
-
-      {/* Low Stock Alerts */}
-      {(() => {
-        const lowStock = getLowStockAlerts();
-        if (lowStock.length === 0) return null;
-        return (
-          <Card className="border-amber-300">
-            <CardHeader>
-              <CardTitle className="text-brand-800 flex items-center gap-2">
-                <Package size={20} className="text-amber-600" />
-                Low Stock Alerts
-                <Badge variant="destructive" className="text-xs ml-1">
-                  {lowStock.length}
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {lowStock.slice(0, 5).map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-2 rounded-lg bg-amber-50">
-                    <div>
-                      <p className="text-sm font-medium">{item.brand_name} — {item.line_name}</p>
-                      {item.shade_name && (
-                        <p className="text-xs text-muted-foreground">{item.shade_name}</p>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold text-amber-700">
-                        {item.quantity} {item.unit}
-                      </p>
-                      <p className="text-xs text-muted-foreground">min: {item.minimum_stock}</p>
-                    </div>
-                  </div>
-                ))}
-                {lowStock.length > 5 && (
-                  <Link
-                    href="/admin/color-lab"
-                    className="block text-center text-sm text-forest-500 hover:text-forest-600 font-medium pt-1"
-                  >
-                    View all {lowStock.length} items →
-                  </Link>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        );
-      })()}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming Sessions */}

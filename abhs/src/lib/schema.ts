@@ -157,55 +157,6 @@ CREATE TABLE IF NOT EXISTS booking_requests (
   decline_reason      TEXT
 );
 
--- Color product lines (brands + sub-lines)
-CREATE TABLE IF NOT EXISTS color_lines (
-  id         INTEGER PRIMARY KEY AUTOINCREMENT,
-  brand_name TEXT    NOT NULL,
-  line_name  TEXT    NOT NULL,
-  is_custom  INTEGER NOT NULL DEFAULT 0,
-  created_at TEXT    NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(brand_name, line_name)
-);
-
--- Shades per color line
-CREATE TABLE IF NOT EXISTS color_shades (
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
-  color_line_id INTEGER NOT NULL REFERENCES color_lines(id) ON DELETE CASCADE,
-  shade_name    TEXT    NOT NULL,
-  shade_code    TEXT,
-  is_custom     INTEGER NOT NULL DEFAULT 0,
-  UNIQUE(color_line_id, shade_name)
-);
-
--- Formula records per client visit
-CREATE TABLE IF NOT EXISTS color_formulas (
-  id               INTEGER PRIMARY KEY AUTOINCREMENT,
-  client_id        INTEGER NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
-  created_at       TEXT    NOT NULL DEFAULT (datetime('now')),
-  service_date     TEXT    NOT NULL,
-  color_line_id    INTEGER REFERENCES color_lines(id) ON DELETE SET NULL,
-  shade_id         INTEGER REFERENCES color_shades(id) ON DELETE SET NULL,
-  custom_shade     TEXT,
-  developer_volume TEXT,
-  ratio            TEXT,
-  processing_time  INTEGER,
-  technique        TEXT,
-  placement        TEXT,
-  notes            TEXT
-);
-
--- Color inventory tracking
-CREATE TABLE IF NOT EXISTS color_inventory (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  color_line_id   INTEGER NOT NULL REFERENCES color_lines(id) ON DELETE CASCADE,
-  shade_id        INTEGER REFERENCES color_shades(id) ON DELETE SET NULL,
-  quantity        REAL    NOT NULL DEFAULT 0,
-  minimum_stock   REAL    NOT NULL DEFAULT 1,
-  unit            TEXT    NOT NULL DEFAULT 'tubes',
-  last_restocked  TEXT,
-  updated_at      TEXT    NOT NULL DEFAULT (datetime('now'))
-);
-
 -- Indexes for common queries
 CREATE INDEX IF NOT EXISTS idx_clients_status ON clients(status);
 CREATE INDEX IF NOT EXISTS idx_clients_name ON clients(q02_client_name);
@@ -215,9 +166,4 @@ CREATE INDEX IF NOT EXISTS idx_booking_requests_status ON booking_requests(statu
 CREATE INDEX IF NOT EXISTS idx_booking_requests_start ON booking_requests(requested_start_at);
 CREATE INDEX IF NOT EXISTS idx_booking_requests_email ON booking_requests(customer_email);
 CREATE INDEX IF NOT EXISTS idx_booking_requests_client ON booking_requests(client_id);
-CREATE INDEX IF NOT EXISTS idx_color_lines_brand ON color_lines(brand_name);
-CREATE INDEX IF NOT EXISTS idx_color_shades_line ON color_shades(color_line_id);
-CREATE INDEX IF NOT EXISTS idx_color_formulas_client ON color_formulas(client_id);
-CREATE INDEX IF NOT EXISTS idx_color_formulas_date ON color_formulas(service_date);
-CREATE INDEX IF NOT EXISTS idx_color_inventory_line ON color_inventory(color_line_id);
 `;

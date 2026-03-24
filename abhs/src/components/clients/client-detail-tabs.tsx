@@ -7,7 +7,6 @@ import type { ClientRow } from '@/lib/queries/clients';
 import { NotesTabContent } from '@/components/notes/notes-tab-content';
 import { PhotoGallery } from '@/components/clients/photo-gallery';
 import { ClientBookingsTab } from '@/components/admin/client-bookings-tab';
-import { FormulaTimeline } from '@/components/color/formula-timeline';
 import { SalonSummaryTab } from '@/components/salon/salon-summary-tab';
 
 /** Display a labeled value pair */
@@ -290,7 +289,6 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
         <TabsTrigger value="intake">Intake Data</TabsTrigger>
         <TabsTrigger value="salon-summary">AI Summary</TabsTrigger>
         <TabsTrigger value="bookings">Bookings</TabsTrigger>
-        <TabsTrigger value="color-history">Color History</TabsTrigger>
         <TabsTrigger value="engagement">Engagement</TabsTrigger>
         <TabsTrigger value="notes">Notes & History</TabsTrigger>
       </TabsList>
@@ -309,10 +307,6 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
 
       <TabsContent value="salon-summary">
         <SalonSummaryTab clientId={client.id} />
-      </TabsContent>
-
-      <TabsContent value="color-history">
-        <FormulaTimeline clientId={client.id} />
       </TabsContent>
 
       <TabsContent value="engagement">

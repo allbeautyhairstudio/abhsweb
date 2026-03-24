@@ -13,7 +13,6 @@ import {
   X,
   ArrowLeft,
   LogOut,
-  Palette,
   TrendingUp,
   Megaphone,
   Paintbrush,
@@ -47,7 +46,6 @@ const navSections: NavSection[] = [
   {
     label: 'Salon Tools',
     items: [
-      { href: '/admin/color-lab', label: 'Color Lab', icon: Palette },
       { href: '/admin/engagement', label: 'Customer Insights', icon: TrendingUp },
     ],
   },
