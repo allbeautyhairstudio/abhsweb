@@ -5,6 +5,7 @@ export interface IntakeContext {
   clientName: string;
   email: string;
   phone?: string | null;
+  pronouns?: string | null;
   preferredContact?: string | null;
   hairLoveHate?: string | null;
   serviceInterest?: string[];
@@ -51,6 +52,7 @@ export function formatIntakeForContext(intake: IntakeContext): string {
   ];
 
   if (intake.phone) lines.push(`Phone: ${intake.phone}`);
+  if (intake.pronouns) lines.push(`Pronouns: ${intake.pronouns}`);
   if (intake.preferredContact) lines.push(`Preferred contact: ${intake.preferredContact}`);
 
   lines.push('', '## Intake Responses');
@@ -144,7 +146,7 @@ export function buildChatMessages(
  * Format client notes for context.
  */
 export function formatNotesForContext(notes: Array<{ content: string; note_type: string; created_at: string }>): string {
-  const generalNotes = notes.filter(n => n.note_type !== 'checklist');
+  const generalNotes = notes.filter(n => n.note_type !== 'checklist' && n.note_type !== 'stylist_assessment');
   if (generalNotes.length === 0) return '';
 
   const lines = ['## Stylist Notes'];
@@ -162,12 +164,17 @@ export function buildSystemPrompt(
   summary: SummaryContext,
   notes?: Array<{ content: string; note_type: string; created_at: string }>,
   channelContext?: string | null,
+  stylistNotes?: string | null,
 ): string {
   let systemContext = CHAT_SYSTEM_PROMPT;
   systemContext += '\n\n---\n\n';
   systemContext += formatIntakeForContext(intake);
   systemContext += '\n\n';
   systemContext += formatSummaryForContext(summary);
+
+  if (stylistNotes) {
+    systemContext += `\n\n## Karli's Stylist Notes\n${stylistNotes}`;
+  }
 
   if (notes && notes.length > 0) {
     systemContext += '\n\n';

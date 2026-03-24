@@ -62,6 +62,15 @@ describe('formatIntakeForContext', () => {
     expect(result).toContain('**What they want from their visit:** Looking like a spicy hot mommy lol');
   });
 
+  it('includes pronouns when provided', () => {
+    const result = formatIntakeForContext({
+      clientName: 'Alex',
+      email: 'alex@test.com',
+      pronouns: 'they/them',
+    });
+    expect(result).toContain('Pronouns: they/them');
+  });
+
   it('skips undefined fields', () => {
     const result = formatIntakeForContext({
       clientName: 'Test',
@@ -143,6 +152,16 @@ describe('formatNotesForContext', () => {
     expect(result).not.toContain('consult');
   });
 
+  it('excludes stylist_assessment notes (prevents duplication)', () => {
+    const notes = [
+      { content: 'General note here', note_type: 'general', created_at: '2026-03-21' },
+      { content: 'Fine hair, level 7 base', note_type: 'stylist_assessment', created_at: '2026-03-21' },
+    ];
+    const result = formatNotesForContext(notes);
+    expect(result).toContain('General note here');
+    expect(result).not.toContain('Fine hair, level 7 base');
+  });
+
   it('returns empty string when no notes', () => {
     expect(formatNotesForContext([])).toBe('');
   });
@@ -173,5 +192,16 @@ describe('buildSystemPrompt', () => {
     const notes = [{ content: 'Sensitive scalp', note_type: 'general', created_at: '2026-03-21' }];
     const prompt = buildSystemPrompt(intake, summary, notes);
     expect(prompt).toContain('Sensitive scalp');
+  });
+
+  it('includes stylist notes under dedicated heading when provided', () => {
+    const prompt = buildSystemPrompt(intake, summary, [], null, 'Fine hair, level 7 base, needs gentle processing');
+    expect(prompt).toContain("## Karli's Stylist Notes");
+    expect(prompt).toContain('Fine hair, level 7 base, needs gentle processing');
+  });
+
+  it('omits stylist notes heading when not provided', () => {
+    const prompt = buildSystemPrompt(intake, summary, []);
+    expect(prompt).not.toContain("Karli's Stylist Notes");
   });
 });
