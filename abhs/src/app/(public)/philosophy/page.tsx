@@ -214,7 +214,7 @@ export default function PhilosophyPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-14 sm:py-16">
+        <section className="py-14 pb-20 sm:py-16 sm:pb-24">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
             <MotionReveal>
               <h2 className="font-serif text-2xl text-warm-700 mb-4">

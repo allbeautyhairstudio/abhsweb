@@ -74,9 +74,9 @@ export function MotionReveal({
   const effectiveDirection = tier === 'reduced' ? 'none' : direction;
 
   const containerVariants = {
-    hidden: effectiveDirection === 'none' ? { opacity: 0 } : hidden,
+    hidden: effectiveDirection === 'none' ? { opacity: 0, x: 0, y: 0 } : hidden,
     visible: {
-      ...(effectiveDirection === 'none' ? { opacity: 1 } : visible),
+      ...(effectiveDirection === 'none' ? { opacity: 1, x: 0, y: 0 } : visible),
       transition: {
         duration: reducedDuration,
         delay: reducedDelay,
