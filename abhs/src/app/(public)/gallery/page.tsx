@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 import { Instagram } from 'lucide-react';
 import { getInstagramPosts } from '@/lib/instagram';
 import { InstagramFeed } from '@/components/gallery/instagram-feed';
-import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
+import { FloralDivider } from '@/components/decorative/floral-accents';
 import { MotionPage, MotionReveal } from '@/components/motion';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/allbeautyhairstudio';
@@ -51,7 +51,7 @@ export default async function GalleryPage() {
           </section>
         </MotionReveal>
 
-        <FloralDividerAnimated className="py-4 text-forest-500" />
+        <FloralDivider className="py-4 text-forest-500" />
 
         {/* Instagram Feed */}
         <section className="py-14 sm:py-16">
