@@ -32,7 +32,7 @@ const faqs = [
   {
     question: 'Where are you located?',
     answer:
-      'I work out of my own suite at The Colour Parlor, a Sola salon in the Temecula area. It\'s just me and you -- no chaos, no noise, no one else in your space. When you book, I\'ll send you the exact address and directions so you\'re not guessing.',
+      'I\'m inside The Colour Parlor at 32395 Clinton Keith Rd, Suite A-103, Wildomar, CA 92595. It\'s just me and you -- no chaos, no noise, no one else in your space.',
   },
   {
     question: 'What\'s your cancellation policy?',
