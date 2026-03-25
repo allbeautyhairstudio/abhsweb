@@ -27,18 +27,22 @@ export function Footer() {
           {/* Location & Hours */}
           <div className="space-y-3">
             <p className="text-white font-medium text-sm mb-3">Location</p>
-            <div className="flex items-start gap-2">
+            <a
+              href="https://maps.google.com/?q=32395+Clinton+Keith+Rd+Suite+A-103+Wildomar+CA+92595"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-2 group"
+            >
               <MapPin size={16} className="mt-1 shrink-0 text-sage-300" />
               <div className="text-sm">
-                <p className="text-white font-medium">The Colour Parlor</p>
-                <p className="text-warm-300">Wildomar, CA</p>
+                <p className="text-white font-medium group-hover:text-copper-300 transition-colors">The Colour Parlor</p>
+                <p className="text-warm-300 group-hover:text-copper-300 transition-colors">Wildomar, CA</p>
               </div>
-            </div>
+            </a>
             <div className="flex items-start gap-2">
               <Clock size={16} className="mt-1 shrink-0 text-sage-300" />
               <div className="text-sm text-warm-300">
                 <p>By appointment only</p>
-                <p>3 days per week</p>
               </div>
             </div>
           </div>
