@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, ArrowRightLeft, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -11,10 +11,13 @@ interface IntakeDecisionBarProps {
   clientName: string;
 }
 
+type DeclineType = 'referral' | 'not_a_fit';
+
 export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarProps) {
   const router = useRouter();
   const [action, setAction] = useState<'idle' | 'accepting' | 'declining' | 'done'>('idle');
   const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [declineType, setDeclineType] = useState<DeclineType>('referral');
   const [declineReason, setDeclineReason] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ action: string; status: string; linkedBookings?: number } | null>(null);
@@ -48,19 +51,27 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'decline',
+          decline_type: declineType,
           decline_reason: declineReason || undefined,
         }),
       });
-      if (!res.ok) throw new Error('Failed to decline');
+      if (!res.ok) throw new Error('Failed to process');
       const data = await res.json();
       setResult(data);
       setAction('done');
       setShowDeclineModal(false);
       router.refresh();
     } catch {
-      setError('Failed to decline client. Please try again.');
+      setError('Something went wrong. Please try again.');
       setAction('idle');
     }
+  }
+
+  function openDeclineModal(type: DeclineType) {
+    setDeclineType(type);
+    setDeclineReason('');
+    setError(null);
+    setShowDeclineModal(true);
   }
 
   if (action === 'done' && result) {
@@ -84,10 +95,10 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
             <>
               <XCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
               <p className="text-lg font-semibold text-red-700">
-                {clientName} marked as referral
+                {clientName} {declineType === 'referral' ? 'marked as referral' : 'marked as not a fit'}
               </p>
               <p className="text-sm text-red-600 mt-1">
-                Referral notification will be sent via email.
+                Notification has been sent via email.
               </p>
             </>
           )}
@@ -96,27 +107,46 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
             className="mt-4"
             onClick={() => router.push('/admin/intake')}
           >
-            Back to Intake Queue
+            Back to Consultation Forms
           </Button>
         </CardContent>
       </Card>
     );
   }
 
+  const modalConfig = {
+    referral: {
+      title: 'Refer Client',
+      description: 'This will send a referral notification via email, letting them know you can help find another stylist.',
+      placeholder: 'Reason for referral (optional)...',
+      confirmLabel: 'Confirm Referral',
+      loadingLabel: 'Referring...',
+    },
+    not_a_fit: {
+      title: 'Not a Fit',
+      description: 'This will send an email letting them know your services aren\'t the right fit at this time.',
+      placeholder: 'Reason (optional)...',
+      confirmLabel: 'Confirm',
+      loadingLabel: 'Sending...',
+    },
+  };
+
+  const config = modalConfig[declineType];
+
   return (
     <>
       {showDeclineModal && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-warm-800">Refer Client</h3>
+            <h3 className="text-lg font-semibold text-warm-800">{config.title}</h3>
             <p className="text-sm text-warm-500">
-              This will send a referral notification via email, letting them know you can help find another stylist.
+              {config.description}
             </p>
             <textarea
               value={declineReason}
               onChange={(e) => setDeclineReason(e.target.value)}
               className="w-full border border-warm-200 rounded-lg p-3 text-sm resize-none h-24 focus:outline-none focus:ring-2 focus:ring-warm-300 text-warm-800 placeholder:text-warm-400"
-              placeholder="Reason for referral (optional)..."
+              placeholder={config.placeholder}
               maxLength={2000}
             />
             {error && (
@@ -130,9 +160,9 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
                 className="min-h-[44px] flex-1"
               >
                 {action === 'declining' ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Referring...</>
+                  <><Loader2 className="w-4 h-4 animate-spin" /> {config.loadingLabel}</>
                 ) : (
-                  'Confirm Referral'
+                  config.confirmLabel
                 )}
               </Button>
               <Button
@@ -172,11 +202,19 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
           </Button>
           <Button
             variant="outline"
-            onClick={() => setShowDeclineModal(true)}
+            onClick={() => openDeclineModal('referral')}
             disabled={action !== 'idle'}
             className="min-h-[44px] flex-1 sm:flex-none border-warm-200 text-warm-500 hover:bg-warm-50"
           >
-            <XCircle className="w-4 h-4" /> Refer Out
+            <ArrowRightLeft className="w-4 h-4" /> Refer Out
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => openDeclineModal('not_a_fit')}
+            disabled={action !== 'idle'}
+            className="min-h-[44px] flex-1 sm:flex-none border-red-200 text-red-500 hover:bg-red-50"
+          >
+            <XCircle className="w-4 h-4" /> Decline
           </Button>
         </div>
       </div>

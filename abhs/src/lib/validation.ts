@@ -240,6 +240,7 @@ export type FitAssessmentAction = z.infer<typeof fitAssessmentActionSchema>;
 // Salon summary review action schema
 export const salonSummaryActionSchema = z.object({
   action: z.enum(['accept', 'decline']),
+  decline_type: z.enum(['referral', 'not_a_fit']).optional(),
   decline_reason: z.string().max(2000).optional(),
 });
 

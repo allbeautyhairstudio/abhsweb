@@ -5,7 +5,7 @@ import { getIntakeNote } from '@/lib/queries/intake-queue';
 import { parseSalonIntakeNote, assessSalonIntake } from '@/lib/salon-summary';
 import { salonSummaryActionSchema } from '@/lib/validation';
 import { linkBookingRequestsByEmail } from '@/lib/booking-requests';
-import { notifyConsultationDecline } from '@/lib/notify-decline';
+import { notifyConsultationDecline, notifyNotAFitDecline } from '@/lib/notify-decline';
 import fs from 'fs';
 import path from 'path';
 
@@ -89,7 +89,7 @@ export async function PUT(
       );
     }
 
-    const { action, decline_reason } = parsed.data;
+    const { action, decline_type, decline_reason } = parsed.data;
 
     if (action === 'accept') {
       // Compute summary to determine fit rating
@@ -131,11 +131,16 @@ export async function PUT(
 
       // Send decline email (fire-and-forget)
       if (client.q03_email && client.q02_client_name) {
-        notifyConsultationDecline({
+        const emailOpts = {
           toEmail: client.q03_email,
           firstName: client.q02_client_name.split(' ')[0],
           reason: decline_reason || undefined,
-        }).catch(() => {});
+        };
+        if (decline_type === 'not_a_fit') {
+          notifyNotAFitDecline(emailOpts).catch(() => {});
+        } else {
+          notifyConsultationDecline(emailOpts).catch(() => {});
+        }
       }
 
       return NextResponse.json({

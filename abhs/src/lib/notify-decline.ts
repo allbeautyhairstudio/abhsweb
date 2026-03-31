@@ -64,6 +64,44 @@ export async function notifyConsultationDecline(opts: {
   });
 }
 
+/**
+ * Send a decline email when salon services aren't a fit.
+ * No referral offer -- just a warm, honest "not a fit right now."
+ * Fails silently -- the decline should still succeed even if email doesn't go through.
+ */
+export async function notifyNotAFitDecline(opts: {
+  toEmail: string;
+  firstName: string;
+  reason?: string;
+}): Promise<void> {
+  const lines = [
+    `Hi ${opts.firstName},`,
+    '',
+    `Thank you so much for taking the time to fill out the consultation form -- I really appreciate you sharing all of that with me.`,
+    '',
+    `After reviewing everything, I don't think our services are the right fit for what you need at this time. I want to make sure you end up with someone who can truly deliver what you're looking for.`,
+  ];
+
+  if (opts.reason) {
+    lines.push('', opts.reason);
+  }
+
+  lines.push(
+    '',
+    `I wish you all the best on your hair journey!`,
+    '',
+    'Warmly,',
+    'Karli',
+    'All Beauty Hair Studio',
+  );
+
+  return sendDeclineEmail({
+    toEmail: opts.toEmail,
+    subject: 'Your consultation form at All Beauty Hair Studio',
+    body: lines.join('\n'),
+  });
+}
+
 async function sendDeclineEmail(opts: {
   toEmail: string;
   subject: string;
