@@ -5,7 +5,7 @@ import { getIntakeNote } from '@/lib/queries/intake-queue';
 import { parseSalonIntakeNote, assessSalonIntake } from '@/lib/salon-summary';
 import { salonSummaryActionSchema } from '@/lib/validation';
 import { linkBookingRequestsByEmail } from '@/lib/booking-requests';
-import { notifyCustomerDecline } from '@/lib/notify-decline';
+import { notifyConsultationDecline } from '@/lib/notify-decline';
 import fs from 'fs';
 import path from 'path';
 
@@ -131,11 +131,10 @@ export async function PUT(
 
       // Send decline email (fire-and-forget)
       if (client.q03_email && client.q02_client_name) {
-        notifyCustomerDecline({
+        notifyConsultationDecline({
           toEmail: client.q03_email,
           firstName: client.q02_client_name.split(' ')[0],
-          serviceNames: 'Salon Service',
-          bookingDate: new Date().toLocaleDateString('en-US'),
+          reason: decline_reason || undefined,
         }).catch(() => {});
       }
 
