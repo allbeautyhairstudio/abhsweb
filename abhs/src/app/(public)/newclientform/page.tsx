@@ -354,6 +354,18 @@ export default function NewClientFormPage() {
   }
 
   function handleCheckboxGroup(name: string, values: string[]) {
+    // Hair history: "never-colored" is mutually exclusive with all other options
+    if (name === 'hair_history') {
+      const hadNever = formData.hair_history.includes('never-colored');
+      const hasNever = values.includes('never-colored');
+      if (hasNever && !hadNever) {
+        // Just selected "never colored" -- clear everything else
+        values = ['never-colored'];
+      } else if (hasNever && values.length > 1) {
+        // Selected something else while "never colored" was active -- remove it
+        values = values.filter((v) => v !== 'never-colored');
+      }
+    }
     setFormData((prev) => ({ ...prev, [name]: values }));
     if (errors[name]) {
       setErrors((prev) => { const next = { ...prev }; delete next[name]; return next; });
@@ -364,26 +376,29 @@ export default function NewClientFormPage() {
     if (!newFiles) return;
     const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
     const maxSize = 10 * 1024 * 1024; // 10MB
+    const currentFiles = type === 'selfie' ? selfieFiles : inspoFiles;
+    const spotsLeft = 3 - currentFiles.length;
 
     const valid: File[] = [];
     const fileErrors: string[] = [];
 
     Array.from(newFiles).forEach((f) => {
+      const sizeMB = (f.size / (1024 * 1024)).toFixed(1);
       if (!allowed.includes(f.type) && !f.name.toLowerCase().endsWith('.heic')) {
-        fileErrors.push(`${f.name}: must be JPG, PNG, WebP, or HEIC`);
+        fileErrors.push(`"${f.name}" is not a supported format. Please use JPG, PNG, WebP, or HEIC`);
       } else if (f.size > maxSize) {
-        fileErrors.push(`${f.name}: must be under 10MB`);
+        fileErrors.push(`"${f.name}" is ${sizeMB}MB -- photos must be under 10MB. Try resizing or using a different photo`);
+      } else if (valid.length >= spotsLeft) {
+        fileErrors.push(`Only ${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left -- "${f.name}" was not added`);
       } else {
         valid.push(f);
       }
     });
 
     if (type === 'selfie') {
-      const combined = [...selfieFiles, ...valid].slice(0, 3);
-      setSelfieFiles(combined);
+      setSelfieFiles([...selfieFiles, ...valid]);
     } else {
-      const combined = [...inspoFiles, ...valid].slice(0, 3);
-      setInspoFiles(combined);
+      setInspoFiles([...inspoFiles, ...valid]);
     }
 
     if (fileErrors.length > 0) {
@@ -518,19 +533,22 @@ export default function NewClientFormPage() {
 
       const { clientId } = await res.json();
 
-      // Phase 2: Upload photos if any
+      // Phase 2: Upload photos if any (non-blocking -- client data is already saved)
       const allPhotos = [...selfieFiles, ...inspoFiles];
       if (allPhotos.length > 0 && clientId) {
         setStatus('uploading');
-        const fd = new FormData();
-        selfieFiles.forEach((f) => fd.append('selfies', f));
-        inspoFiles.forEach((f) => fd.append('inspiration', f));
+        try {
+          const fd = new FormData();
+          selfieFiles.forEach((f) => fd.append('selfies', f));
+          inspoFiles.forEach((f) => fd.append('inspiration', f));
 
-        await fetch(`/api/intake/upload?clientId=${clientId}`, {
-          method: 'POST',
-          body: fd,
-        });
-        // Photo upload failure is non-blocking -- client data is already saved
+          await fetch(`/api/intake/upload?clientId=${clientId}`, {
+            method: 'POST',
+            body: fd,
+          });
+        } catch {
+          // Photo upload failed but intake data is saved -- proceed to success
+        }
       }
 
       setStatus('success');
@@ -1057,6 +1075,17 @@ export default function NewClientFormPage() {
                   </p>
                 </div>
 
+                <div className="bg-blush-50 rounded-lg p-3 border border-warm-100 mb-2">
+                  <p className="text-xs text-warm-500 leading-relaxed">
+                    <strong>Photo guidelines:</strong> JPG, PNG, WebP, or HEIC -- up to 10MB each, 3 selfies + 3 inspo max.
+                    No photos? No worries -- we&apos;ll figure it out together at your appointment.
+                  </p>
+                </div>
+
+                {errors.photos && (
+                  <p className="text-xs text-red-500 mb-2">{errors.photos}</p>
+                )}
+
                 {/* Selfie photos */}
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-1">
@@ -1111,6 +1140,7 @@ export default function NewClientFormPage() {
                       </button>
                     </>
                   )}
+                  <p className="text-xs text-warm-400 mt-1">{selfieFiles.length}/3 added</p>
                 </div>
 
                 {/* Inspiration photos */}
@@ -1167,17 +1197,7 @@ export default function NewClientFormPage() {
                       </button>
                     </>
                   )}
-                </div>
-
-                {errors.photos && (
-                  <p className="text-xs text-red-500">{errors.photos}</p>
-                )}
-
-                <div className="bg-blush-50 rounded-lg p-4 border border-warm-100">
-                  <p className="text-xs text-warm-500 leading-relaxed">
-                    <strong>Accepted formats:</strong> JPG, PNG, WebP, or HEIC. Max 10MB each.
-                    No photos? No worries -- we&apos;ll figure it out together at your appointment.
-                  </p>
+                  <p className="text-xs text-warm-400 mt-1">{inspoFiles.length}/3 added</p>
                 </div>
               </div>
             )}
@@ -1229,7 +1249,7 @@ export default function NewClientFormPage() {
                   <h3 className="text-sm font-medium text-warm-700">Before booking, please note:</h3>
                   <ul className="text-xs text-warm-500 space-y-2 leading-relaxed">
                     <li>&bull; All services are charged at an hourly rate</li>
-                    <li>&bull; Appointments are available <strong className="text-warm-600">Tuesday--Thursday, 10am--7pm</strong></li>
+                    <li>&bull; Appointments are available <strong className="text-warm-600">by appointment only - 10am to 7pm</strong></li>
                     <li>&bull; My work focuses on intentional, low-maintenance results designed to grow out well</li>
                     <li>&bull; I photograph and film most clients, but your privacy is always respected</li>
                     <li>&bull; By submitting this form, you consent to me using photos from our session for portfolio/social media purposes (I&apos;ll always ask before posting)</li>

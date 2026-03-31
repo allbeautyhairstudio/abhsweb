@@ -9,10 +9,9 @@ const HTML_ENTITIES: Record<string, string> = {
   '<': '&lt;',
   '>': '&gt;',
   '"': '&quot;',
-  "'": '&#x27;',
 };
 
-const HTML_ENTITY_PATTERN = /[&<>"']/g;
+const HTML_ENTITY_PATTERN = /[&<>"]/g;
 
 /**
  * Escapes HTML entities in a string to prevent XSS.
