@@ -456,7 +456,9 @@ export default function NewClientFormPage() {
       if (formData.availability.length === 0) newErrors.availability = 'Select at least one';
     }
 
-    // Step 6 (photos) has no required fields
+    if (s === 6) {
+      if (selfieFiles.length === 0) newErrors.selfie = 'Please upload at least one selfie of your current hair';
+    }
 
     if (s === 7) {
       if (!formData.consent) newErrors.consent = 'You must agree to continue';
@@ -552,7 +554,7 @@ export default function NewClientFormPage() {
       }
 
       setStatus('success');
-      router.push('/book');
+      router.replace('/book');
     } catch {
       setStatus('error');
     }
@@ -574,7 +576,7 @@ export default function NewClientFormPage() {
           />
           <div className="absolute inset-0 bg-white/85" />
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">            <h1 className="font-serif text-3xl sm:text-4xl text-warm-800 mb-3">
-              New Client Form
+              Consultation Form
             </h1>
           </div>
         </section>
@@ -656,7 +658,7 @@ export default function NewClientFormPage() {
 
   return (
     <MotionPage>
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       {/* Header */}
       <section className="relative py-10 sm:py-14 overflow-hidden">
         <Image
@@ -668,7 +670,7 @@ export default function NewClientFormPage() {
         />
         <div className="absolute inset-0 bg-white/85" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">          <h1 className="font-serif text-2xl sm:text-3xl text-warm-800">
-            New Client Form
+            Consultation Form
           </h1>
         </div>
       </section>
@@ -1078,12 +1080,12 @@ export default function NewClientFormPage() {
                 <div className="bg-blush-50 rounded-lg p-3 border border-warm-100 mb-2">
                   <p className="text-xs text-warm-500 leading-relaxed">
                     <strong>Photo guidelines:</strong> JPG, PNG, WebP, or HEIC -- up to 10MB each, 3 selfies + 3 inspo max.
-                    No photos? No worries -- we&apos;ll figure it out together at your appointment.
+                    At least one selfie is required so I can see your current hair before your appointment.
                   </p>
                 </div>
 
-                {errors.photos && (
-                  <p className="text-xs text-red-500 mb-2">{errors.photos}</p>
+                {(errors.photos || errors.selfie) && (
+                  <p className="text-xs text-red-500 mb-2">{errors.photos || errors.selfie}</p>
                 )}
 
                 {/* Selfie photos */}
