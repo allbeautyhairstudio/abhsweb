@@ -461,6 +461,7 @@ export default function NewClientFormPage() {
     }
 
     if (s === 7) {
+      if (!formData.referral_source.trim()) newErrors.referral_source = 'Please let me know how you found me';
       if (!formData.consent) newErrors.consent = 'You must agree to continue';
     }
 
@@ -1236,14 +1237,15 @@ export default function NewClientFormPage() {
 
                 <div>
                   <label htmlFor="referral_source" className="block text-sm font-medium text-warm-600 mb-1">
-                    How did you find me? <span className="text-warm-400 text-xs">(optional)</span>
+                    How did you find me?
                   </label>
                   <input
                     type="text" id="referral_source" name="referral_source"
                     value={formData.referral_source} onChange={handleChange}
-                    className="w-full px-3 py-2.5 rounded-lg border border-warm-200 text-sm bg-white text-warm-700 placeholder:text-warm-300 focus:outline-none focus:ring-2 focus:ring-copper-500"
+                    className={`w-full px-3 py-2.5 rounded-lg border text-sm bg-white text-warm-700 placeholder:text-warm-300 focus:outline-none focus:ring-2 focus:ring-copper-500 ${errors.referral_source ? 'border-red-300' : 'border-warm-200'}`}
                     placeholder="Instagram, a friend, Google..."
                   />
+                  {errors.referral_source && <p className="text-xs text-red-500 mt-1">{errors.referral_source}</p>}
                 </div>
 
                 {/* Before-booking info */}
