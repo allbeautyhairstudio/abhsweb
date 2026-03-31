@@ -287,7 +287,7 @@ export function ClientDetailTabs({ client }: { client: ClientRow }) {
     <Tabs defaultValue="overview">
       <TabsList className="w-full justify-start flex-wrap">
         <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="intake">Intake Data</TabsTrigger>
+        <TabsTrigger value="intake">Consultation Data</TabsTrigger>
         <TabsTrigger value="ai-summary">AI Summary</TabsTrigger>
         <TabsTrigger value="bookings">Bookings</TabsTrigger>
         <TabsTrigger value="engagement">Engagement</TabsTrigger>

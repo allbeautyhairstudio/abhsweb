@@ -16,7 +16,7 @@ export default function IntakeQueuePage() {
         <div className="flex items-center gap-3">
           <Inbox className="w-6 h-6 text-brand-600" />
           <div>
-            <h1 className="text-2xl font-bold">Intake Queue</h1>
+            <h1 className="text-2xl font-bold">Consultation Form</h1>
             <p className="text-sm text-muted-foreground">
               {count === 0
                 ? 'No pending reviews'

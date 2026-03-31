@@ -58,7 +58,7 @@ export default async function IntakeDetailPage({
         className="inline-flex items-center gap-1.5 text-sm text-warm-400 hover:text-warm-600 transition-colors mb-4"
       >
         <ArrowLeft size={16} />
-        Back to Intake Queue
+        Back to Consultation Forms
       </Link>
 
       {/* ═══ TOP: What Karli Needs to Know ═══ */}
@@ -285,7 +285,7 @@ function StatusBadge({ status }: { status: string }) {
     declined: 'bg-red-50 text-red-700 border-red-200',
   };
   const labels: Record<string, string> = {
-    intake_submitted: 'New Intake',
+    intake_submitted: 'New Consultation',
     ai_review: 'Under Review',
     active_client: 'Active Client',
     followup: 'Follow-Up',

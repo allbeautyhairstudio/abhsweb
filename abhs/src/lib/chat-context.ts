@@ -55,7 +55,7 @@ export function formatIntakeForContext(intake: IntakeContext): string {
   if (intake.pronouns) lines.push(`Pronouns: ${intake.pronouns}`);
   if (intake.preferredContact) lines.push(`Preferred contact: ${intake.preferredContact}`);
 
-  lines.push('', '## Intake Responses');
+  lines.push('', '## Consultation Responses');
 
   const qa = (q: string, a: string | undefined | null) => {
     if (a) lines.push(`**${q}:** ${a}`);

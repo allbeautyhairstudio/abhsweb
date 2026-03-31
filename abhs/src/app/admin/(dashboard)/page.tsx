@@ -39,7 +39,7 @@ export default async function DashboardHome() {
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-amber-800">
-                  {pendingIntakes} New Intake Submission{pendingIntakes !== 1 ? 's' : ''}
+                  {pendingIntakes} New Consultation Submission{pendingIntakes !== 1 ? 's' : ''}
                 </p>
                 <p className="text-sm text-amber-600">Review and accept or decline new clients</p>
               </div>

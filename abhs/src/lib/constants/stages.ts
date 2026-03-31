@@ -1,6 +1,6 @@
 // ─── Salon Pipeline (5 stages) ──────────────────────────────
 export const PIPELINE_STAGES = [
-  { id: 'intake_submitted', label: 'New Intake', color: 'bg-brand-300', description: 'Intake form received, pending review' },
+  { id: 'intake_submitted', label: 'New Consultation', color: 'bg-brand-300', description: 'Consultation form received, pending review' },
   { id: 'ai_review', label: 'Under Review', color: 'bg-amber-200', description: 'AI Summary generated, awaiting review' },
   { id: 'active_client', label: 'Active Client', color: 'bg-sage-400', description: 'Accepted, ongoing relationship' },
   { id: 'followup', label: 'Follow-Up', color: 'bg-emerald-300', description: 'Check-in or rebooking needed' },

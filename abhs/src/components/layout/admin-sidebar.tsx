@@ -37,7 +37,7 @@ const navSections: NavSection[] = [
     label: 'Core',
     items: [
       { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-      { href: '/admin/intake', label: 'Intake Queue', icon: Inbox, badgeKey: 'intake' },
+      { href: '/admin/intake', label: 'Consultation Form', icon: Inbox, badgeKey: 'intake' },
       { href: '/admin/clients', label: 'Clients', icon: Users },
       { href: '/admin/pipeline', label: 'Pipeline', icon: Kanban },
       { href: '/admin/calendar', label: 'Calendar', icon: CalendarDays },

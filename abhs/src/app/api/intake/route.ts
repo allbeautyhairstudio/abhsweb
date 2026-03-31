@@ -80,6 +80,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Duplicate detection -- reject if same email submitted within last 5 minutes
+    const db = getDb();
+    const recentDuplicate = db.prepare(`
+      SELECT id FROM clients
+      WHERE q03_email = ? AND status = 'intake_submitted'
+        AND created_at > datetime('now', '-5 minutes')
+      LIMIT 1
+    `).get(email) as { id: number } | undefined;
+
+    if (recentDuplicate) {
+      return NextResponse.json(
+        { success: true, clientId: recentDuplicate.id, message: 'Consultation form received.' },
+        { status: 201 }
+      );
+    }
+
     // Build product fields from individual inputs
     const productFields = [
       { label: 'Shampoo', value: data.product_shampoo },
@@ -133,7 +149,6 @@ export async function POST(request: NextRequest) {
       .join('\n');
 
     // Insert into CRM database
-    const db = getDb();
     const today = new Date().toISOString().slice(0, 10);
 
     // Create client record with intake_submitted status — salon business type
@@ -163,7 +178,7 @@ export async function POST(request: NextRequest) {
 
     const siteUrl = process.env.SITE_URL || 'https://allbeautyhairstudio.com';
     const emailBody = [
-      `New Client Intake Submission`,
+      `New Client Consultation Submission`,
       ``,
       intakeDetails,
       ``,
@@ -196,15 +211,15 @@ export async function POST(request: NextRequest) {
     if (data.medical_info) htmlSections.push({ label: 'Medical/Allergy', value: sanitizeString(data.medical_info) || '' });
     htmlSections.push({ label: 'Referral', value: referralSource || 'Not specified' });
 
-    notifyEmail(`New Client Intake: ${fullName}`, emailBody, {
+    notifyEmail(`New Client Consultation: ${fullName}`, emailBody, {
       headline: `New Client: ${fullName}`,
       sections: htmlSections,
       actionUrl: `${siteUrl}/admin/intake/${clientId}`,
-      actionLabel: 'Review Intake',
+      actionLabel: 'Review Consultation',
     }).catch(() => {});
 
     return NextResponse.json(
-      { success: true, clientId: Number(clientId), message: 'Intake form received.' },
+      { success: true, clientId: Number(clientId), message: 'Consultation form received.' },
       { status: 201 }
     );
   } catch (error) {

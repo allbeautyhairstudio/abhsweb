@@ -65,7 +65,7 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
   if (intakes.length === 0) {
     return (
       <div className="text-center py-16 text-muted-foreground">
-        <p className="text-lg font-medium mb-1">No pending intakes</p>
+        <p className="text-lg font-medium mb-1">No pending consultations</p>
         <p className="text-sm">New client submissions will appear here.</p>
       </div>
     );

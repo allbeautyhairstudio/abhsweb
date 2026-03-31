@@ -16,7 +16,7 @@ export default function AiDisclosurePage() {
       </Section>
 
       <Section title="What We Use">
-        <p>When you submit the new client intake form, our system runs a simple <strong>algorithmic review</strong> to help Karli prepare for your consultation. This is not generative AI writing your hair plan -- it&apos;s a scoring system that highlights things like:</p>
+        <p>When you submit the new client consultation form, our system runs a simple <strong>algorithmic review</strong> to help Karli prepare for your consultation. This is not generative AI writing your hair plan -- it&apos;s a scoring system that highlights things like:</p>
         <ul>
           <li>How ready you are for a consultation based on the info you provided</li>
           <li>Whether there are any flags Karli should be aware of (allergies, medical conditions, complex color history)</li>

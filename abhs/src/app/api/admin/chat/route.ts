@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
   // Load intake note and parse
   const noteContent = getIntakeNote(clientId);
   if (!noteContent) {
-    return NextResponse.json({ error: 'No intake data for this client' }, { status: 404 });
+    return NextResponse.json({ error: 'No consultation data for this client' }, { status: 404 });
   }
 
   const intake = parseSalonIntakeNote(noteContent);

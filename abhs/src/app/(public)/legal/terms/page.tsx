@@ -31,7 +31,7 @@ export default function TermsPage() {
         </ul>
       </Section>
 
-      <Section title="New Client Form & Intake">
+      <Section title="New Client Consultation Form">
         <ul>
           <li>The information you provide on the new client form is used exclusively for consultation planning and service delivery.</li>
           <li>Please be honest and thorough -- especially about allergies, sensitivities, and medical conditions. This is for your safety.</li>

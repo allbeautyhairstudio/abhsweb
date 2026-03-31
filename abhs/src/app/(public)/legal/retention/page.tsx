@@ -27,7 +27,7 @@ export default function RetentionPolicyPage() {
                 <td className="py-2">As long as you&apos;re an active client, plus 2 years after your last appointment</td>
               </tr>
               <tr className="border-b border-warm-100">
-                <td className="py-2 pr-4">Intake form responses</td>
+                <td className="py-2 pr-4">Consultation form responses</td>
                 <td className="py-2">Same as client profile</td>
               </tr>
               <tr className="border-b border-warm-100">
