@@ -82,10 +82,10 @@ export function SalonReviewActions({ clientId, clientName, overallRating }: Salo
             <>
               <XCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
               <p className="text-lg font-semibold text-red-700">
-                {clientName} declined
+                {clientName} marked as referral
               </p>
               <p className="text-sm text-red-600 mt-1">
-                Decline notification will be sent via email.
+                Referral notification will be sent via email.
               </p>
             </>
           )}
@@ -116,7 +116,7 @@ export function SalonReviewActions({ clientId, clientName, overallRating }: Salo
         {showDecline ? (
           <div className="space-y-3">
             <label className="text-sm text-muted-foreground">
-              Decline reason (optional — will be included in email):
+              Referral reason (optional -- will be included in email):
             </label>
             <textarea
               value={declineReason}
@@ -133,9 +133,9 @@ export function SalonReviewActions({ clientId, clientName, overallRating }: Salo
                 className="flex-1"
               >
                 {action === 'declining' ? (
-                  <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Declining...</>
+                  <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Referring...</>
                 ) : (
-                  <><XCircle className="w-4 h-4 mr-2" /> Confirm Decline</>
+                  <><XCircle className="w-4 h-4 mr-2" /> Confirm Referral</>
                 )}
               </Button>
               <Button
@@ -166,7 +166,7 @@ export function SalonReviewActions({ clientId, clientName, overallRating }: Salo
               disabled={action !== 'idle'}
               className="flex-1 border-red-300 text-red-600 hover:bg-red-50"
             >
-              <XCircle className="w-4 h-4 mr-2" /> Decline
+              <XCircle className="w-4 h-4 mr-2" /> Refer Out
             </Button>
           </div>
         )}

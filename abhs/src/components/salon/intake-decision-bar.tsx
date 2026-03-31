@@ -84,10 +84,10 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
             <>
               <XCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
               <p className="text-lg font-semibold text-red-700">
-                {clientName} declined
+                {clientName} marked as referral
               </p>
               <p className="text-sm text-red-600 mt-1">
-                Decline notification will be sent via email.
+                Referral notification will be sent via email.
               </p>
             </>
           )}
@@ -108,15 +108,15 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
       {showDeclineModal && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-warm-800">Decline Client</h3>
+            <h3 className="text-lg font-semibold text-warm-800">Refer Client</h3>
             <p className="text-sm text-warm-500">
-              This will send a decline notification via email.
+              This will send a referral notification via email, letting them know you can help find another stylist.
             </p>
             <textarea
               value={declineReason}
               onChange={(e) => setDeclineReason(e.target.value)}
               className="w-full border border-warm-200 rounded-lg p-3 text-sm resize-none h-24 focus:outline-none focus:ring-2 focus:ring-warm-300 text-warm-800 placeholder:text-warm-400"
-              placeholder="Reason for declining (optional)..."
+              placeholder="Reason for referral (optional)..."
               maxLength={2000}
             />
             {error && (
@@ -130,9 +130,9 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
                 className="min-h-[44px] flex-1"
               >
                 {action === 'declining' ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Declining...</>
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Referring...</>
                 ) : (
-                  'Confirm Decline'
+                  'Confirm Referral'
                 )}
               </Button>
               <Button
@@ -176,7 +176,7 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
             disabled={action !== 'idle'}
             className="min-h-[44px] flex-1 sm:flex-none border-warm-200 text-warm-500 hover:bg-warm-50"
           >
-            <XCircle className="w-4 h-4" /> Decline
+            <XCircle className="w-4 h-4" /> Refer Out
           </Button>
         </div>
       </div>

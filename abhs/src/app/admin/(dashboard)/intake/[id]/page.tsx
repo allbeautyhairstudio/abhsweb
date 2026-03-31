@@ -103,7 +103,7 @@ export default async function IntakeDetailPage({
           )}
           {isDeclined && (
             <div className="mb-3 py-2 px-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 font-medium">
-              This client was declined.
+              This client was referred to another stylist.
             </div>
           )}
 
@@ -289,7 +289,7 @@ function StatusBadge({ status }: { status: string }) {
     ai_review: 'Under Review',
     active_client: 'Active Client',
     followup: 'Follow-Up',
-    declined: 'Declined',
+    declined: 'Referral',
   };
   return (
     <Badge className={styles[status] || 'bg-gray-100'}>
