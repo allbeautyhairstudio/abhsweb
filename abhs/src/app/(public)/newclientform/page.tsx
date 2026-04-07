@@ -372,6 +372,55 @@ export default function NewClientFormPage() {
     }
   }
 
+  /** Compress an image client-side using canvas before upload */
+  function compressImage(file: File, maxDimension = 2048, quality = 0.8): Promise<File> {
+    return new Promise((resolve) => {
+      // HEIC can't be drawn to canvas -- send as-is, server handles conversion
+      if (file.name.toLowerCase().endsWith('.heic')) {
+        resolve(file);
+        return;
+      }
+
+      const img = new window.Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        let { width, height } = img;
+
+        // Only resize if larger than maxDimension
+        if (width > maxDimension || height > maxDimension) {
+          const ratio = Math.min(maxDimension / width, maxDimension / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob && blob.size < file.size) {
+              resolve(new File([blob], file.name, { type: 'image/webp' }));
+            } else {
+              // Compressed version isn't smaller -- keep original
+              resolve(file);
+            }
+          },
+          'image/webp',
+          quality
+        );
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve(file); // Fallback to original on error
+      };
+      img.src = url;
+    });
+  }
+
   function handleFileAdd(type: 'selfie' | 'inspo', newFiles: FileList | null) {
     if (!newFiles) return;
     const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/heic'];
@@ -395,10 +444,15 @@ export default function NewClientFormPage() {
       }
     });
 
-    if (type === 'selfie') {
-      setSelfieFiles([...selfieFiles, ...valid]);
-    } else {
-      setInspoFiles([...inspoFiles, ...valid]);
+    // Compress valid files before storing
+    if (valid.length > 0) {
+      Promise.all(valid.map((f) => compressImage(f))).then((compressed) => {
+        if (type === 'selfie') {
+          setSelfieFiles((prev) => [...prev, ...compressed]);
+        } else {
+          setInspoFiles((prev) => [...prev, ...compressed]);
+        }
+      });
     }
 
     if (fileErrors.length > 0) {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { bookingRequestSchema } from '@/lib/booking-validation';
-import { sanitizeString } from '@/lib/sanitize';
+import { sanitizeString, checkInputQuality } from '@/lib/sanitize';
 import {
   createBookingRequest,
   checkLocalSlotConflict,
@@ -76,6 +76,15 @@ export async function POST(request: NextRequest) {
         { error: 'Required customer fields are missing.' },
         { status: 400 }
       );
+    }
+
+    // Check free-text fields for spam and injection
+    for (const [label, val] of [['Name', `${firstName} ${lastName}`], ['Note', note]] as const) {
+      if (!val) continue;
+      const check = checkInputQuality(val);
+      if (!check.ok) {
+        return NextResponse.json({ error: `${label}: ${check.reason}` }, { status: 400 });
+      }
     }
 
     const totalDuration = segments.reduce((sum, seg) => sum + seg.durationMinutes, 0);

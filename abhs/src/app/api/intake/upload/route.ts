@@ -67,26 +67,23 @@ export async function POST(request: NextRequest) {
       await mkdir(uploadDir, { recursive: true });
     }
 
-    // Write files with safe names
-    const saved: string[] = [];
-
-    for (let i = 0; i < selfies.length; i++) {
-      const file = selfies[i];
-      const safeName = `selfie-${i + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
+    // Process and write all files in parallel
+    async function processFile(file: File, prefix: string, index: number): Promise<string> {
+      const safeName = `${prefix}-${index + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
       const buffer = Buffer.from(await file.arrayBuffer());
-      const webpBuffer = await sharp(buffer).rotate().webp({ quality: 80 }).toBuffer();
+      const webpBuffer = await sharp(buffer)
+        .rotate()
+        .resize(2048, 2048, { fit: 'inside', withoutEnlargement: true })
+        .webp({ quality: 80 })
+        .toBuffer();
       await writeFile(path.join(uploadDir, safeName), webpBuffer);
-      saved.push(safeName);
+      return safeName;
     }
 
-    for (let i = 0; i < inspiration.length; i++) {
-      const file = inspiration[i];
-      const safeName = `inspo-${i + 1}-${crypto.randomBytes(4).toString('hex')}.webp`;
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const webpBuffer = await sharp(buffer).rotate().webp({ quality: 80 }).toBuffer();
-      await writeFile(path.join(uploadDir, safeName), webpBuffer);
-      saved.push(safeName);
-    }
+    const saved = await Promise.all([
+      ...selfies.map((file, i) => processFile(file, 'selfie', i)),
+      ...inspiration.map((file, i) => processFile(file, 'inspo', i)),
+    ]);
 
     return NextResponse.json(
       { success: true, files: saved },

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllClients, searchClients, createClient, deleteClients } from '@/lib/queries/clients';
 import { quickAddClientSchema, fullIntakeSchema, bulkDeleteSchema } from '@/lib/validation';
-import { sanitizeClientData } from '@/lib/sanitize';
+import { sanitizeClientData, checkInputQuality } from '@/lib/sanitize';
 import { isAuthenticated } from '@/lib/admin-auth';
 
 const UNAUTHORIZED = NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -56,6 +56,16 @@ export async function POST(request: NextRequest) {
     if (!parsed.success) {
       const errors = parsed.error.flatten().fieldErrors;
       return NextResponse.json({ error: 'Validation failed', details: errors }, { status: 400 });
+    }
+
+    // Check free-text fields for spam and injection
+    const textEntries = Object.entries(parsed.data as Record<string, unknown>)
+      .filter(([, v]) => typeof v === 'string' && (v as string).length > 5);
+    for (const [key, value] of textEntries) {
+      const check = checkInputQuality(value as string);
+      if (!check.ok) {
+        return NextResponse.json({ error: `${key}: ${check.reason}` }, { status: 400 });
+      }
     }
 
     // Sanitize all string inputs before storage

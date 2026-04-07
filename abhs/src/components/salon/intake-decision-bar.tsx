@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, XCircle, ArrowRightLeft, Loader2 } from 'lucide-react';
+import { ArrowRightLeft, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -11,36 +11,13 @@ interface IntakeDecisionBarProps {
   clientName: string;
 }
 
-type DeclineType = 'referral' | 'not_a_fit';
-
 export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarProps) {
   const router = useRouter();
-  const [action, setAction] = useState<'idle' | 'accepting' | 'declining' | 'done'>('idle');
+  const [action, setAction] = useState<'idle' | 'declining' | 'done'>('idle');
   const [showDeclineModal, setShowDeclineModal] = useState(false);
-  const [declineType, setDeclineType] = useState<DeclineType>('referral');
   const [declineReason, setDeclineReason] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ action: string; status: string; linkedBookings?: number } | null>(null);
-
-  async function handleAccept() {
-    setAction('accepting');
-    setError(null);
-    try {
-      const res = await fetch(`/api/admin/salon/summary/${clientId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'accept' }),
-      });
-      if (!res.ok) throw new Error('Failed to accept');
-      const data = await res.json();
-      setResult(data);
-      setAction('done');
-      router.refresh();
-    } catch {
-      setError('Failed to accept client. Please try again.');
-      setAction('idle');
-    }
-  }
+  const [result, setResult] = useState<{ action: string; status: string } | null>(null);
 
   async function handleDecline() {
     setAction('declining');
@@ -51,7 +28,7 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'decline',
-          decline_type: declineType,
+          decline_type: 'referral',
           decline_reason: declineReason || undefined,
         }),
       });
@@ -67,41 +44,23 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
     }
   }
 
-  function openDeclineModal(type: DeclineType) {
-    setDeclineType(type);
+  function openReferModal() {
     setDeclineReason('');
     setError(null);
     setShowDeclineModal(true);
   }
 
   if (action === 'done' && result) {
-    const isAccepted = result.action === 'accepted';
     return (
-      <Card className={`border-2 ${isAccepted ? 'border-forest-300 bg-forest-50' : 'border-red-300 bg-red-50'}`}>
+      <Card className="border-2 border-warm-300 bg-warm-50">
         <CardContent className="py-6 text-center">
-          {isAccepted ? (
-            <>
-              <CheckCircle2 className="w-12 h-12 text-forest-500 mx-auto mb-3" />
-              <p className="text-lg font-semibold text-forest-700">
-                {clientName} accepted as active client
-              </p>
-              {result.linkedBookings && result.linkedBookings > 0 && (
-                <p className="text-sm text-forest-600 mt-1">
-                  {result.linkedBookings} booking request{result.linkedBookings > 1 ? 's' : ''} linked
-                </p>
-              )}
-            </>
-          ) : (
-            <>
-              <XCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
-              <p className="text-lg font-semibold text-red-700">
-                {clientName} {declineType === 'referral' ? 'marked as referral' : 'marked as not a fit'}
-              </p>
-              <p className="text-sm text-red-600 mt-1">
-                Notification has been sent via email.
-              </p>
-            </>
-          )}
+          <ArrowRightLeft className="w-12 h-12 text-warm-500 mx-auto mb-3" />
+          <p className="text-lg font-semibold text-warm-700">
+            {clientName} marked as referral
+          </p>
+          <p className="text-sm text-warm-600 mt-1">
+            Referral notification has been sent via email.
+          </p>
           <Button
             variant="outline"
             className="mt-4"
@@ -114,24 +73,13 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
     );
   }
 
-  const modalConfig = {
-    referral: {
-      title: 'Refer Client',
-      description: 'This will send a referral notification via email, letting them know you can help find another stylist.',
-      placeholder: 'Reason for referral (optional)...',
-      confirmLabel: 'Confirm Referral',
-      loadingLabel: 'Referring...',
-    },
-    not_a_fit: {
-      title: 'Not a Fit',
-      description: 'This will send an email letting them know your services aren\'t the right fit at this time.',
-      placeholder: 'Reason (optional)...',
-      confirmLabel: 'Confirm',
-      loadingLabel: 'Sending...',
-    },
+  const config = {
+    title: 'Refer Client',
+    description: 'This will send a referral notification via email, letting them know you can help find another stylist.',
+    placeholder: 'Reason for referral (optional)...',
+    confirmLabel: 'Confirm Referral',
+    loadingLabel: 'Referring...',
   };
-
-  const config = modalConfig[declineType];
 
   return (
     <>
@@ -190,31 +138,12 @@ export function IntakeDecisionBar({ clientId, clientName }: IntakeDecisionBarPro
             <p className="text-red-600 text-sm">{error}</p>
           )}
           <Button
-            onClick={handleAccept}
-            disabled={action !== 'idle'}
-            className="min-h-[44px] flex-1 sm:flex-none bg-forest-500 hover:bg-forest-600 text-white"
-          >
-            {action === 'accepting' ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /> Accepting...</>
-            ) : (
-              <><CheckCircle2 className="w-4 h-4" /> Accept</>
-            )}
-          </Button>
-          <Button
             variant="outline"
-            onClick={() => openDeclineModal('referral')}
+            onClick={openReferModal}
             disabled={action !== 'idle'}
             className="min-h-[44px] flex-1 sm:flex-none border-warm-200 text-warm-500 hover:bg-warm-50"
           >
             <ArrowRightLeft className="w-4 h-4" /> Refer Out
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => openDeclineModal('not_a_fit')}
-            disabled={action !== 'idle'}
-            className="min-h-[44px] flex-1 sm:flex-none border-red-200 text-red-500 hover:bg-red-50"
-          >
-            <XCircle className="w-4 h-4" /> Decline
           </Button>
         </div>
       </div>

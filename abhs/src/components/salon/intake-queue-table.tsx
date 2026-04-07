@@ -27,9 +27,12 @@ function relativeDate(dateStr: string): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-function statusBadge(status: string) {
-  if (status === 'intake_submitted') {
-    return <Badge className="bg-brand-200 text-brand-800 border-brand-300">New</Badge>;
+function statusBadge(status: string, viewed: boolean) {
+  if (status === 'intake_submitted' && !viewed) {
+    return <Badge className="bg-forest-200 text-forest-600 border-forest-300">New</Badge>;
+  }
+  if (status === 'intake_submitted' && viewed) {
+    return <Badge className="bg-warm-200 text-warm-600 border-warm-300">Reviewed</Badge>;
   }
   if (status === 'ai_review') {
     return <Badge className="bg-amber-100 text-amber-700 border-amber-300">Under Review</Badge>;
@@ -44,22 +47,40 @@ function extractServiceInterest(row: IntakeQueueRow): string {
   return '—';
 }
 
-const LAST_VIEWED_KEY = 'intake_last_viewed';
+const VIEWED_IDS_KEY = 'intake_viewed_ids';
+
+function getViewedIds(): Set<number> {
+  try {
+    const stored = localStorage.getItem(VIEWED_IDS_KEY);
+    if (!stored) return new Set();
+    return new Set(JSON.parse(stored) as number[]);
+  } catch {
+    return new Set();
+  }
+}
+
+function markViewed(id: number) {
+  const viewed = getViewedIds();
+  viewed.add(id);
+  localStorage.setItem(VIEWED_IDS_KEY, JSON.stringify([...viewed]));
+}
 
 export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
   const router = useRouter();
-  const [lastViewed, setLastViewed] = useState<string | null>(null);
+  const [viewedIds, setViewedIds] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    const stored = localStorage.getItem(LAST_VIEWED_KEY);
-    setLastViewed(stored);
-    // Update last viewed to now
-    localStorage.setItem(LAST_VIEWED_KEY, new Date().toISOString());
+    setViewedIds(getViewedIds());
   }, []);
 
-  function isNew(createdAt: string): boolean {
-    if (!lastViewed) return true;
-    return new Date(createdAt + 'Z') > new Date(lastViewed);
+  function handleClick(id: number) {
+    markViewed(id);
+    setViewedIds((prev) => new Set([...prev, id]));
+    router.push(`/admin/intake/${id}`);
+  }
+
+  function isNew(id: number): boolean {
+    return !viewedIds.has(id);
   }
 
   if (intakes.length === 0) {
@@ -78,23 +99,23 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
         {intakes.map((row) => (
           <div
             key={row.id}
-            onClick={() => router.push(`/admin/intake/${row.id}`)}
+            onClick={() => handleClick(row.id)}
             className={`p-3 rounded-lg border transition-colors cursor-pointer ${
-              isNew(row.created_at)
-                ? 'bg-brand-50/50 border-brand-200'
-                : 'bg-muted border-transparent'
+              isNew(row.id)
+                ? 'bg-forest-100 border-forest-300 text-forest-800'
+                : 'bg-warm-100 border-warm-200'
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-2">
-                {isNew(row.created_at) && (
-                  <span className="w-2 h-2 bg-brand-500 rounded-full flex-shrink-0" aria-label="New submission" />
+                {isNew(row.id) && (
+                  <span className="w-2 h-2 bg-forest-500 rounded-full flex-shrink-0" aria-label="New submission" />
                 )}
-                <span className="font-medium text-brand-700">{row.q02_client_name}</span>
+                <span className={`font-medium ${isNew(row.id) ? 'text-forest-600' : 'text-brand-700'}`}>{row.q02_client_name}</span>
               </div>
-              {statusBadge(row.status)}
+              {statusBadge(row.status, !isNew(row.id))}
             </div>
-            <p className="text-xs text-muted-foreground mb-2">
+            <p className={`text-xs mb-2 ${isNew(row.id) ? 'text-forest-500' : 'text-muted-foreground'}`}>
               Submitted {relativeDate(row.created_at)}
             </p>
             <div className="mb-2.5" onClick={(e) => e.stopPropagation()}>
@@ -129,15 +150,15 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
           {intakes.map((row) => (
             <tr
               key={row.id}
-              onClick={() => router.push(`/admin/intake/${row.id}`)}
-              className={`border-b hover:bg-muted/50 transition-colors cursor-pointer ${
-                isNew(row.created_at) ? 'bg-brand-50/50' : ''
+              onClick={() => handleClick(row.id)}
+              className={`border-b hover:bg-warm-200/50 transition-colors cursor-pointer ${
+                isNew(row.id) ? 'bg-forest-100 text-forest-800' : 'bg-warm-100/50'
               }`}
             >
               <td className="py-3 px-4">
                 <div className="flex items-center gap-2">
-                  {isNew(row.created_at) && (
-                    <span className="w-2 h-2 bg-brand-500 rounded-full flex-shrink-0" aria-label="New submission" />
+                  {isNew(row.id) && (
+                    <span className="w-2 h-2 bg-forest-500 rounded-full flex-shrink-0" aria-label="New submission" />
                   )}
                   <span className="font-medium">{row.q02_client_name}</span>
                 </div>
@@ -154,7 +175,7 @@ export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
                 {relativeDate(row.created_at)}
               </td>
               <td className="py-3 px-4">
-                {statusBadge(row.status)}
+                {statusBadge(row.status, !isNew(row.id))}
               </td>
               <td className="py-3 px-4 text-right">
                 <Button size="sm" variant="outline">

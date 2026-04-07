@@ -32,6 +32,18 @@ export function getPendingIntakeCount(): number {
 }
 
 /**
+ * Get IDs of pending salon intake submissions.
+ * Used by sidebar to subtract locally-viewed entries from badge count.
+ */
+export function getPendingIntakeIds(): number[] {
+  const db = getDb();
+  const rows = db.prepare(
+    "SELECT id FROM clients WHERE business_type = 'salon' AND status IN ('intake_submitted', 'ai_review')"
+  ).all() as { id: number }[];
+  return rows.map(r => r.id);
+}
+
+/**
  * Get all salon intake submissions (pending review).
  * Ordered newest first for the intake queue page.
  */

@@ -1,6 +1,6 @@
 /**
  * Input sanitization utilities.
- * Prevents XSS by escaping HTML entities in user-provided strings.
+ * Prevents XSS, spam, code injection, and prompt injection.
  * Applied to all text inputs before database storage and display.
  */
 
@@ -18,6 +18,83 @@ const HTML_ENTITY_PATTERN = /[&<>"]/g;
  */
 export function escapeHtml(input: string): string {
   return input.replace(HTML_ENTITY_PATTERN, (char) => HTML_ENTITIES[char] || char);
+}
+
+// --- Input quality checks ---
+
+/** Detects repetitive spam like "JoicoJoicoJoico" or "aaaaaaa" */
+function hasRepetitivePattern(input: string): boolean {
+  const lower = input.toLowerCase().replace(/\s+/g, '');
+  if (lower.length < 10) return false;
+
+  // Check for any 3-20 char substring repeated 4+ times consecutively
+  for (let len = 3; len <= Math.min(20, Math.floor(lower.length / 4)); len++) {
+    const chunk = lower.slice(0, len);
+    const repeated = chunk.repeat(4);
+    if (lower.includes(repeated)) return true;
+  }
+
+  // Check for single character repeated 8+ times
+  if (/(.)\1{7,}/.test(lower)) return true;
+
+  return false;
+}
+
+/** Detects script tags, SQL injection, and code patterns */
+function hasCodeInjection(input: string): boolean {
+  const lower = input.toLowerCase();
+  const patterns = [
+    /<script[\s>]/i,
+    /<\/script>/i,
+    /javascript:/i,
+    /on(load|error|click|mouseover|focus)\s*=/i,
+    /\b(union\s+select|drop\s+table|insert\s+into|delete\s+from|update\s+.*\s+set)\b/i,
+    /--\s*$|;\s*--/,
+    /\b(eval|exec|execute)\s*\(/i,
+    /<iframe[\s>]/i,
+    /<object[\s>]/i,
+    /<embed[\s>]/i,
+    /data:text\/html/i,
+    /\bxss\b/i,
+  ];
+  return patterns.some(p => p.test(lower));
+}
+
+/** Detects prompt injection attempts targeting AI systems */
+function hasPromptInjection(input: string): boolean {
+  const lower = input.toLowerCase();
+  const patterns = [
+    /ignore\s+(all\s+)?previous\s+(instructions|prompts)/i,
+    /you\s+are\s+now\s+(a|an|my)\s/i,
+    /system\s*prompt/i,
+    /\bact\s+as\b/i,
+    /\brole\s*:\s*(system|assistant|user)\b/i,
+    /\b(jailbreak|DAN|do anything now)\b/i,
+    /pretend\s+you/i,
+    /new\s+instructions?\s*:/i,
+    /forget\s+(everything|your|all)/i,
+    /override\s+(your|the|all)\s/i,
+  ];
+  return patterns.some(p => p.test(lower));
+}
+
+export type InputCheckResult = { ok: true } | { ok: false; reason: string };
+
+/**
+ * Validates input quality -- catches spam, injection, and abuse.
+ * Call this on free-text fields before storing.
+ */
+export function checkInputQuality(input: string): InputCheckResult {
+  if (hasRepetitivePattern(input)) {
+    return { ok: false, reason: 'Please provide a real answer instead of repeated text.' };
+  }
+  if (hasCodeInjection(input)) {
+    return { ok: false, reason: 'Your input contains content that isn\'t allowed. Please use plain text.' };
+  }
+  if (hasPromptInjection(input)) {
+    return { ok: false, reason: 'Your input contains content that isn\'t allowed. Please use plain text.' };
+  }
+  return { ok: true };
 }
 
 /**

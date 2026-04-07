@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { intakeFormSchema } from '@/lib/intake-validation';
-import { sanitizeString } from '@/lib/sanitize';
+import { sanitizeString, checkInputQuality } from '@/lib/sanitize';
 import { getDb } from '@/lib/db';
 import { notifySms } from '@/lib/notify-sms';
 import { notifyEmail } from '@/lib/notify-email';
@@ -63,6 +63,34 @@ export async function POST(request: NextRequest) {
     }
 
     const data = parsed.data;
+
+    // Check free-text fields for spam, injection, and abuse
+    const freeTextFields: [string, string | undefined][] = [
+      ['First name', data.first_name],
+      ['Last name', data.last_name],
+      ['Pronouns', data.pronouns],
+      ['Hair love/hate', data.hair_love_hate],
+      ['Goals', data.what_you_want],
+      ['Medical info', data.medical_info],
+      ['Referral source', data.referral_source],
+      ['Shampoo product', data.product_shampoo],
+      ['Conditioner product', data.product_conditioner],
+      ['Hair spray product', data.product_hair_spray],
+      ['Dry shampoo product', data.product_dry_shampoo],
+      ['Heat protector product', data.product_heat_protector],
+      ['Other product', data.product_other],
+    ];
+
+    for (const [fieldName, value] of freeTextFields) {
+      if (!value) continue;
+      const check = checkInputQuality(value);
+      if (!check.ok) {
+        return NextResponse.json(
+          { error: `${fieldName}: ${check.reason}` },
+          { status: 400 }
+        );
+      }
+    }
 
     // Sanitize text inputs
     const firstName = sanitizeString(data.first_name);

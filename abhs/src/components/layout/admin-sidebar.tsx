@@ -65,14 +65,21 @@ export function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [badgeCounts, setBadgeCounts] = useState<Record<string, number>>({});
 
-  // Poll intake count for badge
+  // Poll intake count for badge, subtract locally-viewed entries
   useEffect(() => {
     async function fetchIntakeCount() {
       try {
         const res = await fetch('/api/admin/salon/intake-count');
         if (res.ok) {
-          const data = await res.json();
-          setBadgeCounts(prev => ({ ...prev, intake: data.count }));
+          const data = await res.json() as { count: number; ids: number[] };
+          // Subtract IDs the user has already viewed (stored in localStorage)
+          let viewedIds: Set<number> = new Set();
+          try {
+            const stored = localStorage.getItem('intake_viewed_ids');
+            if (stored) viewedIds = new Set(JSON.parse(stored) as number[]);
+          } catch { /* ignore */ }
+          const unviewedCount = data.ids.filter(id => !viewedIds.has(id)).length;
+          setBadgeCounts(prev => ({ ...prev, intake: unviewedCount }));
         }
       } catch {
         // Silent fail — badge is non-critical
@@ -81,8 +88,11 @@ export function AdminSidebar() {
 
     fetchIntakeCount();
     const interval = setInterval(fetchIntakeCount, 60000);
-    return () => clearInterval(interval);
-  }, []);
+    // Also re-check when navigating (user may have just viewed an intake)
+    const handleFocus = () => fetchIntakeCount();
+    window.addEventListener('focus', handleFocus);
+    return () => { clearInterval(interval); window.removeEventListener('focus', handleFocus); };
+  }, [pathname]);
 
   async function handleLogout() {
     await fetch('/api/admin/logout', { method: 'POST' });

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAuthenticated } from '@/lib/admin-auth';
-import { getPendingIntakeCount } from '@/lib/queries/intake-queue';
+import { getPendingIntakeCount, getPendingIntakeIds } from '@/lib/queries/intake-queue';
 
 /**
  * GET /api/admin/salon/intake-count
- * Returns the count of pending salon intake submissions.
- * Used by the sidebar badge for polling.
+ * Returns count and IDs of pending salon intake submissions.
+ * Sidebar uses IDs to subtract locally-viewed entries.
  */
 export async function GET(request: NextRequest) {
   if (!isAuthenticated(request)) {
@@ -14,7 +14,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const count = getPendingIntakeCount();
-    return NextResponse.json({ count });
+    const ids = getPendingIntakeIds();
+    return NextResponse.json({ count, ids });
   } catch (error) {
     console.error('GET /api/admin/salon/intake-count error:', error);
     return NextResponse.json({ error: 'Failed to get intake count' }, { status: 500 });
