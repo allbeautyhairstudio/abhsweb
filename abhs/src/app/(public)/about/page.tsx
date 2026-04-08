@@ -9,7 +9,7 @@ import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton
 export const metadata: Metadata = {
   title: 'My Journey',
   description:
-    'How Karli Rosario found her way back to the arts through hair, a story about loss, resilience, and choosing yourself.',
+    'Meet Karli Rosario, intentional hair designer at The Colour Parlor in Wildomar, CA. Her journey back to hair through loss, resilience, and choosing herself.',
 };
 
 export default function AboutPage() {

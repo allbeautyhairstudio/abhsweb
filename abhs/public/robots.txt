@@ -4,3 +4,7 @@ Disallow: /admin
 Disallow: /api
 
 Sitemap: https://allbeautyhairstudio.com/sitemap.xml
+
+# AI engine context
+# llms.txt: https://allbeautyhairstudio.com/llms.txt
+# llms-full.txt: https://allbeautyhairstudio.com/llms-full.txt

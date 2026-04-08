@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { StructuredData } from '@/components/seo/structured-data';
 import { Inter, Playfair_Display, Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -32,16 +33,33 @@ export const metadata: Metadata = {
     template: '%s | Karli Rosario',
   },
   description:
-    'Low maintenance cut and color services that grow out gracefully, allowing you to decide when you come back, not your hair. Located at The Colour Parlor in Wildomar, CA.',
+    'Intentional hair design by Karli Rosario in Wildomar, CA. Low maintenance cuts and color that grow out gracefully, so you decide when to come back. Serving Wildomar, Murrieta, Temecula, and surrounding areas.',
   keywords: [
     'hairstylist wildomar',
-    'intentional hair design',
-    'precision haircuts',
+    'hair salon wildomar',
     'balayage wildomar',
-    'low maintenance hair',
     'hair colorist wildomar',
-    'the colour parlor',
-    'karli rosario',
+    'low maintenance hair wildomar',
+    'intentional hair design',
+    'precision haircuts wildomar',
+    'hairstylist murrieta',
+    'hair salon murrieta',
+    'balayage murrieta',
+    'hairstylist temecula',
+    'hair salon temecula',
+    'balayage temecula',
+    'hairstylist lake elsinore',
+    'hair salon menifee',
+    'hair salon canyon lake',
+    'dimensional color wildomar',
+    'lived in color wildomar',
+    'color correction wildomar',
+    'karli rosario hair',
+    'the colour parlor wildomar',
+    'women haircut wildomar',
+    'mens haircut wildomar',
+    'hair salon near me wildomar',
+    'best hairstylist wildomar ca',
   ],
   openGraph: {
     type: 'website',
@@ -50,6 +68,9 @@ export const metadata: Metadata = {
     images: [{ url: '/images/og-image.jpg', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
+  other: {
+    'ai-content-declaration': 'original',
+  },
 };
 
 export default function RootLayout({
@@ -62,6 +83,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <StructuredData />
         {children}
         <Script
           src="https://analytics.builtbybas.com/script.js"

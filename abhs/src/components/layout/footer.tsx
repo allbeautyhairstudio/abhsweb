@@ -45,6 +45,14 @@ export function Footer() {
                 <p>By appointment only</p>
               </div>
             </div>
+            <a
+              href="tel:+19515416620"
+              className="flex items-center gap-2 group mt-1"
+            >
+              <span className="text-sm text-warm-300 group-hover:text-copper-300 transition-colors">
+                (951) 541-6620
+              </span>
+            </a>
           </div>
 
           {/* Book Now */}

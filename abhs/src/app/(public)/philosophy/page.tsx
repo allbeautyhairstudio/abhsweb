@@ -12,7 +12,7 @@ import { MotionButton } from '@/components/motion';
 export const metadata: Metadata = {
   title: 'Intentional Hair Philosophy',
   description:
-    'What intentional hair design means, hair that grows out beautifully, works with your real routines, and lets you decide when to come back.',
+    'What intentional hair design means at All Beauty Hair Studio in Wildomar, CA. Hair that grows out beautifully and works with your real life.',
 };
 
 export default function PhilosophyPage() {

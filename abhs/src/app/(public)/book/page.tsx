@@ -9,7 +9,7 @@ import { MotionPage } from '@/components/motion';
 export const metadata: Metadata = {
   title: 'Book an Appointment | All Beauty Hair Studio',
   description:
-    'Book your next hair appointment with Karli at All Beauty Hair Studio in Wildomar, CA.',
+    'Book your next hair appointment with Karli Rosario at All Beauty Hair Studio in Wildomar, CA. Serving Murrieta, Temecula, Lake Elsinore, and Menifee.',
 };
 
 export default function BookPage() {

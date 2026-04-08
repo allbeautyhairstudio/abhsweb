@@ -8,6 +8,7 @@ import { FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton } from '@/components/motion';
 import { KarliTreatsLightbox } from '@/components/salon/karli-treats-lightbox';
+import { FaqStructuredData } from '@/components/seo/faq-structured-data';
 
 const faqs = [
   {
@@ -93,6 +94,7 @@ function FaqItem({
 export default function FaqPage() {
   return (
     <MotionPage>
+      <FaqStructuredData faqs={faqs} />
       <div className="flex flex-col">
         {/* Header with background image */}
         <section className="relative py-16 sm:py-20">
