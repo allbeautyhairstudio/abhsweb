@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FloralCorner } from '@/components/decorative/floral-accents';
 import { FloralDividerAnimated } from '@/components/decorative/floral-divider-animated';
 import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton } from '@/components/motion';
+import { KarliTreatsLightbox } from '@/components/salon/karli-treats-lightbox';
 
 const faqs = [
   {
@@ -115,8 +116,30 @@ export default function FaqPage() {
           </div>
         </section>
 
+        {/* Treat Karli */}
+        <section className="pt-8 pb-4">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+            <MotionReveal>
+              <MotionRevealChild>
+                <h2 className="font-serif text-xl text-warm-700 mb-2">
+                  How to Treat Karli
+                </h2>
+              </MotionRevealChild>
+              <MotionRevealChild>
+                <p className="text-warm-500 text-sm leading-relaxed mb-4 max-w-md mx-auto">
+                  Want to bring something nice to your appointment? Karli has food allergies,
+                  so she put together a safe list of drinks and treats she loves.
+                </p>
+              </MotionRevealChild>
+              <MotionRevealChild>
+                <KarliTreatsLightbox />
+              </MotionRevealChild>
+            </MotionReveal>
+          </div>
+        </section>
+
         {/* FAQ List */}
-        <section className="py-14 sm:py-16">
+        <section className="pt-6 pb-14 sm:pb-16">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <div className="divide-y divide-warm-100 border-t border-warm-100">
               <MotionReveal stagger={0.08}>
