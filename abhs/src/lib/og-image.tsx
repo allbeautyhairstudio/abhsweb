@@ -1,31 +1,28 @@
 import { ImageResponse } from 'next/og';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-// Cache fonts across requests
-let playfairBold: ArrayBuffer | null = null;
-let interRegular: ArrayBuffer | null = null;
-let interSemiBold: ArrayBuffer | null = null;
-
-async function loadFonts() {
-  if (!playfairBold) {
-    playfairBold = await fetch(
-      'https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKd3vUDQZNLo_U2r.woff2'
-    ).then((res) => res.arrayBuffer());
-  }
-  if (!interRegular) {
-    interRegular = await fetch(
-      'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2'
-    ).then((res) => res.arrayBuffer());
-  }
-  if (!interSemiBold) {
-    interSemiBold = await fetch(
-      'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fAZ9hiJ-Ek-_EeA.woff2'
-    ).then((res) => res.arrayBuffer());
-  }
-  return { playfairBold, interRegular, interSemiBold };
+// Cache font buffers -- loaded once at module init (server-side only)
+function loadFont(filename: string): ArrayBuffer {
+  const buf = readFileSync(join(process.cwd(), 'public', 'fonts', filename));
+  return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer;
 }
 
-export async function createOgImage(pageName: string, tagline: string) {
-  const fonts = await loadFonts();
+let _fonts: { playfairBold: ArrayBuffer; interRegular: ArrayBuffer; interSemiBold: ArrayBuffer } | null = null;
+
+function loadFonts() {
+  if (!_fonts) {
+    _fonts = {
+      playfairBold: loadFont('playfair-display-bold.ttf'),
+      interRegular: loadFont('inter-regular.ttf'),
+      interSemiBold: loadFont('inter-semibold.ttf'),
+    };
+  }
+  return _fonts;
+}
+
+export function createOgImage(pageName: string, tagline: string) {
+  const fonts = loadFonts();
 
   return new ImageResponse(
     (
@@ -157,9 +154,9 @@ export async function createOgImage(pageName: string, tagline: string) {
       width: 1200,
       height: 630,
       fonts: [
-        { name: 'Playfair Display', data: fonts.playfairBold!, weight: 700 as const, style: 'normal' as const },
-        { name: 'Inter', data: fonts.interRegular!, weight: 400 as const, style: 'normal' as const },
-        { name: 'Inter', data: fonts.interSemiBold!, weight: 600 as const, style: 'normal' as const },
+        { name: 'Playfair Display', data: fonts.playfairBold, weight: 700 as const, style: 'normal' as const },
+        { name: 'Inter', data: fonts.interRegular, weight: 400 as const, style: 'normal' as const },
+        { name: 'Inter', data: fonts.interSemiBold, weight: 600 as const, style: 'normal' as const },
       ],
     }
   );
