@@ -96,10 +96,8 @@ export function createOgImage(pageName: string, tagline: string) {
             marginBottom: '12px',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
           }}
         >
-          <span style={{ color: '#A0714E', fontSize: '20px' }}>&#10022;</span>
           {pageName}
         </div>
 
