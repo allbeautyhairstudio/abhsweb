@@ -47,7 +47,7 @@ export default function HomePage() {
                 </MotionRevealChild>
                 <MotionRevealChild>
                   <p className="text-lg sm:text-xl text-warm-600 mb-10 leading-relaxed max-w-lg">
-                    I know what it means to build a life around real limitations --
+                    I know what it means to build a life around real limitations,
                     and I bring that understanding to every cut and every color.
                     Your hair should give you one less thing to worry about.
                   </p>
@@ -114,14 +114,14 @@ export default function HomePage() {
                   </blockquote>
                   <p className="text-warm-500 leading-relaxed mb-6">
                     I came back to this work after years of loss and rebuilding.
-                    Hair became the way I chose myself again --and now it&apos;s
+                    Hair became the way I chose myself again, and now it&apos;s
                     how I help other people feel like themselves, too.
                   </p>
                   <Link
                     href="/about"
                     className="inline-flex items-center gap-1.5 text-copper-500 font-medium hover:text-copper-600 transition-colors"
                   >
-                    My Journey --Read More
+                    My Journey, Read More
                     <ArrowRight size={16} />
                   </Link>
                 </div>
@@ -144,7 +144,7 @@ export default function HomePage() {
                         Before I pick up scissors, I want to know how you spend your
                         mornings, how much time you actually want to spend on your hair,
                         and what makes you feel like yourself. The hair comes from that
-                        conversation --not the other way around.
+                        conversation, not the other way around.
                       </p>
                     </div>
                   </MotionRevealChild>
@@ -155,7 +155,7 @@ export default function HomePage() {
                       </h4>
                       <p className="text-warm-500 leading-relaxed text-sm">
                         If something won&apos;t work with your hair texture, your
-                        lifestyle, or your maintenance level --I&apos;ll say so.
+                        lifestyle, or your maintenance level, I&apos;ll say so.
                         Not to talk you out of anything, but because you deserve
                         a stylist who&apos;s honest with you, not just agreeable.
                       </p>

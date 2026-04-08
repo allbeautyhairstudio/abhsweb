@@ -12,7 +12,7 @@ import { MotionButton } from '@/components/motion';
 export const metadata: Metadata = {
   title: 'Intentional Hair Philosophy',
   description:
-    'What intentional hair design means -- hair that grows out beautifully, works with your real routines, and lets you decide when to come back.',
+    'What intentional hair design means, hair that grows out beautifully, works with your real routines, and lets you decide when to come back.',
 };
 
 export default function PhilosophyPage() {
@@ -53,8 +53,8 @@ export default function PhilosophyPage() {
               </h2>
               <div className="space-y-4 text-warm-500 leading-relaxed">
                 <p>
-                  Intentional hair design means every decision -- every cut, every
-                  color placement, every product recommendation -- is made with your
+                  Intentional hair design means every decision, every cut, every
+                  color placement, every product recommendation, is made with your
                   real life in mind.
                 </p>
                 <p>
@@ -68,7 +68,7 @@ export default function PhilosophyPage() {
                 <MotionRevealChild>
                   <li className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 bg-sage-400 rounded-full shrink-0 mt-2" />
-                    <span>Grows out beautifully -- so you decide when to come back</span>
+                    <span>Grows out beautifully, so you decide when to come back</span>
                   </li>
                 </MotionRevealChild>
                 <MotionRevealChild>
@@ -111,7 +111,7 @@ export default function PhilosophyPage() {
                   its shape.
                 </p>
                 <p>
-                  That&apos;s not your fault -- it&apos;s a design problem. When
+                  That&apos;s not your fault. It&apos;s a design problem. When
                   hair is designed with longevity in mind, it still looks and feels
                   good at week six, week eight, even week twelve.
                 </p>
@@ -119,7 +119,7 @@ export default function PhilosophyPage() {
                   Intentional hair means you&apos;re not locked into a maintenance
                   cycle that doesn&apos;t fit your life. You get relief from
                   maintenance stress, confidence that lasts, and the freedom to come
-                  back when you&apos;re ready -- not when your hair demands it.
+                  back when you&apos;re ready, not when your hair demands it.
                 </p>
               </div>
             </MotionReveal>
@@ -167,7 +167,7 @@ export default function PhilosophyPage() {
                     <span className="w-1.5 h-1.5 bg-copper-400 rounded-full shrink-0 mt-2" />
                     <span>
                       <strong className="text-warm-600">Color placement</strong> is
-                      strategic -- highlights and balayage are positioned for
+                      strategic, highlights and balayage are positioned for
                       graceful grow-out, not harsh lines
                     </span>
                   </li>

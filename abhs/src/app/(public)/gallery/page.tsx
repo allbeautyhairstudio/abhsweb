@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Gallery',
-  description: 'See Karli\'s latest work -- cuts, color, and transformations from All Beauty Hair Studio.',
+  description: 'See Karli\'s latest work, cuts, color, and transformations from All Beauty Hair Studio.',
 };
 import { Instagram } from 'lucide-react';
 import { getInstagramPosts } from '@/lib/instagram';

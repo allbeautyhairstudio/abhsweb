@@ -436,9 +436,9 @@ export default function NewClientFormPage() {
       if (!allowed.includes(f.type) && !f.name.toLowerCase().endsWith('.heic')) {
         fileErrors.push(`"${f.name}" is not a supported format. Please use JPG, PNG, WebP, or HEIC`);
       } else if (f.size > maxSize) {
-        fileErrors.push(`"${f.name}" is ${sizeMB}MB -- photos must be under 10MB. Try resizing or using a different photo`);
+        fileErrors.push(`"${f.name}" is ${sizeMB}MB, photos must be under 10MB. Try resizing or using a different photo`);
       } else if (valid.length >= spotsLeft) {
-        fileErrors.push(`Only ${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left -- "${f.name}" was not added`);
+        fileErrors.push(`Only ${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left, "${f.name}" was not added`);
       } else {
         valid.push(f);
       }
@@ -640,12 +640,12 @@ export default function NewClientFormPage() {
           <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
             <div className="bg-blush-50/60 rounded-2xl p-6 sm:p-10 border border-warm-100">
               <p className="text-warm-600 leading-relaxed mb-4">
-                Hey there -- I&apos;m so glad you&apos;re here.
+                Hey there, I&apos;m so glad you&apos;re here.
               </p>
               <p className="text-warm-600 leading-relaxed mb-4">
                 This form helps me understand you, your hair, and how it fits into your real life.
                 My approach is rooted in intentional design, low-maintenance results, and hair that
-                grows out beautifully -- not hair that constantly asks more of you.
+                grows out beautifully, not hair that constantly asks more of you.
               </p>
               <p className="text-warm-600 leading-relaxed mb-4">
                 Please fill this out as thoughtfully and honestly as possible. This allows me to
@@ -903,7 +903,7 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Your Hair</h2>
-                  <p className="text-sm text-warm-400 mb-6">No wrong answers -- this helps me prepare.</p>
+                  <p className="text-sm text-warm-400 mb-6">No wrong answers, this helps me prepare.</p>
                 </div>
 
                 <div>
@@ -972,7 +972,7 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Hair Personality &amp; Routine</h2>
-                  <p className="text-sm text-warm-400 mb-6">I design around your actual life -- not a Pinterest board.</p>
+                  <p className="text-sm text-warm-400 mb-6">I design around your actual life, not a Pinterest board.</p>
                 </div>
 
                 <div>
@@ -1006,7 +1006,7 @@ export default function NewClientFormPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Hair History</h2>
-                  <p className="text-sm text-warm-400 mb-6">What your hair has been through matters -- no judgment.</p>
+                  <p className="text-sm text-warm-400 mb-6">What your hair has been through matters, no judgment.</p>
                 </div>
 
                 <div>
@@ -1022,8 +1022,8 @@ export default function NewClientFormPage() {
 
                 <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
                   <p className="text-xs text-amber-700 leading-relaxed">
-                    If you&apos;ve had <strong>ANYTHING</strong> in your hair -- box dye, henna, bleach,
-                    keratin, anything -- please note that this will be brought up in the consultation.
+                    If you&apos;ve had <strong>ANYTHING</strong> in your hair, box dye, henna, bleach,
+                    keratin, anything, please note that this will be brought up in the consultation.
                     Ya girls gotta know what she&apos;s working with!
                   </p>
                 </div>
@@ -1071,7 +1071,7 @@ export default function NewClientFormPage() {
                 <div>
                   <h2 className="font-serif text-xl text-warm-700 mb-1">Goals &amp; Schedule</h2>
                   <p className="text-sm text-warm-400 mb-6">
-                    Don&apos;t worry about having it all figured out -- that&apos;s what I&apos;m here for.
+                    Don&apos;t worry about having it all figured out, that&apos;s what I&apos;m here for.
                   </p>
                 </div>
 
@@ -1134,7 +1134,7 @@ export default function NewClientFormPage() {
 
                 <div className="bg-blush-50 rounded-lg p-3 border border-warm-100 mb-2">
                   <p className="text-xs text-warm-500 leading-relaxed">
-                    <strong>Photo guidelines:</strong> JPG, PNG, WebP, or HEIC -- up to 10MB each, 3 selfies + 3 inspo max.
+                    <strong>Photo guidelines:</strong> JPG, PNG, WebP, or HEIC, up to 10MB each, 3 selfies + 3 inspo max.
                     At least one selfie is required so I can see your current hair before your appointment.
                   </p>
                 </div>
@@ -1146,10 +1146,10 @@ export default function NewClientFormPage() {
                 {/* Selfie photos */}
                 <div>
                   <label className="block text-sm font-medium text-warm-600 mb-1">
-                    Selfie Photos <span className="text-warm-400 text-xs font-normal">(front, side, back -- up to 3)</span>
+                    Selfie Photos <span className="text-warm-400 text-xs font-normal">(front, side, back, up to 3)</span>
                   </label>
                   <p className="text-xs text-warm-400 mb-3">
-                    Show how you normally wear your hair. Good lighting, no filters -- I want to see the real you!
+                    Show how you normally wear your hair. Good lighting, no filters, I want to see the real you!
                   </p>
 
                   {selfieFiles.length > 0 && (
@@ -1206,7 +1206,7 @@ export default function NewClientFormPage() {
                     Inspiration Photos <span className="text-warm-400 text-xs font-normal">(up to 3)</span>
                   </label>
                   <p className="text-xs text-warm-400 mb-3">
-                    Screenshots from Instagram, Pinterest, or anywhere -- show me what catches your eye.
+                    Screenshots from Instagram, Pinterest, or anywhere, show me what catches your eye.
                   </p>
 
                   {inspoFiles.length > 0 && (
@@ -1403,7 +1403,7 @@ export default function NewClientFormPage() {
 
           {/* Reassurance */}
           <div className="mt-10 pt-8 border-t border-warm-100 text-center">            <p className="text-sm text-warm-600 leading-relaxed max-w-sm mx-auto mb-2">
-              Thank you for trusting me with your hair -- I don&apos;t take that lightly.
+              Thank you for trusting me with your hair. I don&apos;t take that lightly.
             </p>
             <p className="text-xs text-warm-400 leading-relaxed max-w-sm mx-auto">
               Your information stays between us. I use this to prepare for our

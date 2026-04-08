@@ -12,21 +12,21 @@ export default function TermsPage() {
       <p className="text-xs text-warm-400 mb-8">Last updated: March 5, 2026</p>
 
       <Section title="About These Terms">
-        <p>By using the All Beauty Hair Studio website, filling out the new client form, or booking an appointment, you agree to these terms. They&apos;re written to be fair and straightforward -- not to trick you with fine print.</p>
+        <p>By using the All Beauty Hair Studio website, filling out the new client form, or booking an appointment, you agree to these terms. They&apos;re written to be fair and straightforward, not to trick you with fine print.</p>
       </Section>
 
       <Section title="Booking & Appointments">
         <ul>
           <li><strong>Booking requests</strong> are not confirmed until Karli reviews and accepts them. You&apos;ll receive confirmation when your appointment is finalized.</li>
           <li><strong>Same-day bookings</strong> are not available through the website. If you need a last-minute appointment, reach out directly.</li>
-          <li>Booking requests expire after <strong>48 hours</strong> if not reviewed -- this is to keep the schedule accurate and fair to everyone.</li>
+          <li>Booking requests expire after <strong>48 hours</strong> if not reviewed, to keep the schedule accurate and fair to everyone.</li>
         </ul>
       </Section>
 
       <Section title="Cancellation & No-Show Policy">
         <ul>
           <li>Please give at least <strong>24 hours notice</strong> if you need to cancel or reschedule.</li>
-          <li>Late cancellations (under 24 hours) or no-shows may result in a fee. Life happens -- just communicate and we&apos;ll figure it out.</li>
+          <li>Late cancellations (under 24 hours) or no-shows may result in a fee. Life happens, just communicate and we&apos;ll figure it out.</li>
           <li>Karli reserves the right to cancel or reschedule appointments due to illness, emergency, or unforeseen circumstances. You&apos;ll always be notified as soon as possible.</li>
         </ul>
       </Section>
@@ -34,7 +34,7 @@ export default function TermsPage() {
       <Section title="New Client Consultation Form">
         <ul>
           <li>The information you provide on the new client form is used exclusively for consultation planning and service delivery.</li>
-          <li>Please be honest and thorough -- especially about allergies, sensitivities, and medical conditions. This is for your safety.</li>
+          <li>Please be honest and thorough, especially about allergies, sensitivities, and medical conditions. This is for your safety.</li>
           <li>Submitting the form indicates you consent to Karli using this information to prepare for your appointment.</li>
         </ul>
       </Section>

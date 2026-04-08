@@ -38,7 +38,7 @@ const blogPosts = [
     slug: 'hair-myths-debunked',
     title: 'Hair We Go: Splitting Hairs Over 10 Mane Myths',
     excerpt:
-      'From "cutting your hair makes it grow faster" to "you should wash your hair every day" -- let\'s separate fact from fiction.',
+      'From "cutting your hair makes it grow faster" to "you should wash your hair every day," let\'s separate fact from fiction.',
     date: '2023-06-17',
     category: 'Hair Care',
     author: 'Karli Rosario',
@@ -49,7 +49,7 @@ const blogPosts = [
     slug: 'high-vs-low-maintenance',
     title: 'High Maintenance vs. Low Maintenance Hair: Choose Your Destiny',
     excerpt:
-      'Understanding the real cost of your hair choices -- in time, money, and energy. There\'s no wrong answer, just an informed one.',
+      'Understanding the real cost of your hair choices, in time, money, and energy. There\'s no wrong answer, just an informed one.',
     date: '2023-05-14',
     category: 'Intentional Hair',
     author: 'Bas Rosario',
@@ -60,7 +60,7 @@ const blogPosts = [
     slug: 'haircut-trends-2023',
     title: 'Haircut Trends 2023: The 7 Hottest Styles',
     excerpt:
-      'A look at what was trending -- and a reminder that trends are inspiration, not instructions.',
+      'A look at what was trending, and a reminder that trends are inspiration, not instructions.',
     date: '2023-04-23',
     category: 'Style',
     author: 'Karli Rosario',

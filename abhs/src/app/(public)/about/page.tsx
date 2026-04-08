@@ -9,7 +9,7 @@ import { MotionPage, MotionReveal, MotionRevealChild, MotionFloral, MotionButton
 export const metadata: Metadata = {
   title: 'My Journey',
   description:
-    'How Karli Rosario found her way back to the arts through hair -- a story about loss, resilience, and choosing yourself.',
+    'How Karli Rosario found her way back to the arts through hair, a story about loss, resilience, and choosing yourself.',
 };
 
 export default function AboutPage() {
@@ -23,7 +23,7 @@ export default function AboutPage() {
                 My Journey
               </h1>
               <p className="text-warm-500 leading-relaxed">
-                How I got here -- and why every person who sits in my chair matters.
+                How I got here, and why every person who sits in my chair matters.
               </p>
             </MotionReveal>
           </div>
@@ -65,7 +65,7 @@ export default function AboutPage() {
                 <p>
                   Growing up, I was a singer and a dancer from a really young age.
                   Every year we&apos;d have recitals, concerts, performances, or
-                  competitions -- all of which required hair and makeup.
+                  competitions, all of which required hair and makeup.
                 </p>
                 <p>
                   At a pretty young age, I caught on to how to do my own hair and
@@ -78,7 +78,7 @@ export default function AboutPage() {
                   creativity it gave me. I loved being able to turn someone into a
                   different creature or person. My youngest sister was my muse. She
                   would let me do anything to her. I could go to her room at 2 a.m.
-                  and say, &ldquo;I have an idea -- I want to turn you into a fairy,
+                  and say, &ldquo;I have an idea, I want to turn you into a fairy,
                   place you in the trees, and take pictures of you for my
                   portfolio.&rdquo;
                 </p>
@@ -100,7 +100,7 @@ export default function AboutPage() {
               <div className="space-y-4 text-warm-500 leading-relaxed">
                 <p>
                   At twenty-seven, the worst thing in my life happened. I lost my
-                  youngest sister -- my muse -- to a car accident. She was only
+                  youngest sister, my muse, to a car accident. She was only
                   eighteen and had just graduated high school four months prior.
                 </p>
                 <p>
@@ -132,7 +132,7 @@ export default function AboutPage() {
                 <p>
                   I focused on getting my Associate&apos;s degree in Arts and Visual
                   Communications. I learned everything I could about graphic design.
-                  It fed me in the same way hair and makeup did -- it was something
+                  It fed me in the same way hair and makeup did, it was something
                   that allowed me to be fully creative.
                 </p>
                 <p>
@@ -168,7 +168,7 @@ export default function AboutPage() {
                   to those times when I felt truly like myself.
                 </p>
                 <p>
-                  I was reminded of the happiness my gifts had brought others -- how
+                  I was reminded of the happiness my gifts had brought others, how
                   the simplest makeup, when done right, could make someone smile
                   from ear to ear. The way someone looked at themselves when they
                   saw their hair for the first time after a big color change.
@@ -181,7 +181,7 @@ export default function AboutPage() {
                   </MotionFloral>
                   <p className="font-serif text-lg text-warm-700 italic leading-relaxed">
                     &ldquo;I knew I had to go back to school. This time, I was doing
-                    it for me -- not for someone else, but for me.&rdquo;
+                    it for me, not for someone else, but for me.&rdquo;
                   </p>
                 </blockquote>
 
@@ -258,10 +258,10 @@ export default function AboutPage() {
                   even a piece of what that means to me.
                 </p>
                 <p>
-                  What I love most isn&apos;t &ldquo;nailing it&rdquo; -- it&apos;s
+                  What I love most isn&apos;t &ldquo;nailing it.&rdquo; It&apos;s
                   the connection. It&apos;s when a client says, &ldquo;I came in
                   here not even really knowing exactly what I wanted, or how to even
-                  explain it to you -- but somehow, you nailed it.&rdquo; That means
+                  explain it to you, but somehow, you nailed it.&rdquo; That means
                   we connected on a level that allowed communication to break
                   through barriers.
                 </p>
@@ -286,7 +286,7 @@ export default function AboutPage() {
                 </p>
                 <p>
                   I&apos;m neurodivergent, and I don&apos;t let that hold me back.
-                  In fact, it&apos;s my superpower -- I feel like it allows me to see
+                  In fact, it&apos;s my superpower. I feel like it allows me to see
                   patterns that others might not.
                 </p>
                 <p>
