@@ -9,7 +9,7 @@ export function StructuredData() {
       'Intentional hair design by Karli Rosario. Precision cuts and lived-in dimensional color that grows out gracefully. Located at The Colour Parlor in Wildomar, CA. Serving Wildomar, Murrieta, Temecula, Lake Elsinore, Menifee, and Canyon Lake.',
     url: 'https://allbeautyhairstudio.com',
     telephone: '+19515416620',
-    image: 'https://allbeautyhairstudio.com/images/og-image.jpg',
+    image: 'https://allbeautyhairstudio.com/images/og-image-v2.jpg',
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',

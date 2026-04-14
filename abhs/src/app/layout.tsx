@@ -64,8 +64,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
+    url: 'https://allbeautyhairstudio.com',
     siteName: 'Karli Rosario — Intentional Hair Design',
-    images: [{ url: '/images/og-image.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/images/og-image-v2.jpg', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
   other: {
