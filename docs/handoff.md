@@ -1,12 +1,13 @@
 # All Beauty Hair Studio -- Project Handoff Document
 
-**Last Updated:** March 23, 2026 (Session 8)
+**Last Updated:** April 11, 2026 (Governance Audit)
 **Status:** **LIVE at allbeautyhairstudio.com** -- Public site + Admin CRM + Square booking widget +
 email notifications + AI chat assistant with Stylist Notes + Draft Response. Umami analytics wired.
-Next.js 16.1.7 + Vite 6.4.1 security patches deployed. Framer Motion animations deployed.
-VPS fully hardened. Color Lab removed. Dark forest green admin sidebar. All em dashes removed from
-public pages. Gallery lightbox mobile fix deployed. Plan B COMPLETE and deployed.
-Next: Execute intake detail redesign spec, then Plan C (service menu), then form validation.
+Next.js 16.1.7 + Vite 6.4.2 security patches deployed. Framer Motion animations deployed.
+VPS fully hardened. Color Lab removed. Dark forest green admin sidebar.
+Premium SEO + OG images. Consultation form (renamed from intake). "Referral" replaces "Declined."
+Input guardrails (spam/injection/prompt-injection). Dependabot enabled. 12 security vulns patched.
+280 tests passing across 12 files.
 
 ---
 
@@ -68,7 +69,7 @@ This is now a salon-only codebase.
 - **Validation** -- Zod
 - **Icons** -- Lucide React
 - **Dates** -- date-fns
-- **Testing** -- Vitest (292 tests passing)
+- **Testing** -- Vitest (280 tests passing)
 - **AI Chat** -- Anthropic SDK (@anthropic-ai/sdk v0.80.0)
 - **Bookings** -- Square SDK v44
 - **Images** -- sharp (WebP conversion on upload)
@@ -99,9 +100,8 @@ c:\kar\abhs\
 │   │       ├── page.tsx           <- Dashboard home
 │   │       ├── clients/           <- Client list + detail + new
 │   │       ├── pipeline/          <- Kanban pipeline board (5 stages)
-│   │       ├── intake/            <- Intake review queue + detail
+│   │       ├── intake/            <- Consultation review queue + detail
 │   │       ├── calendar/          <- Bookings calendar (4-view)
-│   │       ├── color-lab/         <- Color formula tracking + inventory
 │   │       ├── engagement/        <- Customer insights (placeholder)
 │   │       ├── promotions/        <- Banner/popup management (placeholder)
 │   │       ├── themes/            <- Seasonal theme picker (placeholder)
@@ -111,9 +111,7 @@ c:\kar\abhs\
 │       ├── admin/         <- Admin-only endpoints (auth required)
 │       ├── booking/       <- Public booking request + availability
 │       ├── clients/       <- CRM CRUD
-│       ├── color/         <- Color Lab (12 endpoints)
-│       ├── contact/       <- Contact form
-│       ├── intake/        <- Salon intake + photo upload
+│       ├── intake/        <- Consultation form + photo upload
 │       └── instagram/     <- Instagram feed proxy
 │
 ├── src/components/        <- React components (layout, clients, pipeline, booking, color, salon, gallery, ui)
@@ -130,11 +128,8 @@ SQLite with WAL mode. Tables:
 - **`clients`** -- Wide table: 48 intake columns (q01-q48) + status/dates
 - **`client_notes`** -- Per-client notes with type filter
 - **`revenue_entries`** -- Payment tracking
-- **`color_lines`** -- Color brand product lines
-- **`color_shades`** -- Individual color shades per line
-- **`color_formulas`** -- Per-client color formulas with ingredients
-- **`color_inventory`** -- Stock levels with low-stock alerts
 - **`booking_requests`** -- Local booking approval queue (before Square creation)
+- **`chat_messages`** -- AI chat history per client (cascade-deleted with client)
 
 **Note:** The `clients` table still has a `business_type` column (default: 'salon').
 All code now ignores this column -- it exists only because removing it would require a DB migration.
@@ -216,14 +211,14 @@ Live feed from `@allbeautyhairstudio` via Instagram Graph API v21.0:
 
 ```text
 intake_submitted -> ai_review -> active_client -> followup
-                                    \-> declined
+                                    \-> referral
 ```
 
-- **`intake_submitted`** (New Intake) -- Intake form received, pending review
+- **`intake_submitted`** (New Consultation) -- Consultation form received, pending review
 - **`ai_review`** (Under Review) -- AI Summary generated, awaiting review
 - **`active_client`** (Active Client) -- Accepted, ongoing relationship
 - **`followup`** (Follow-Up) -- Check-in or rebooking needed
-- **`declined`** (Declined) -- Not a fit right now
+- **`referral`** (Referral) -- Referred out (separate from Decline)
 
 ### Client Detail (7 Tabs)
 
@@ -426,6 +421,19 @@ SMTP_PASS=your-app-password       # Gmail app password
 - **Gallery lightbox mobile fix** -- 100dvh + touch-none for proper centering (Mar 23 S8)
 - **Ask AI button** -- text always visible on mobile (Mar 23 S8)
 - **Intake detail redesign spec written** -- ADHD-friendly tab-based layout, gap detection (Mar 23 S8)
+- **Gallery static divider** -- Replaced animated divider with static on gallery page
+- **Footer location clickable** -- Google Maps link, removed "3 days per week"
+- **FAQ updates** -- Removed pricing and unsure FAQs per Karli, corrected salon address
+- **Consultation form rename** -- "Intake form" renamed to "consultation form" across all display text
+- **Form validation** -- Selfie required, referral source required, back-button resubmit prevention, side scroll fix
+- **Decline email rewrite** -- Warmer tone for consultation decline emails
+- **"Declined" renamed to "Referral"** -- Across admin UI with separate Refer Out and Decline buttons with distinct emails
+- **Security patch** -- 12 vulnerabilities patched (nodemailer, @anthropic-ai/sdk, happy-dom, picomatch, path-to-regexp, shadcn transitive deps)
+- **Dependabot enabled** -- Automated dependency security monitoring
+- **Input guardrails** -- Spam/injection/prompt-injection checks, photo upload perf, consultation UX improvements. 23 new sanitize tests.
+- **OG images** -- Branded social cards for all public pages (homepage, gallery, FAQ, philosophy, consultation form, book, about, legal). Shared OG image helper.
+- **Premium SEO + AIO overhaul** -- Local search dominance, Karli treats FAQ section, single static OG image
+- **Double dashes to commas** -- Replaced double dashes with commas in client-facing copy
 - **Mobile crash fix** -- Mar 23 S7 (296 tests)
   - `useTransform` hook called conditionally inside JSX in `floral-divider-animated.tsx` -- Rules of Hooks violation
   - Motion transforms not resetting `x: 0, y: 0` when tier changed to 'reduced' on mobile
@@ -490,7 +498,14 @@ SMTP_PASS=your-app-password       # Gmail app password
   Fixed mobile crash (conditional hook call) and transform reset. 296 tests.
 - [x] **VPS security hardening** -- security headers on all 8 sites, SSH password auth disabled,
   OS updates applied, server version hidden. (Session 7, March 23, 2026)
-- [x] **Vite security patch** -- 6.3.5 -> 6.4.1, 3 vulnerabilities patched. (Session 7, March 23)
+- [x] **Vite security patch** -- 6.3.5 -> 6.4.1 -> 6.4.2, vulnerabilities patched. (Session 7+)
+- [x] **Consultation form rename** -- "Intake form" renamed to "consultation form" in all display text
+- [x] **Referral rename** -- "Declined" renamed to "Referral" with separate Refer Out and Decline buttons
+- [x] **Input guardrails** -- Spam/injection/prompt-injection checks on all form fields (sanitize.ts + 23 tests)
+- [x] **Dependabot** -- Automated dependency security monitoring enabled
+- [x] **12 security vulns patched** -- nodemailer, @anthropic-ai/sdk, happy-dom, picomatch, path-to-regexp, shadcn transitive deps
+- [x] **OG images** -- Branded social cards for all public pages, shared helper, single static OG image
+- [x] **Premium SEO + AIO** -- Local search dominance overhaul, structured data, Karli treats FAQ
 
 ### Content
 
@@ -506,50 +521,39 @@ SMTP_PASS=your-app-password       # Gmail app password
 
 ## 13. FOR THE NEXT SESSION
 
-### START HERE: Write Implementation Plan for Intake Detail Redesign
+### Consultation Detail Redesign
 
 **Status:** Spec approved and committed. Needs implementation plan written, then executed.
 **Spec:** `docs/superpowers/specs/2026-03-23-intake-detail-redesign-design.md`
 **Mockup:** `public/mockup.html` (viewable at `/mockup.html` on dev server)
 
 **What the redesign does:**
-- 3-tab layout: At a Glance, Full Intake, Photos
+
+- 3-tab layout: At a Glance, Full Consultation, Photos
 - Gap detection (missing/sparse fields flagged amber, health flags red)
 - "Draft Email Follow-Up" and "Draft SMS Follow-Up" buttons integrated with AI chat
 - ADHD-friendly design: visual hierarchy, chunking, progressive disclosure
 - IntakeChatPanel needs `forwardRef` + `useImperativeHandle` for programmatic open
 
-### Then: Execute Plan C (Service Menu Restructure)
+### Plan C: Service Menu Restructure
 
 - Plan file: `docs/superpowers/plans/2026-03-22-service-menu-restructure-plan.md`
 - Cut-forward descriptions, color as lived-in enhancements
 
-### Then: Form Validation Tightening (Separate Spec)
-
-- Make most intake form fields required (except pronouns, medical info)
-- Minimum quality checks on free-text fields
-- Informed by which gaps show up most on the admin side
-
-### Deferred (Come Back Later)
-
-- **Plan A: Public Site Refresh** -- footer, FAQ, mobile sticky CTA, image swap,
-  cut-forward positioning, client detail 4-tab rework, AI-generated intake briefing
-  - Plan file: `docs/superpowers/plans/2026-03-22-public-site-refresh-plan.md`
-
 ### Other Priorities
 
-- Printable/PDF version of intake Q&A output
+- Printable/PDF version of consultation Q&A output
 - PostgreSQL migration (cleans up 46 dead consulting columns + `business_type`)
 - Email lifecycle system (5 timed emails)
 - Twilio SMS verification check (submitted March 21)
-- Deploy dark green sidebar to VPS (done Mar 23 S8)
+- **Plan A: Public Site Refresh** -- deferred
+  (Plan file: `docs/superpowers/plans/2026-03-22-public-site-refresh-plan.md`)
 
 ### Session Start
 
 1. Read this handoff for project context
-2. Run `cd c:\kar\abhs && npx vitest run` to verify 257 tests pass
+2. Run `cd c:\kar\abhs && npx vitest run` to verify 280 tests pass
 3. Check for unpushed commits
-4. Write implementation plan for intake detail redesign spec
 
 ---
 

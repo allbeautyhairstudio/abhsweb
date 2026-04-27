@@ -1,6 +1,6 @@
 # All Beauty Hair Studio -- Audit Log
 
-**Last Updated:** March 23, 2026 (Session 8)
+**Last Updated:** April 11, 2026 (Governance Audit)
 
 ---
 
@@ -103,15 +103,17 @@
   Only new uploads get WebP treatment. New uploads now auto-orient via EXIF.
 
 - **Deps** -- Low --
-  3 deprecated subdependencies: node-domexception@1.0.0,
-  prebuild-install@7.1.3, scmp@2.1.0.
-  Upstream (Twilio, better-sqlite3). PostgreSQL migration removes
-  prebuild-install. Twilio ones resolve with SDK update.
+  Deprecated subdependencies upstream (Twilio, better-sqlite3).
+  Dependabot now monitors. 12 vulnerabilities patched post-S8.
 
 - **DB Schema** -- Low --
   46 dead consulting columns in clients table.
   Clean up during PostgreSQL migration.
 
-- **Intake UX** -- In Progress --
-  Intake detail page redesign spec written (ADHD-friendly, tab-based).
-  Implementation plan needed next session.
+- **Consultation UX** -- In Progress --
+  Consultation detail page redesign spec written (ADHD-friendly, tab-based).
+  Implementation plan needed. "Intake" renamed to "consultation" across display text.
+
+- **Input Guardrails** -- Resolved --
+  Spam/injection/prompt-injection checks added to all form fields.
+  23 new sanitize tests. Selfie now required. Referral source required.
