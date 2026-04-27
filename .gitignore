@@ -1,6 +1,9 @@
 # Claude Code local settings
 .claude/
 
+# Local Claude scratch
+.superpowers/
+
 # Git worktrees
 .worktrees/
 

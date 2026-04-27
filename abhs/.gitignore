@@ -45,3 +45,13 @@ data/
 # test results
 /test-results/
 /playwright-report/
+
+# tmp/scratch -- never tracked (CLAUDE.md rule #8)
+tmp/
+
+# Local MCP config (not needed to build/run site)
+.mcp.json
+
+# Backup files
+*.bak
+*.bak-*
