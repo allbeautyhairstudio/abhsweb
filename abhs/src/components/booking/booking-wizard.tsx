@@ -35,7 +35,8 @@ const stepLabels: Record<Step, { icon: typeof Scissors; label: string }> = {
 
 export function BookingWizard() {
   const [step, setStep] = useState<Step>(1);
-  const [status, setStatus] = useState<Status>('idle');
+  // Initial status is 'loading-services' since we always fetch on mount.
+  const [status, setStatus] = useState<Status>('loading-services');
   const [errorMessage, setErrorMessage] = useState('');
 
   // Services from Square
@@ -57,10 +58,10 @@ export function BookingWizard() {
   // Confirmation
   const [confirmation, setConfirmation] = useState<BookingRequestConfirmation | null>(null);
 
-  // Load services on mount
+  // Load services on mount. Initial status is set via useState lazy init above
+  // so the effect only handles async resolution, not synchronous setState.
   useEffect(() => {
     let cancelled = false;
-    setStatus('loading-services');
 
     async function loadServices() {
       try {

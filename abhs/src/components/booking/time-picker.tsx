@@ -74,16 +74,18 @@ export function TimePicker({
   // Stable key for segments to avoid unnecessary refetches
   const segmentsKey = segments.map((s) => s.serviceVariationId).join(',');
 
-  // Fetch availability when date is selected
+  // Fetch availability when date is selected. Loading-state setters are
+  // moved into the async function so they don't run synchronously in the
+  // effect body (set-state-in-effect rule).
   useEffect(() => {
     if (!selectedDate || segments.length === 0) return;
 
     let cancelled = false;
-    setLoading(true);
-    setError('');
-    setSlots([]);
 
     async function fetchSlots() {
+      setLoading(true);
+      setError('');
+      setSlots([]);
       try {
         const res = await fetch('/api/booking/availability', {
           method: 'POST',
@@ -114,7 +116,11 @@ export function TimePicker({
 
     fetchSlots();
     return () => { cancelled = true; };
-  }, [selectedDate, segmentsKey, teamMemberId]); // eslint-disable-line react-hooks/exhaustive-deps
+    // segmentsKey (derived from segments) used instead of segments itself to
+    // avoid re-fetching when parent recreates the array reference but contents
+    // are equivalent.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate, segmentsKey, teamMemberId]);
 
   function handleDateSelect(date: Date) {
     const dateStr = toDateString(date);

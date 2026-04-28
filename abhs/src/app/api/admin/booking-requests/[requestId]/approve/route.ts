@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAuthenticated } from '@/lib/admin-auth';
-import { getSquareClient, getLocationId, serializeBigInt, lookupServiceName } from '@/lib/square';
-import { sanitizeString } from '@/lib/sanitize';
+import { getSquareClient, getLocationId, serializeBigInt } from '@/lib/square';
 import {
   getBookingRequestById,
   updateBookingRequestStatus,

@@ -287,8 +287,8 @@ export function SalonCanvas({ className = '' }: { className?: string }) {
     for (const item of renderQueue) {
       item.draw();
     }
-
-    animRef.current = requestAnimationFrame(animate);
+    // Loop driver lives in the effect below, not here, so animate doesn't
+    // self-reference (which trips react-hooks/immutability for useCallback bodies).
   }, []);
 
   useEffect(() => {
@@ -315,8 +315,13 @@ export function SalonCanvas({ className = '' }: { className?: string }) {
     resize();
     window.addEventListener('resize', resize);
 
+    function loop() {
+      animate();
+      animRef.current = requestAnimationFrame(loop);
+    }
+
     if (!prefersReduced) {
-      animRef.current = requestAnimationFrame(animate);
+      animRef.current = requestAnimationFrame(loop);
     } else {
       animate();
     }

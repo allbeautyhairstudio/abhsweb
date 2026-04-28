@@ -100,10 +100,8 @@ export function AdminSidebar() {
     router.refresh();
   }
 
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
+  // Note: sidebar closes on link click via onClick handlers below (not via
+  // pathname effect). This avoids set-state-in-effect on programmatic nav.
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -154,6 +152,7 @@ export function AdminSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => setIsOpen(false)}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                       isActive
                         ? 'bg-sidebar-accent text-sidebar-primary'
@@ -179,6 +178,7 @@ export function AdminSidebar() {
       <div className="px-5 py-4 border-t border-sidebar-border space-y-2">
         <Link
           href="/"
+          onClick={() => setIsOpen(false)}
           className="flex items-center gap-2 text-xs text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors"
         >
           <ArrowLeft size={14} />

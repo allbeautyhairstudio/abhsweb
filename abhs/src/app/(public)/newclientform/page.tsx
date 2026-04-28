@@ -3,8 +3,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
-import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles, Calendar } from 'lucide-react';
+import { CheckCircle, ArrowRight, ArrowLeft, Send, Upload, X, Camera, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MotionPage } from '@/components/motion';
 
@@ -1157,9 +1156,12 @@ export default function NewClientFormPage() {
                       {selfieFiles.map((f, i) => (
                         <div key={`selfie-${i}`} className="relative group">
                           <div className="w-20 h-20 rounded-lg overflow-hidden bg-warm-100 border border-warm-200">
-                            <img
+                            <Image
                               src={URL.createObjectURL(f)}
                               alt={`Selfie ${i + 1}`}
+                              width={80}
+                              height={80}
+                              unoptimized
                               className="w-full h-full object-cover"
                             />
                           </div>
@@ -1214,9 +1216,12 @@ export default function NewClientFormPage() {
                       {inspoFiles.map((f, i) => (
                         <div key={`inspo-${i}`} className="relative group">
                           <div className="w-20 h-20 rounded-lg overflow-hidden bg-warm-100 border border-warm-200">
-                            <img
+                            <Image
                               src={URL.createObjectURL(f)}
                               alt={`Inspiration ${i + 1}`}
+                              width={80}
+                              height={80}
+                              unoptimized
                               className="w-full h-full object-cover"
                             />
                           </div>

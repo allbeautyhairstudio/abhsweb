@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -60,7 +60,8 @@ export function NotesTabContent({ clientId }: { clientId: number }) {
   const [deletingNoteId, setDeletingNoteId] = useState<number | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const fetchNotes = async () => {
+  // Reusable fetcher for handleSubmit / handleDelete after mutation.
+  const fetchNotes = useCallback(async () => {
     try {
       const res = await fetch(`/api/clients/${clientId}/notes`);
       if (res.ok) {
@@ -72,10 +73,30 @@ export function NotesTabContent({ clientId }: { clientId: number }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [clientId]);
 
+  // Initial load. Inlined with cancellation so the effect doesn't trigger
+  // set-state-in-effect via the useCallback chain.
   useEffect(() => {
-    fetchNotes();
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/clients/${clientId}/notes`);
+        if (cancelled || !res.ok) {
+          if (!cancelled) setLoading(false);
+          return;
+        }
+        const data = await res.json();
+        if (!cancelled) setNotes(data);
+      } catch (err) {
+        console.error('Failed to fetch notes:', err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [clientId]);
 
   const handleSubmit = async (e: React.FormEvent) => {

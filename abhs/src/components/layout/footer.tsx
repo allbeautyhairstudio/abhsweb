@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Clock, Instagram, Calendar, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, Instagram, Calendar } from 'lucide-react';
 import { FloralDivider, FloralBloom } from '@/components/decorative/floral-accents';
 
 export function Footer() {

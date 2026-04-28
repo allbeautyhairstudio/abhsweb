@@ -40,45 +40,44 @@ export function IntakeChatPanel({ clientId, clientName }: IntakeChatPanelProps) 
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  // Load chat history and stylist notes when panel opens
+  // Load chat history and stylist notes when panel opens.
+  // Bodies are inlined in the effect so the dep array stays minimal and
+  // the effect only re-runs when isOpen or clientId actually change.
   useEffect(() => {
-    if (isOpen) {
-      loadHistory();
-      loadStylistNotes();
-    }
+    if (!isOpen) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/admin/chat?clientId=${clientId}`);
+        if (cancelled || !res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setMessages(data.messages || []);
+      } catch {
+        // Silent fail -- empty chat is fine
+      }
+    })();
+    (async () => {
+      try {
+        const res = await fetch(`/api/admin/stylist-notes?clientId=${clientId}`);
+        if (cancelled || !res.ok) return;
+        const data = await res.json();
+        if (!cancelled && data.content) {
+          setStylistNotes(data.content);
+          setNotesExpanded(true);
+        }
+      } catch {
+        // Silent fail
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [isOpen, clientId]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
-
-  async function loadHistory() {
-    try {
-      const res = await fetch(`/api/admin/chat?clientId=${clientId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setMessages(data.messages || []);
-      }
-    } catch {
-      // Silent fail -- empty chat is fine
-    }
-  }
-
-  async function loadStylistNotes() {
-    try {
-      const res = await fetch(`/api/admin/stylist-notes?clientId=${clientId}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.content) {
-          setStylistNotes(data.content);
-          setNotesExpanded(true);
-        }
-      }
-    } catch {
-      // Silent fail
-    }
-  }
 
   async function saveStylistNotes() {
     if (noteStatus === 'saving') return;

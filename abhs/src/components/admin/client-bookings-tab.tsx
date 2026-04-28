@@ -8,7 +8,6 @@ import {
   Loader2,
   ExternalLink,
   AlertTriangle,
-  X,
 } from 'lucide-react';
 import type { BookingSummary } from '@/lib/booking-types';
 

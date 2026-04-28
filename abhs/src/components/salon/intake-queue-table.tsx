@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -40,13 +40,6 @@ function statusBadge(status: string, viewed: boolean) {
   return <Badge variant="outline">{status}</Badge>;
 }
 
-/** Extract service interest from notes if stored in the name pattern. */
-function extractServiceInterest(row: IntakeQueueRow): string {
-  // The intake note has "Service Interest: X" but we don't have it on the row.
-  // For the table, we'll show a generic label. The detail page shows full data.
-  return '—';
-}
-
 const VIEWED_IDS_KEY = 'intake_viewed_ids';
 
 function getViewedIds(): Set<number> {
@@ -67,11 +60,12 @@ function markViewed(id: number) {
 
 export function IntakeQueueTable({ intakes }: IntakeQueueTableProps) {
   const router = useRouter();
-  const [viewedIds, setViewedIds] = useState<Set<number>>(new Set());
-
-  useEffect(() => {
-    setViewedIds(getViewedIds());
-  }, []);
+  // Lazy init from localStorage. SSR-safe: server returns empty Set, client
+  // hydrates with the persisted value on first render.
+  const [viewedIds, setViewedIds] = useState<Set<number>>(() => {
+    if (typeof window === 'undefined') return new Set();
+    return getViewedIds();
+  });
 
   function handleClick(id: number) {
     markViewed(id);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import { Camera, X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -12,6 +13,49 @@ interface PhotoItem {
 
 interface IntakePhotoGalleryProps {
   photos: PhotoItem[];
+}
+
+/**
+ * Grid of clickable photo thumbnails. Defined at module scope so React
+ * doesn't recreate the component on every parent render (react-hooks/static-components).
+ */
+function PhotoGrid({
+  items,
+  label,
+  onPhotoClick,
+}: {
+  items: PhotoItem[];
+  label: string;
+  onPhotoClick: (photo: PhotoItem) => void;
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <div>
+      <h4 className="text-sm font-medium text-muted-foreground mb-3">{label}</h4>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        {items.map((photo) => (
+          <button
+            key={photo.filename}
+            onClick={() => onPhotoClick(photo)}
+            className="group relative aspect-square rounded-lg overflow-hidden border border-border hover:border-brand-400 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2"
+            aria-label={`View ${photo.type === 'selfie' ? 'selfie' : 'inspiration'} photo: ${photo.filename}`}
+          >
+            <Image
+              src={photo.url}
+              alt={`${photo.type === 'selfie' ? 'Client selfie' : 'Inspiration'} photo`}
+              fill
+              unoptimized
+              sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+              loading="lazy"
+              className="object-cover group-hover:scale-105 transition-transform duration-200"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 /** Lightbox with pinch-to-zoom, double-tap-to-zoom, and button zoom controls */
@@ -248,35 +292,6 @@ export function IntakePhotoGallery({ photos }: IntakePhotoGalleryProps) {
     setLightboxAlt(`${label}: ${photo.filename}`);
   }
 
-  function PhotoGrid({ items, label }: { items: PhotoItem[]; label: string }) {
-    if (items.length === 0) return null;
-
-    return (
-      <div>
-        <h4 className="text-sm font-medium text-muted-foreground mb-3">{label}</h4>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-          {items.map((photo) => (
-            <button
-              key={photo.filename}
-              onClick={() => openLightbox(photo)}
-              className="group relative aspect-square rounded-lg overflow-hidden border border-border hover:border-brand-400 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2"
-              aria-label={`View ${photo.type === 'selfie' ? 'selfie' : 'inspiration'} photo: ${photo.filename}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photo.url}
-                alt={`${photo.type === 'selfie' ? 'Client selfie' : 'Inspiration'} photo`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <Card>
@@ -293,10 +308,12 @@ export function IntakePhotoGallery({ photos }: IntakePhotoGalleryProps) {
           <PhotoGrid
             items={selfies}
             label={`Selfie Photos (${selfies.length})`}
+            onPhotoClick={openLightbox}
           />
           <PhotoGrid
             items={inspiration}
             label={`Inspiration Photos (${inspiration.length})`}
+            onPhotoClick={openLightbox}
           />
         </CardContent>
       </Card>

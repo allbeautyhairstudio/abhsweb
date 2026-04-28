@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Camera, Download, Trash2, X, ImageIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -16,23 +17,30 @@ export function PhotoGallery({ clientId }: { clientId: number }) {
   const [viewPhoto, setViewPhoto] = useState<Photo | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
 
-  const fetchPhotos = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/admin/uploads/${clientId}`);
-      if (res.ok) {
-        const data = await res.json();
-        setPhotos(data.photos || []);
-      }
-    } catch {
-      // Silent fail — empty gallery is fine
-    } finally {
-      setLoading(false);
-    }
-  }, [clientId]);
-
+  // Fetch photos on mount / when clientId changes. Inline async with a
+  // cancellation flag so unmount during fetch doesn't trigger setState
+  // on a stale render.
   useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/admin/uploads/${clientId}`);
+        if (cancelled || !res.ok) {
+          if (!cancelled) setLoading(false);
+          return;
+        }
+        const data = await res.json();
+        if (!cancelled) setPhotos(data.photos || []);
+      } catch {
+        // Silent fail — empty gallery is fine
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [clientId]);
 
   async function handleDelete(photo: Photo) {
     if (!confirm(`Delete ${photo.filename}?`)) return;
@@ -150,10 +158,13 @@ export function PhotoGallery({ clientId }: { clientId: number }) {
                 </button>
               </div>
             </div>
-            <img
+            <Image
               src={viewPhoto.url}
               alt={viewPhoto.filename}
-              className="max-h-[80vh] w-auto mx-auto"
+              width={1600}
+              height={1200}
+              unoptimized
+              className="max-h-[80vh] w-auto h-auto mx-auto object-contain"
             />
           </div>
         </div>
@@ -182,10 +193,13 @@ function PhotoThumbnail({
           <ImageIcon size={20} />
         </div>
       ) : (
-        <img
+        <Image
           src={photo.url}
           alt={photo.filename}
-          className="w-full h-full object-cover cursor-pointer"
+          fill
+          unoptimized
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className="object-cover cursor-pointer"
           onClick={onView}
           onError={() => setLoadError(true)}
         />

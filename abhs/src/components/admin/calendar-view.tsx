@@ -168,27 +168,20 @@ function useIsMobile(): boolean {
 
 export function CalendarView() {
   const isMobile = useIsMobile();
-  // Default to day view on mobile, week on desktop
-  const [viewMode, setViewMode] = useState<ViewMode>('week');
+  // User-selected view mode. Initial value reads window.innerWidth via lazy
+  // useState init so we don't need an effect for first-render setup.
+  const [userViewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window === 'undefined') return 'week';
+    return window.innerWidth < 768 ? 'day' : 'week';
+  });
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [hasSetInitialView, setHasSetInitialView] = useState(false);
 
-  // Set initial view mode based on screen size (runs once after hydration)
-  useEffect(() => {
-    if (!hasSetInitialView) {
-      if (window.innerWidth < 768) {
-        setViewMode('day');
-      }
-      setHasSetInitialView(true);
-    }
-  }, [hasSetInitialView]);
-
-  // If viewport shrinks to mobile while on week/year view, switch to day view
-  useEffect(() => {
-    if (isMobile && (viewMode === 'week' || viewMode === 'year')) {
-      setViewMode('day');
-    }
-  }, [isMobile, viewMode]);
+  // Apply mobile constraint as derived state: week/year forced to day on
+  // mobile. Derivation avoids set-state-in-effect when isMobile changes.
+  const viewMode: ViewMode =
+    isMobile && (userViewMode === 'week' || userViewMode === 'year')
+      ? 'day'
+      : userViewMode;
   const [calendarItems, setCalendarItems] = useState<CalendarItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CalendarItem | null>(null);
@@ -244,6 +237,8 @@ export function CalendarView() {
   }, []);
 
   // Fetch bookings + local requests for current view range
+  // Reusable fetcher invoked after booking mutations (create/cancel/etc.)
+  // that need to refresh the calendar.
   const fetchBookings = useCallback(async () => {
     setLoading(true);
     try {
@@ -298,11 +293,71 @@ export function CalendarView() {
     } finally {
       setLoading(false);
     }
-  }, [viewMode, currentDateStr, mondayStr]);
+  }, [viewMode, currentDate, currentDateStr, mondayStr]);
 
+  // Initial / reactive load. Inlined with cancellation so set-state-in-effect
+  // doesn't trigger via the useCallback chain.
   useEffect(() => {
-    fetchBookings();
-  }, [fetchBookings]);
+    let cancelled = false;
+    async function load() {
+      setLoading(true);
+      try {
+        let startDate: string;
+        let endDate: string;
+
+        if (viewMode === 'year') {
+          const year = currentDate.getFullYear();
+          startDate = `${year}-01-01`;
+          endDate = `${year}-12-31`;
+        } else if (viewMode === 'month') {
+          const gridDays = getMonthGridDays(currentDate.getFullYear(), currentDate.getMonth());
+          startDate = toDateStr(gridDays[0]);
+          endDate = toDateStr(gridDays[gridDays.length - 1]);
+        } else if (viewMode === 'week') {
+          const mon = getMonday(new Date(mondayStr + 'T12:00:00'));
+          startDate = toDateStr(mon);
+          const sunday = new Date(mon);
+          sunday.setDate(mon.getDate() + 6);
+          endDate = toDateStr(sunday);
+        } else {
+          startDate = currentDateStr;
+          endDate = currentDateStr;
+        }
+
+        const [squareRes, requestsRes] = await Promise.all([
+          fetch(`/api/admin/bookings?startDate=${startDate}&endDate=${endDate}`),
+          fetch(`/api/admin/booking-requests?startDate=${startDate}&endDate=${endDate}`),
+        ]);
+
+        if (cancelled) return;
+
+        const items: CalendarItem[] = [];
+        if (squareRes.ok) {
+          const squareData = await squareRes.json();
+          for (const b of squareData.bookings ?? []) {
+            const st = (b.status ?? '') as string;
+            if (st.startsWith('CANCELLED') || st === 'DECLINED' || st === 'NO_SHOW') continue;
+            items.push(squareToCalendarItem(b));
+          }
+        }
+        if (requestsRes.ok) {
+          const requestsData = await requestsRes.json();
+          for (const r of requestsData.requests ?? []) {
+            items.push(requestToCalendarItem(r));
+          }
+        }
+        if (!cancelled) setCalendarItems(items);
+      } catch {
+        // Silently fail
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [viewMode, currentDate, currentDateStr, mondayStr]);
 
   // Navigation
   function navigate(direction: 'prev' | 'next') {

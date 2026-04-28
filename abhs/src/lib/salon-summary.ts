@@ -22,7 +22,6 @@ import {
   YELLOW_THRESHOLD,
   SERVICE_LABELS,
   type SalonFlag,
-  type SalonFlagType,
 } from './constants/salon-scoring-rules';
 
 // ─── Types ──────────────────────────────────────────────────

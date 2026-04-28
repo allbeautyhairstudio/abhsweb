@@ -13,16 +13,19 @@ export type AnimationTier = 'full' | 'reduced' | 'none';
  */
 export function useAnimationTier(): AnimationTier {
   const prefersReducedMotion = useReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
+  // Lazy init reads matchMedia at first render so the effect only handles
+  // change events, not initial sync. Server returns false (no window); client
+  // hydrates with the correct value.
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(max-width: 768px)').matches;
+  });
 
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
-    setIsMobile(mql.matches);
-
     function handleChange(e: MediaQueryListEvent) {
       setIsMobile(e.matches);
     }
-
     mql.addEventListener('change', handleChange);
     return () => mql.removeEventListener('change', handleChange);
   }, []);
