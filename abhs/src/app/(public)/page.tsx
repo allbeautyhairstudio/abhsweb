@@ -86,6 +86,9 @@ export default function HomePage() {
         <section className="relative py-16 sm:py-20 overflow-hidden">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+              <h2 className="md:hidden font-serif text-2xl text-warm-700">
+                The Person Behind the Chair
+              </h2>
               <MotionReveal direction="left">
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg">
                   <Image
@@ -104,7 +107,7 @@ export default function HomePage() {
               </MotionReveal>
               <MotionReveal direction="right" delay={0.2}>
                 <div>
-                  <h2 className="font-serif text-2xl sm:text-3xl text-warm-700 mb-5">
+                  <h2 className="hidden md:block font-serif text-2xl sm:text-3xl text-warm-700 mb-5">
                     The Person Behind the Chair
                   </h2>
                   <blockquote className="text-warm-500 leading-relaxed italic pl-8 border-l-2 border-copper-400 mb-6">
