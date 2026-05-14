@@ -38,18 +38,13 @@ function formatLabel(val: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const ip =
-      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-      request.headers.get('x-real-ip') ||
-      'unknown';
-
-    if (isRateLimited(ip)) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      );
-    }
+    // Rate limiting DISABLED 2026-05-14: the in-memory limiter keyed by
+    // x-forwarded-for sees every request behind Cloudflare as the same IP,
+    // so 3 hits from scanners locks out real users sitewide for an hour.
+    // TODO: switch to cf-connecting-ip + per-real-IP keying, then re-enable
+    // with a sane threshold (e.g., 20/hour) before turning this back on.
+    void rateLimitMap;
+    void isRateLimited;
 
     // Parse and validate
     const body = await request.json();
