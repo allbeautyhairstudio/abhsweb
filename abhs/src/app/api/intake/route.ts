@@ -7,9 +7,33 @@ import { notifyEmail } from '@/lib/notify-email';
 
 /**
  * Rate limiting — simple in-memory tracker.
- * 3 submissions per IP per hour (more restrictive than contact form).
+ * 5 submissions per real-client IP per hour.
+ *
+ * IMPORTANT: must key by the real client IP, not the upstream proxy IP.
+ * Behind Cloudflare, x-forwarded-for is reliable but cf-connecting-ip is
+ * the canonical real-client header. Caller is responsible for passing
+ * the correct value (see getClientIp below).
  */
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function getClientIp(request: NextRequest): string {
+  // Cloudflare's real client IP header (preferred when behind CF)
+  const cfConnectingIp = request.headers.get('cf-connecting-ip');
+  if (cfConnectingIp) return cfConnectingIp.trim();
+
+  // Standard reverse-proxy header (leftmost = real client)
+  const xff = request.headers.get('x-forwarded-for');
+  if (xff) return xff.split(',')[0].trim();
+
+  // nginx convention
+  const xRealIp = request.headers.get('x-real-ip');
+  if (xRealIp) return xRealIp.trim();
+
+  return 'unknown';
+}
 
 function isRateLimited(ip: string): boolean {
   // Skip rate limiting for local development
@@ -21,11 +45,11 @@ function isRateLimited(ip: string): boolean {
   const entry = rateLimitMap.get(ip);
 
   if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 });
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
     return false;
   }
 
-  if (entry.count >= 3) return true;
+  if (entry.count >= RATE_LIMIT_MAX) return true;
 
   entry.count++;
   return false;
@@ -38,13 +62,16 @@ function formatLabel(val: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting DISABLED 2026-05-14: the in-memory limiter keyed by
-    // x-forwarded-for sees every request behind Cloudflare as the same IP,
-    // so 3 hits from scanners locks out real users sitewide for an hour.
-    // TODO: switch to cf-connecting-ip + per-real-IP keying, then re-enable
-    // with a sane threshold (e.g., 20/hour) before turning this back on.
-    void rateLimitMap;
-    void isRateLimited;
+    // Rate limiting — keyed by real client IP via cf-connecting-ip.
+    // 5 submissions per real IP per hour.
+    const ip = getClientIp(request);
+
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
 
     // Parse and validate
     const body = await request.json();
