@@ -21,7 +21,7 @@
     "framer-motion": "^12.38.0",
     "lucide-react": "^0.575.0",
     "marked": "^17.0.6",
-    "next": "16.2.4",
+    "next": "16.2.6",
     "nodemailer": "^8.0.7",
     "radix-ui": "^1.4.3",
     "react": "19.2.5",
@@ -44,7 +44,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.6",
     "happy-dom": "^20.9.0",
     "jsdom": "^27.4.0",
     "shadcn": "^3.8.5",
@@ -60,6 +60,9 @@
       "unrs-resolver",
       "esbuild",
       "msw"
-    ]
+    ],
+    "overrides": {
+      "fast-uri": ">=3.1.2"
+    }
   }
 }
