@@ -1,4 +1,4 @@
-export const CHAT_MODEL = 'claude-sonnet-4-20250514';
+export const CHAT_MODEL = 'claude-sonnet-4-6';
 export const CHAT_HISTORY_WINDOW = 30;
 export const CHAT_MAX_MESSAGE_LENGTH = 4000;
 
