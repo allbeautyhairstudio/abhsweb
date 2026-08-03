@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getClientById, updateClient } from '@/lib/queries/clients';
 import { stageTransitionSchema } from '@/lib/validation';
+import { isAuthenticated } from '@/lib/admin-auth';
+
+const UNAUTHORIZED = NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
 /** Maps pipeline stages to their corresponding date columns. */
 const STAGE_DATE_MAP: Partial<Record<string, string>> = {
@@ -13,6 +16,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!isAuthenticated(request)) return UNAUTHORIZED;
   try {
     const { id } = await params;
     const numId = Number(id);
